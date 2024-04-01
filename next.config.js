@@ -10,6 +10,7 @@ const nextConfig = {
     dirs: [],
   },
   webpack(config) {
+    config.externals = [ ...config.externals, 'bcrypt', ];
     config.module.rules.push({
       test: /\.svg$/,
       use: [ '@svgr/webpack', ],

@@ -35,6 +35,8 @@ export {
 
 // utils
 export { Nihil } from './utils/nihil';
+export { Db } from './utils/prisma';
+export { Jwt } from './utils/jwt';
 export {
   apiGet, apiPost, apiPut, apiPatch, apiDelete, apiDeletes
 } from './utils/axios';

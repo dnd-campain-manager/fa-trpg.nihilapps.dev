@@ -1,14 +1,18 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { setMeta } from '@/src/common';
+import { sign } from 'jsonwebtoken';
+import { Jwt, setMeta } from '@/src/common';
 
 export const metadata: Metadata = setMeta({
   title: '홈',
   url: '/',
 });
 
-export default function IndexPage() {
+export default async function IndexPage() {
   return (
-    <div>Home</div>
+    <>
+      <div>content</div>
+      {/*<HomePage />*/}
+    </>
   );
 }

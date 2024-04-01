@@ -5,7 +5,6 @@ import timezone from 'dayjs/plugin/timezone';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import ko from 'dayjs/locale/ko';
 import { toast } from 'react-toastify';
-import { hash, compare } from 'bcrypt';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -43,13 +42,5 @@ export class Nihil {
     return toast(text, {
       type,
     });
-  }
-
-  static hash(data: string) {
-    return hash(data, 10);
-  }
-
-  static compare(data: string, target: string) {
-    return compare(data, target);
   }
 }
