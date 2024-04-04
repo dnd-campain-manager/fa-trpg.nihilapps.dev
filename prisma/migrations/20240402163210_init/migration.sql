@@ -1,8 +1,14 @@
 -- CreateEnum
+CREATE TYPE "DocumentCategory" AS ENUM ('GOD', 'MATERIAL', 'CHARACTER', 'EVENT', 'ORGANIZATION', 'NATION', 'RACE');
+
+-- CreateEnum
+CREATE TYPE "DocumentImportance" AS ENUM ('CORE', 'SIDE');
+
+-- CreateEnum
 CREATE TYPE "MasterType" AS ENUM ('MAIN', 'SUB');
 
 -- CreateEnum
-CREATE TYPE "ParentType" AS ENUM ('SESSION', 'CAMPAIN');
+CREATE TYPE "ParentType" AS ENUM ('SESSION', 'CAMPAIN', 'DOCUMENT');
 
 -- CreateEnum
 CREATE TYPE "BlockType" AS ENUM ('HEADING', 'TEXT', 'IMAGE', 'LIST', 'QUOTE', 'MESSAGE', 'YOUTUBE');
@@ -43,6 +49,7 @@ CREATE TABLE "users" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "role" "UserRole" NOT NULL DEFAULT 'PLAYER',
+    "create" BOOLEAN NOT NULL DEFAULT false,
     "playToken" INTEGER NOT NULL DEFAULT 0,
     "playCount" INTEGER NOT NULL DEFAULT 0,
     "masterPoint" INTEGER NOT NULL DEFAULT 0,
@@ -56,8 +63,8 @@ CREATE TABLE "auths" (
     "id" UUID NOT NULL,
     "userId" UUID NOT NULL,
     "hashedPassword" TEXT NOT NULL,
-    "accessToken" TEXT NOT NULL,
-    "refreshToken" TEXT NOT NULL,
+    "accessToken" TEXT,
+    "refreshToken" TEXT,
 
     CONSTRAINT "auths_pkey" PRIMARY KEY ("id")
 );
@@ -111,7 +118,6 @@ CREATE TABLE "sessions" (
     "endTime" TIMESTAMP(3) NOT NULL,
     "player" INTEGER NOT NULL,
     "rewardUrl" TEXT NOT NULL,
-    "userId" UUID,
 
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
 );
@@ -121,8 +127,10 @@ CREATE TABLE "editblocks" (
     "id" UUID NOT NULL,
     "campainId" UUID,
     "sessionId" UUID,
+    "documentId" UUID,
     "name" "BlockType" NOT NULL DEFAULT 'TEXT',
     "parent" "ParentType" NOT NULL,
+    "secret" BOOLEAN NOT NULL DEFAULT false,
     "level" "HeadingLevel" DEFAULT 'H2',
     "text" TEXT,
     "link" TEXT,
@@ -135,6 +143,30 @@ CREATE TABLE "editblocks" (
 
     CONSTRAINT "editblocks_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateTable
+CREATE TABLE "documents" (
+    "id" UUID NOT NULL,
+    "userId" UUID NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "category" "DocumentCategory" NOT NULL,
+    "importance" "DocumentImportance" NOT NULL DEFAULT 'CORE',
+    "template" JSONB NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "documents_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_name_key" ON "users"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "auths_userId_key" ON "auths"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "documents_title_key" ON "documents"("title");
 
 -- AddForeignKey
 ALTER TABLE "masters" ADD CONSTRAINT "masters_campainId_fkey" FOREIGN KEY ("campainId") REFERENCES "campains"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -158,10 +190,13 @@ ALTER TABLE "sessions" ADD CONSTRAINT "sessions_campainId_fkey" FOREIGN KEY ("ca
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_masterId_fkey" FOREIGN KEY ("masterId") REFERENCES "masters"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "editblocks" ADD CONSTRAINT "editblocks_campainId_fkey" FOREIGN KEY ("campainId") REFERENCES "campains"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "editblocks" ADD CONSTRAINT "editblocks_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "sessions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "editblocks" ADD CONSTRAINT "editblocks_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "documents"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "documents" ADD CONSTRAINT "documents_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

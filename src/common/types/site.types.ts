@@ -9,7 +9,10 @@ export interface ISiteMeta {
   section?: string;
   created?: string;
   updated?: string;
-  image?: string;
+  image?: {
+    link: string;
+    alt: string;
+  };
 }
 
 export interface IConfigData {
@@ -17,11 +20,11 @@ export interface IConfigData {
   description: string;
   url: string;
   type: string;
-  image: string;
   keywords: string;
   author: {
     name: string;
     url: string;
   };
+  image: string;
   version: string;
 }

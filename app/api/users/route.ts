@@ -15,7 +15,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { name, password, role, }: CreateUserDto = await req.json();
+  const {
+    name, password, role, admin, create,
+  }: CreateUserDto = await req.json();
 
   const findUser = await Db.users().findFirst({
     where: {
@@ -36,6 +38,8 @@ export async function POST(req: NextRequest) {
     data: {
       name,
       role,
+      admin,
+      create,
     },
   });
 

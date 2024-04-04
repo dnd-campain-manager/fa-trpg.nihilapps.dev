@@ -8,17 +8,32 @@ export {
 
 // data
 export { configData } from './data/config.data';
+export {
+  usersKeys
+} from './data/keys.data';
 
 // hooks
 export { useInput } from './hooks/useInput';
+
+export { useGetUsers } from './hooks/query/users/useGetUsers';
+export { useGetUserById } from './hooks/query/users/useGetUserById';
+export { useCreateUser } from './hooks/query/users/useCreateUser';
+export { useUpdateUser } from './hooks/query/users/useUpdateUser';
+export { useDeleteUser } from './hooks/query/users/useDeleteUser';
+
+export { useSignIn } from './hooks/query/auth/useSignIn';
+export { useSignUp } from './hooks/query/auth/useSignUp';
 
 // entities
 export { type ApiResponse } from './entities/common.types';
 
 // components
 export { ToggleDarkMode } from './components/ToggleDarkMode';
+export { HeadingItem } from './components/HeadingItem';
+export { PageTitle } from './components/PageTitle';
 
 export { DefaultPage } from './widgets/DefaultPage';
+export { Providers } from './widgets/Providers';
 
 // layouts
 export { Header } from './layouts/Header';
@@ -37,7 +52,5 @@ export {
 export { Nihil } from './utils/nihil';
 export { Db } from './utils/prisma';
 export { Jwt } from './utils/jwt';
-export {
-  apiGet, apiPost, apiPut, apiPatch, apiDelete, apiDeletes
-} from './utils/axios';
+export { Api } from './utils/axios';
 export { setMeta } from './utils/setMeta';

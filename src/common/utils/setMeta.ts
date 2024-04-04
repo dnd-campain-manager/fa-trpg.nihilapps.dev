@@ -1,6 +1,7 @@
+import { Metadata } from 'next';
 import { configData, ISiteMeta } from '@/src/common';
 
-export const setMeta = (meta: ISiteMeta) => ({
+export const setMeta = (meta: ISiteMeta): Metadata => ({
   metadataBase: new URL(configData.url),
   title: meta.title,
   description: meta.description || configData.description,
@@ -16,6 +17,14 @@ export const setMeta = (meta: ISiteMeta) => ({
     type: 'website',
     siteName: configData.title,
     url: meta.url,
+    images: [
+      {
+        url: meta.image?.link || configData.image,
+        width: 1920,
+        height: 1080,
+        alt: meta.image?.alt || 'fantasy atelier logo image',
+      },
+    ],
   },
   alternates: {
     canonical: meta.url,

@@ -27,16 +27,19 @@ model Master {
 }
 
 model User {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @unique
-  role        UserRole @default(PLAYER)
-  playToken   Int      @default(0)
-  playCount   Int      @default(0)
-  masterPoint Int      @default(0)
-  masterCount Int      @default(0)
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String     @unique
+  admin       Boolean    @default(false)
+  role        UserRole   @default(PLAYER)
+  create      Boolean    @default(false)
+  playToken   Int        @default(0)
+  playCount   Int        @default(0)
+  masterPoint Int        @default(0)
+  masterCount Int        @default(0)
   Pc          Pc[]
   Auth        Auth[]
   Master      Master[]
+  Docs        Document[]
 
   @@map("users")
 }
@@ -58,6 +61,8 @@ model Campain {
   description Json
   infoUrl     String
   status      CampainStatus @default(READY)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   Pc          Pc[]
   Session     Session[]
   Block       EditBlock[]
@@ -112,24 +117,59 @@ model Session {
 }
 
 model EditBlock {
-  id        String        @id @default(uuid()) @db.Uuid
-  Campain   Campain?      @relation(fields: [campainId], references: [id])
-  campainId String?       @db.Uuid
-  Session   Session?      @relation(fields: [sessionId], references: [id])
-  sessionId String?       @db.Uuid
-  name      BlockType     @default(TEXT)
-  parent    ParentType
-  level     HeadingLevel? @default(H2)
-  text      String?
-  link      String?
-  alt       String?
-  color     MessageColor? @default(BLUE)
-  listType  ListType?     @default(UNORDERED)
-  items     Json?
-  who       String?
-  videoId   String?
+  id         String        @id @default(uuid()) @db.Uuid
+  Campain    Campain?      @relation(fields: [campainId], references: [id])
+  campainId  String?       @db.Uuid
+  Session    Session?      @relation(fields: [sessionId], references: [id])
+  sessionId  String?       @db.Uuid
+  Document   Document?     @relation(fields: [documentId], references: [id])
+  documentId String?       @db.Uuid
+  name       BlockType     @default(TEXT)
+  parent     ParentType
+  secret     Boolean       @default(false)
+  level      HeadingLevel? @default(H2)
+  text       String?
+  link       String?
+  alt        String?
+  color      MessageColor? @default(BLUE)
+  listType   ListType?     @default(UNORDERED)
+  items      Json?
+  who        String?
+  videoId    String?
 
   @@map("editblocks")
+}
+
+model Document {
+  id          String             @id @default(uuid()) @db.Uuid
+  User        User               @relation(fields: [userId], references: [id])
+  userId      String             @db.Uuid
+  title       String             @unique
+  description String?
+  category    DocumentCategory
+  importance  DocumentImportance @default(CORE)
+  template    Json
+  content     EditBlock[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@map("documents")
+}
+
+enum DocumentCategory {
+  GOD
+  MATERIAL
+  CHARACTER
+  EVENT
+  ORGANIZATION
+  NATION
+  RACE
+  LANDSCAPE
+}
+
+enum DocumentImportance {
+  CORE
+  SIDE
 }
 
 enum MasterType {
@@ -140,6 +180,7 @@ enum MasterType {
 enum ParentType {
   SESSION
   CAMPAIN
+  DOCUMENT
 }
 
 enum BlockType {

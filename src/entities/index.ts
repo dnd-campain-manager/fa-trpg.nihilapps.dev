@@ -12,3 +12,4 @@ export {
   type UserSession,
   type SignOutDto
 } from './auth/auth.types';
+export { authStore } from './auth/auth.store';

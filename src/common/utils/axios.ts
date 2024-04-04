@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { ApiResponse } from '@/src/common';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://localhost:3000/api';
 
 const config: AxiosRequestConfig = {
   withCredentials: true,
@@ -10,40 +11,81 @@ const config: AxiosRequestConfig = {
   },
 };
 
-export const api = axios.create(config);
-
-export const apiGet = async <T>(restApi: string, config?: AxiosRequestConfig) => {
-  return api.get<T>(restApi, config);
-};
-
-export const apiPost = async <T, P>(restApi: string, data: P, config?: AxiosRequestConfig, multiPart?: 'multiPart') => {
-  if (multiPart) {
-    return api.post<T>(restApi, data, {
-      ...config,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  } else {
-    return api.post<T>(restApi, data, config);
+export class Api {
+  static createInstance() {
+    return axios.create(config);
   }
-};
 
-export const apiPatch = async <T, P>(restApi: string, data: P, config?: AxiosRequestConfig) => {
-  return api.patch<T>(restApi, data, config);
-};
+  static async get<T>(
+    restApi: string,
+    config?: AxiosRequestConfig
+  ) {
+    return this.createInstance().get<ApiResponse<T>>(
+      restApi,
+      config
+    );
+  }
 
-export const apiPut = async <T, P>(restApi: string, data: P, config?: AxiosRequestConfig) => {
-  return api.put<T>(restApi, data, config);
-};
+  static async post<T, P>(
+    restApi: string,
+    data: P,
+    config?: AxiosRequestConfig
+  ) {
+    return this.createInstance().post<T, AxiosResponse<ApiResponse<T>, P>, P>(
+      restApi,
+      data,
+      config
+    );
+  }
 
-export const apiDelete = async <T>(restApi: string, config?: AxiosRequestConfig) => {
-  return api.delete<T>(restApi, config);
-};
+  static async postWithFile<T, P>(
+    restApi: string,
+    data: P,
+    config?: AxiosRequestConfig
+  ) {
+    return this.createInstance().post<T, AxiosResponse<ApiResponse<T>, P>, P>(
+      restApi,
+      data,
+      {
+        ...config,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+  }
 
-export const apiDeletes = async <T, P>(restApi: string, data: P, config?: AxiosRequestConfig) => {
-  return api.delete<T>(restApi, {
-    ...config,
-    data,
-  });
-};
+  static async patch<T, P>(
+    restApi: string,
+    data: P,
+    config?: AxiosRequestConfig
+  ) {
+    return this.createInstance().patch<T, AxiosResponse<ApiResponse<T>, P>, P>(
+      restApi,
+      data,
+      config
+    );
+  }
+
+  static async put<T, P>(
+    restApi: string,
+    data: P,
+    config?: AxiosRequestConfig
+  ) {
+    return this.createInstance().put<T, AxiosResponse<ApiResponse<T>, P>, P>(
+      restApi,
+      data,
+      config
+    );
+  }
+
+  static async delete<T>(
+    restApi: string,
+    config?: AxiosRequestConfig
+  ) {
+    return this.createInstance().delete<ApiResponse<T>>(
+      restApi,
+      config
+    );
+  }
+}
