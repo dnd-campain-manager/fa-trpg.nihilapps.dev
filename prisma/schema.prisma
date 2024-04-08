@@ -9,240 +9,246 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
-
-model Master {
-  id        String     @id @default(uuid()) @db.Uuid
-  Campain   Campain    @relation(fields: [campainId], references: [id])
-  campainId String     @db.Uuid
-  User      User       @relation(fields: [userId], references: [id])
-  userId    String     @db.Uuid
-  type      MasterType @default(MAIN)
-  Session   Session[]
-
-  @@map("masters")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id          String     @id @default(uuid()) @db.Uuid
   name        String     @unique
-  admin       Boolean    @default(false)
-  role        UserRole   @default(PLAYER)
-  create      Boolean    @default(false)
+  userType    UserType   @default(player)
+  userRole    UserRole   @default(normal)
   playToken   Int        @default(0)
   playCount   Int        @default(0)
   masterPoint Int        @default(0)
   masterCount Int        @default(0)
-  Pc          Pc[]
   Auth        Auth[]
   Master      Master[]
-  Docs        Document[]
+  Document    Document[]
+  Pc          Pc[]
 
   @@map("users")
 }
 
 model Auth {
-  id             String  @id @default(uuid()) @db.Uuid
-  User           User    @relation(fields: [userId], references: [id])
-  userId         String  @unique @db.Uuid
-  hashedPassword String
-  accessToken    String?
-  refreshToken   String?
+  id           String  @id @default(uuid()) @db.Uuid
+  User         User    @relation(fields: [userId], references: [id])
+  userId       String  @db.Uuid
+  password     String
+  accessToken  String?
+  refreshToken String?
 
+  @@index([userId])
   @@map("auths")
 }
 
+model Master {
+  id         String     @id @default(uuid()) @db.Uuid
+  User       User       @relation(fields: [userId], references: [id])
+  userId     String     @db.Uuid
+  Campain    Campain    @relation(fields: [campainId], references: [id])
+  campainId  String     @db.Uuid
+  masterType MasterType
+  Session    Session[]
+
+  @@map("masters")
+}
+
 model Campain {
-  id          String        @id @default(uuid()) @db.Uuid
-  name        String
-  description Json
-  infoUrl     String
-  status      CampainStatus @default(READY)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  Pc          Pc[]
-  Session     Session[]
-  Block       EditBlock[]
-  Master      Master[]
+  id        String        @id @default(uuid()) @db.Uuid
+  name      String        @unique
+  status    CampainStatus @default(ready)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  url       String
+  subMaster String[]
+  Master    Master[]
+  Session   Session[]
+  Pc        Pc[]
 
   @@map("campains")
 }
 
-model Pc {
-  id            String  @id @default(uuid()) @db.Uuid
-  User          User    @relation(fields: [userId], references: [id])
-  userId        String  @db.Uuid
-  Campain       Campain @relation(fields: [campainId], references: [id])
-  campainId     String  @db.Uuid
-  name          String
-  race          String
-  organization  String
-  age           Int
-  backStory     String
-  exp           Int     @default(0)
-  gold          Int     @default(0)
-  isLevelUpStop Boolean @default(false)
-  class1        PcClass @default(NONE)
-  level1        Int     @default(1)
-  class2        PcClass @default(NONE)
-  level2        Int     @default(0)
-  class3        PcClass @default(NONE)
-  level3        Int     @default(0)
-  beyondUrl     String
-
-  @@map("pcs")
-}
-
 model Session {
-  id        String      @id @default(uuid()) @db.Uuid
-  Campain   Campain     @relation(fields: [campainId], references: [id])
-  campainId String      @db.Uuid
-  Master    Master      @relation(fields: [masterId], references: [id])
-  masterId  String      @db.Uuid
-  number    Int
-  title     String
-  type      SessionType @default(NORMAL)
-  isHidden  Boolean     @default(false)
-  exp       Int
-  startTime DateTime
-  endTime   DateTime
-  player    Int
-  rewardUrl String
-  Block     EditBlock[]
+  id            String   @id @default(uuid()) @db.Uuid
+  Campain       Campain  @relation(fields: [campainId], references: [id])
+  campainId     String   @db.Uuid
+  Master        Master   @relation(fields: [masterId], references: [id])
+  masterId      String   @db.Uuid
+  number        Int
+  name          String   @unique
+  startTime     DateTime
+  endTime       DateTime
+  content       String
+  playersNumber Int
+  players       String[] // 유저 아이디들 넣음
+  exp           Int      @default(0)
+  rewardUrl     String
 
   @@map("sessions")
 }
 
-model EditBlock {
-  id         String        @id @default(uuid()) @db.Uuid
-  Campain    Campain?      @relation(fields: [campainId], references: [id])
-  campainId  String?       @db.Uuid
-  Session    Session?      @relation(fields: [sessionId], references: [id])
-  sessionId  String?       @db.Uuid
-  Document   Document?     @relation(fields: [documentId], references: [id])
-  documentId String?       @db.Uuid
-  name       BlockType     @default(TEXT)
-  parent     ParentType
-  secret     Boolean       @default(false)
-  level      HeadingLevel? @default(H2)
-  text       String?
-  link       String?
-  alt        String?
-  color      MessageColor? @default(BLUE)
-  listType   ListType?     @default(UNORDERED)
-  items      Json?
-  who        String?
-  videoId    String?
-
-  @@map("editblocks")
-}
-
 model Document {
-  id          String             @id @default(uuid()) @db.Uuid
-  User        User               @relation(fields: [userId], references: [id])
-  userId      String             @db.Uuid
-  title       String             @unique
-  description String?
-  category    DocumentCategory
-  importance  DocumentImportance @default(CORE)
-  template    Json
-  content     EditBlock[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  id              String             @id @default(uuid()) @db.Uuid
+  User            User               @relation(fields: [userId], references: [id])
+  userId          String             @db.Uuid
+  title           String
+  documentType    DocumentType
+  importance      DocumentImportance @default(core)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  DocumentSection DocumentSection[]
 
   @@map("documents")
 }
 
-enum DocumentCategory {
-  GOD
-  MATERIAL
-  CHARACTER
-  EVENT
-  ORGANIZATION
-  NATION
-  RACE
-  LANDSCAPE
+model Pc {
+  id           String  @id @default(uuid()) @db.Uuid
+  Campain      Campain @relation(fields: [campainId], references: [id])
+  campainId    String  @db.Uuid
+  User         User    @relation(fields: [userId], references: [id])
+  userId       String  @db.Uuid
+  name         String
+  age          Int?
+  organization String?
+  story        String
+  exp          Int     @default(0)
+  pp           Int     @default(0)
+  gp           Int     @default(0)
+  ep           Int     @default(0)
+  sp           Int     @default(0)
+  cp           Int     @default(0)
+  url          String
+  Class        Class[]
+
+  @@index([userId, name])
+  @@map("pcs")
 }
 
-enum DocumentImportance {
-  CORE
-  SIDE
+model Class {
+  id        String  @id @default(uuid()) @db.Uuid
+  Pc        Pc      @relation(fields: [pcId], references: [id])
+  pcId      String  @db.Uuid
+  className PcClass
+  level     String?
+
+  @@index([pcId, className])
+  @@map("classes")
 }
 
-enum MasterType {
-  MAIN
-  SUB
+model Template {
+  id              String            @id @default(uuid()) @db.Uuid
+  name            DocumentType
+  DocumentSection DocumentSection[]
+
+  @@map("templates")
 }
 
-enum ParentType {
-  SESSION
-  CAMPAIN
-  DOCUMENT
+model EditBlock {
+  id                String          @id @default(uuid()) @db.Uuid
+  name              BlockName       @default(text)
+  DocumentSection   DocumentSection @relation(fields: [documentSectionId], references: [id])
+  documentSectionId String          @db.Uuid
+  order             Int
+  text              String?
+  link              String?
+  alt               String?
+  items             Json?
+  messageColor      MessageColor?   @default(blue)
+  who               String?
+  headingLevel      HeadingLevel?   @default(h3)
+
+  @@map("edit_blocks")
 }
 
-enum BlockType {
-  HEADING
-  TEXT
-  IMAGE
-  LIST
-  QUOTE
-  MESSAGE
-  YOUTUBE
-}
+model DocumentSection {
+  id         String      @id @default(uuid()) @db.Uuid
+  Document   Document?   @relation(fields: [documentId], references: [id])
+  documentId String?     @db.Uuid
+  Template   Template?   @relation(fields: [templateId], references: [id])
+  templateId String?     @db.Uuid
+  order      Int
+  title      String
+  EditBlock  EditBlock[]
 
-enum MessageColor {
-  RED
-  BLUE
-  GREEN
-  YELLOW
+  @@map("document_sections")
 }
 
 enum HeadingLevel {
-  H2
-  H3
-  H4
-  H5
-  H6
+  h2
+  h3
+  h4
+  h5
+  h6
 }
 
-enum ListType {
-  ORDERED
-  UNORDERED
-}
-
-enum UserRole {
-  PLAYER
-  MASTER
-}
-
-enum CampainStatus {
-  READY
-  OPEN
-  CLOSE
-}
-
-enum SessionType {
-  MINI
-  NORMAL
-  MAIN
+enum MessageColor {
+  blue
+  red
+  yellow
+  green
 }
 
 enum PcClass {
-  NONE
-  FIGHTER
-  RANGER
-  MONK
-  ROGUE
-  PALADIN
-  CLERIC
-  BABARIAN
-  BARD
-  WIZARD
-  DRUID
-  SORCERER
-  WARLOCK
-  ARTIFICER
+  none
+  fighter
+  ranger
+  monk
+  rogue
+  paladin
+  cleric
+  babarian
+  bard
+  wizard
+  druid
+  sorcerer
+  warlock
+  artificer
+}
+
+enum DocumentType {
+  god
+  material
+  character
+  event
+  organization
+  nation
+  race
+  landscape
+}
+
+enum BlockName {
+  text
+  heading
+  image
+  orderedList
+  unOrderedList
+  message
+  quote
+}
+
+enum CampainStatus {
+  ready
+  open
+  close
+}
+
+enum UserType {
+  player
+  creator
+}
+
+enum UserRole {
+  admin
+  normal
+}
+
+enum MasterType {
+  mainMaster
+  subMaster
+}
+
+enum DocumentImportance {
+  core
+  side
 }

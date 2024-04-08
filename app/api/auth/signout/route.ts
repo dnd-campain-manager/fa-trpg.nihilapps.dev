@@ -4,10 +4,11 @@ import { SignOutDto } from '@/src/entities';
 import { Db } from '@/src/common';
 
 export async function POST(req: NextRequest) {
-  const { userId, }: SignOutDto = await req.json();
+  const { signInId, userId, }: SignOutDto = await req.json();
 
   await Db.auth().update({
     where: {
+      id: signInId,
       userId,
     },
     data: {

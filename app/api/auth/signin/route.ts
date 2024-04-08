@@ -24,11 +24,13 @@ export async function POST(req: NextRequest) {
 
   const userAuth = await Db.auth().findFirst({
     where: {
-      id: findUser.id,
+      userId: findUser.id,
     },
   });
 
-  const passwordMatch = await compare(password, userAuth.hashedPassword);
+  const passwordMatch = await compare(password, userAuth.password);
+
+  console.log('passwordMatch >> ', passwordMatch);
 
   if (!passwordMatch) {
     return NextResponse.json({
@@ -47,7 +49,8 @@ export async function POST(req: NextRequest) {
 
   const auth = await Db.auth().update({
     where: {
-      id: findUser.id,
+      id: userAuth.id,
+      userId: findUser.id,
     },
     data: {
       accessToken,
@@ -57,6 +60,7 @@ export async function POST(req: NextRequest) {
 
   const session: UserSession = {
     ...findUser,
+    signInId: userAuth.id,
     accessToken: auth.accessToken,
     refreshToken: auth.refreshToken,
     accessExp: accessTokenInfo.exp,

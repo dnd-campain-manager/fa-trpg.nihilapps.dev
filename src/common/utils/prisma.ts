@@ -47,4 +47,16 @@ export class Db {
   static blocks() {
     return this.client().editBlock;
   }
+
+  static documents() {
+    return this.client().document;
+  }
+
+  static template() {
+    return this.client().template;
+  }
+
+  static documentSection() {
+    return this.client().documentSection;
+  }
 }

@@ -4,9 +4,9 @@ import { TokenInfo } from '@/src/entities';
 
 export class Jwt {
   static async createAccessToken(user: User) {
-    const { id, name, role, } = user;
+    const { id, name, userRole, } = user;
     return sign(
-      { id, name, role, },
+      { id, name, userRole, },
       process.env.NEXT_PUBLIC_ACCESS_SECRET,
       {
         algorithm: 'HS256',
@@ -16,10 +16,10 @@ export class Jwt {
   }
 
   static async createRefreshToken(user: User) {
-    const { id, name, role, } = user;
+    const { id, name, userRole, } = user;
 
     return sign(
-      { id, name, role, },
+      { id, name, userRole, },
       process.env.NEXT_PUBLIC_REFRESH_SECRET,
       {
         algorithm: 'HS256',
@@ -45,6 +45,8 @@ export class Jwt {
     const now = Math.floor(Date.now() / 1000);
 
     const diff = Math.floor(exp) - now;
+
+    console.log('diff >> ', diff);
 
     return diff < 0;
   }

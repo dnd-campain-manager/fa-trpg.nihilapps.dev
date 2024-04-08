@@ -1,20 +1,19 @@
 import React from 'react';
 import { setMeta } from '@/src/common';
-import { SessionCalendar } from '@/src/components';
 
 interface Props {
   //
 }
 
 export const metadata = setMeta({
-  title: '세션 일정',
-  url: '/calendar',
+  title: '마이페이지',
+  url: '/mypage',
 });
 
-export default function page() {
+export default function MyPage() {
   return (
     <>
-      <SessionCalendar />
+      <div>content</div>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { TokenRefreshDto, UserSession } from '@/src/entities';
 import { Db, Jwt, Nihil } from '@/src/common';
 
 export async function POST(req: NextRequest) {
-  const { userId, refreshToken, }: TokenRefreshDto = await req.json();
+  const { userId, signInId, refreshToken, }: TokenRefreshDto = await req.json();
 
   const refreshTokenInfo = await Jwt.verifyToken(
     refreshToken,
@@ -47,24 +47,24 @@ export async function POST(req: NextRequest) {
 
   await Db.auth().update({
     where: {
-      id: userId,
+      id: signInId,
     },
     data: {
       accessToken: newAccessToken,
     },
   });
 
-  const sessionString = cookies().get('session').value;
-  const session = Nihil.parse<UserSession>(sessionString);
-
-  const newSession = {
-    ...session,
+  const newSession: UserSession = {
+    ...user,
+    signInId,
     accessToken: newAccessToken,
     accessExp: newAccessTokenInfo.exp,
+    refreshToken,
+    refreshExp: refreshTokenInfo.exp,
   };
 
   cookies().set('session', Nihil.string(newSession), {
-    expires: new Date(session.accessExp * 1000),
+    expires: new Date(newSession.accessExp * 1000),
     httpOnly: true,
   });
 

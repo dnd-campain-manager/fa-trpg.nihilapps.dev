@@ -3,31 +3,29 @@
 import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { boolean, object, string } from 'yup';
+import { object, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQueryClient } from '@tanstack/react-query';
-import { UserRole } from '@prisma/client';
+import { UserRole, UserType } from '@prisma/client';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Button,
-  Checkbox,
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   Input,
-  Message,
+  Message, RadioGroup, RadioGroupItem,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from '@/src/shadcn';
-import {
+  SelectValue,
   Card, CardContent, CardDescription, CardHeader
-} from '@/src/shadcn/ui/card';
-import { useSignUp } from '@/src/common';
+} from '@/src/shadcn';
+
+import { CustomLabel, useSignUp } from '@/src/common';
 
 interface Props {
   styles?: ClassNameValue;
@@ -36,9 +34,8 @@ interface Props {
 interface Inputs {
   name: string;
   password: string;
-  role: string;
-  admin: boolean;
-  create: boolean;
+  userRole: UserRole;
+  userType: UserType;
 }
 
 export function SignUpForm({ styles, }: Props) {
@@ -52,9 +49,8 @@ export function SignUpForm({ styles, }: Props) {
       .matches(/(?=.*\d)(?=.*[a-zA-Z])/, {
         message: '비밀번호는 숫자와 영문자를 조합해야 합니다.',
       }),
-    role: string().optional(),
-    admin: boolean().optional(),
-    create: boolean().optional(),
+    userRole: string().optional(),
+    userType: string().optional(),
   });
 
   const form = useForm({
@@ -63,9 +59,8 @@ export function SignUpForm({ styles, }: Props) {
     defaultValues: {
       name: '',
       password: '',
-      role: 'PLAYER',
-      admin: false,
-      create: false,
+      userRole: 'normal',
+      userType: 'player',
     },
   });
 
@@ -81,9 +76,8 @@ export function SignUpForm({ styles, }: Props) {
       signUp.mutate({
         name: data.name,
         password: data.password,
-        role: data.role as UserRole,
-        admin: data.admin,
-        create: data.create,
+        userRole: data.userRole,
+        userType: data.userType,
       }, {
         onSuccess() {
           qc.invalidateQueries();
@@ -97,11 +91,8 @@ export function SignUpForm({ styles, }: Props) {
 
   const css = {
     default: twJoin([
-      `flex flex-col gap-5 rounded-1`,
+      `flex flex-col gap-5 rounded-1 text-black-base`,
       styles,
-    ]),
-    label: twJoin([
-      `!text-middle`,
     ]),
     input: twJoin([
       `!text-middle border-black-300`,
@@ -112,7 +103,7 @@ export function SignUpForm({ styles, }: Props) {
     <>
       <Card>
         <CardHeader>
-          <CardDescription className='!text-small'>
+          <CardDescription className='!text-small text-black-base'>
             회원가입을 통해 계정을 생성하세요. 로그인을 하면 더 많은 기능을 이용할 수 있습니다.
           </CardDescription>
         </CardHeader>
@@ -124,7 +115,7 @@ export function SignUpForm({ styles, }: Props) {
                 render={
                   ({ field, }) => (
                     <FormItem>
-                      <FormLabel htmlFor='name' className={css.label}>이름</FormLabel>
+                      <CustomLabel target='name'>이름</CustomLabel>
                       <FormControl>
                         <Input
                           id='name'
@@ -147,15 +138,17 @@ export function SignUpForm({ styles, }: Props) {
                 render={
                   ({ field, }) => (
                     <FormItem>
-                      <FormLabel htmlFor='password' className={css.label}>비밀번호</FormLabel>
-                      <Input
-                        id='password'
-                        type='password'
-                        autoComplete='off'
-                        value={field.value}
-                        onChange={field.onChange}
-                        className={css.input}
-                      />
+                      <CustomLabel target='password'>비밀번호</CustomLabel>
+                      <FormControl>
+                        <Input
+                          id='password'
+                          type='password'
+                          autoComplete='off'
+                          value={field.value}
+                          onChange={field.onChange}
+                          className={css.input}
+                        />
+                      </FormControl>
                       {errors.password && (
                         <Message color='red'>{errors.password.message}</Message>
                       )}
@@ -169,49 +162,64 @@ export function SignUpForm({ styles, }: Props) {
                 render={
                   ({ field, }) => (
                     <FormItem className='!text-middle [&_span]:!text-middle'>
-                      <FormLabel htmlFor='role' className={css.label}>역할</FormLabel>
+                      <CustomLabel target='role'>권한</CustomLabel>
                       <Select
                         value={field.value}
                         onValueChange={field.onChange}
                         disabled
-                        defaultValue='PLAYER'
                       >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue
-                              placeholder='플레이어'
+                              placeholder='일반회원'
                               id='role'
                             />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value='PLAYER' className='!text-middle'>플레이어</SelectItem>
-                          <SelectItem value='MASTER' className='!text-middle'>마스터</SelectItem>
+                          <SelectItem value='admin' className='!text-middle'>관리자</SelectItem>
+                          <SelectItem value='normal' className='!text-middle'>일반회원</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormItem>
                   )
                 }
-                name='role'
+                name='userRole'
               />
               <FormField
                 control={form.control}
                 render={
                   ({ field, }) => (
-                    <FormItem className='flex flex-row gap-1 items-center space-y-0'>
-                      <FormControl>
-                        <Checkbox
-                          id='create'
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          className='w-[25px] h-[25px]'
-                        />
-                      </FormControl>
-                      <FormLabel htmlFor='create' className={css.label}>설정자로 가입합니다.</FormLabel>
+                    <FormItem className='!text-middle [&_span]:!text-middle'>
+                      <CustomLabel styles='!font-900'>
+                        설정자로 가입하시겠습니까?
+                      </CustomLabel>
+                      <RadioGroup
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                        className=''
+                      >
+                        <FormItem className='flex flex-row gap-2 items-center'>
+                          <FormControl>
+                            <RadioGroupItem id='type-player' value='player' />
+                          </FormControl>
+                          <CustomLabel target='type-player'>
+                            일반 회원으로 가입합니다.
+                          </CustomLabel>
+                        </FormItem>
+                        <FormItem className='flex flex-row gap-2 items-center'>
+                          <FormControl>
+                            <RadioGroupItem id='type-creator' value='creator' />
+                          </FormControl>
+                          <CustomLabel target='type-creator'>
+                            설정자로 가입합니다.
+                          </CustomLabel>
+                        </FormItem>
+                      </RadioGroup>
                     </FormItem>
                   )
                 }
-                name='create'
+                name='userType'
               />
 
               <Button
@@ -222,6 +230,10 @@ export function SignUpForm({ styles, }: Props) {
               </Button>
             </form>
           </Form>
+
+          <div className='text-right mt-2 text-middle'>
+            <p>이미 계정이 있으면 <Link href='/auth/signin' className='underline hover:text-blue-500 transition-colors duration-200'>로그인</Link>하세요.</p>
+          </div>
         </CardContent>
       </Card>
     </>

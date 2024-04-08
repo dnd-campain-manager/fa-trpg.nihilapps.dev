@@ -38,6 +38,30 @@ export class Nihil {
     return this.date(date).format('YYYY.M.D. HH:mm');
   }
 
+  static getDateInfo(date?: (string | number | Date)) {
+    const year = this.date(date).get('year');
+    const month = this.date(date).get('month');
+    const nowDate = this.date(date).get('date');
+    const day = this.date(date).get('day');
+
+    const dayToString = {
+      0: '일요일',
+      1: '월요일',
+      2: '화요일',
+      3: '수요일',
+      4: '목요일',
+      5: '금요일',
+      6: '토요일',
+    };
+
+    return {
+      year,
+      month,
+      date: nowDate,
+      day: dayToString[day],
+    };
+  }
+
   static toast({ type, text, }: ToastProps) {
     return toast(text, {
       type,

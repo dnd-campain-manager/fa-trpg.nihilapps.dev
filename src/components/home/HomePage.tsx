@@ -1,20 +1,46 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { blackhole, logoWhite } from '@/src/images';
 import { Button } from '@/src/shadcn';
 import { authStore } from '@/src/entities';
+import { useSignOut } from '@/src/common';
 
 interface Props {
   styles?: ClassNameValue;
 }
 
 export function HomePage({ styles, }: Props) {
-  const { session, } = authStore();
+  const { session, removeSession, } = authStore();
+
+  const qc = useQueryClient();
+  const signOut = useSignOut();
+
+  const router = useRouter();
+
+  const onClickSignOut = useCallback(
+    () => {
+      signOut.mutate({
+        signInId: session.signInId,
+        userId: session.id,
+      }, {
+        onSuccess() {
+          qc.invalidateQueries();
+
+          removeSession();
+
+          router.push('/');
+        },
+      });
+    },
+    [ session, ]
+  );
 
   const css = {
     default: twJoin([
@@ -34,7 +60,9 @@ export function HomePage({ styles, }: Props) {
       <header className='absolute z-[2] right-0 mt-5 mr-5'>
         {session ? (
           <>
-            로그인됨
+            <Button onClick={onClickSignOut} className='bg-white hover:bg-blue-500 text-black-base hover:text-white p-0 px-3 leading-[0] mr-3 text-[110%]'>
+              <Icon icon='mdi:user-lock-open' className='mr-1' /> 로그아웃
+            </Button>
           </>
         ) : (
           <>
@@ -53,7 +81,7 @@ export function HomePage({ styles, }: Props) {
       </header>
 
       <div className={css.default}>
-        <h1>
+        <h1 className='select-none'>
           <Image
             src={logoWhite.src}
             alt='logo'

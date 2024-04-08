@@ -16,7 +16,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const {
-    name, password, role, admin, create,
+    name, password, userRole, userType,
   }: CreateUserDto = await req.json();
 
   const findUser = await Db.users().findFirst({
@@ -37,9 +37,8 @@ export async function POST(req: NextRequest) {
   const newUser = await Db.users().create({
     data: {
       name,
-      role,
-      admin,
-      create,
+      userType,
+      userRole,
     },
   });
 
@@ -48,7 +47,7 @@ export async function POST(req: NextRequest) {
   await Db.auth().create({
     data: {
       userId: newUser.id,
-      hashedPassword,
+      password: hashedPassword,
     },
   });
 

@@ -10,12 +10,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import {
   Button,
-  Form, FormField, FormItem, FormLabel, Input, Message
-} from '@/src/shadcn';
-import {
+  Form, FormControl, FormField, FormItem, Input, Message,
   Card, CardContent, CardDescription, CardHeader
-} from '@/src/shadcn/ui/card';
-import { useSignIn } from '@/src/common';
+} from '@/src/shadcn';
+
+import { CustomLabel, useSignIn } from '@/src/common';
 import { authStore } from '@/src/entities';
 
 interface Props {
@@ -30,7 +29,13 @@ interface Inputs {
 export function SignInForm({ styles, }: Props) {
   const formModel = object({
     name: string().required('아이디를 입력해주세요.'),
-    password: string().required('비밀번호를 입력해주세요.'),
+    password: string()
+      .required('비밀번호를 입력해야합니다.')
+      .min(8, '비밀번호는 8~30자로 구성됩니다.')
+      .max(30, '비밀번호는 8~30자로 구성됩니다.')
+      .matches(/(?=.*\d)(?=.*[a-zA-Z])/, {
+        message: '비밀번호는 숫자와 영문자를 조합해야 합니다.',
+      }),
   });
 
   const form = useForm({
@@ -47,7 +52,7 @@ export function SignInForm({ styles, }: Props) {
   const qc = useQueryClient();
   const signIn = useSignIn();
 
-  const { updateSession, } = authStore();
+  const { session, updateSession, } = authStore();
 
   const router = useRouter();
 
@@ -68,7 +73,7 @@ export function SignInForm({ styles, }: Props) {
         },
       });
     },
-    []
+    [ session, ]
   );
 
   const css = {
@@ -88,7 +93,7 @@ export function SignInForm({ styles, }: Props) {
     <>
       <Card>
         <CardHeader>
-          <CardDescription className='!text-small'>
+          <CardDescription className='!text-small text-black-base'>
             로그인하면 더 많은 기능을 이용할 수 있습니다.
           </CardDescription>
         </CardHeader>
@@ -99,14 +104,16 @@ export function SignInForm({ styles, }: Props) {
                 control={form.control}
                 render={({ field, }) => (
                   <FormItem>
-                    <FormLabel htmlFor='name' className={css.label}>이름</FormLabel>
-                    <Input
-                      id='name'
-                      type='text'
-                      value={field.value}
-                      onChange={field.onChange}
-                      className={css.input}
-                    />
+                    <CustomLabel target='name'>이름</CustomLabel>
+                    <FormControl>
+                      <Input
+                        id='name'
+                        type='text'
+                        value={field.value}
+                        onChange={field.onChange}
+                        className={css.input}
+                      />
+                    </FormControl>
                     {errors.name && (
                       <Message color='red'>{errors.name.message}</Message>
                     )}
@@ -114,19 +121,22 @@ export function SignInForm({ styles, }: Props) {
                 )}
                 name='name'
               />
+
               <FormField
                 control={form.control}
                 render={({ field, }) => (
                   <FormItem>
-                    <FormLabel htmlFor='password' className={css.label}>비밀번호</FormLabel>
-                    <Input
-                      id='password'
-                      type='password'
-                      autoComplete='off'
-                      value={field.value}
-                      onChange={field.onChange}
-                      className={css.input}
-                    />
+                    <CustomLabel target='password'>비밀번호</CustomLabel>
+                    <FormControl>
+                      <Input
+                        id='password'
+                        type='password'
+                        autoComplete='off'
+                        value={field.value}
+                        onChange={field.onChange}
+                        className={css.input}
+                      />
+                    </FormControl>
                     {errors.password && (
                       <Message color='red'>{errors.password.message}</Message>
                     )}

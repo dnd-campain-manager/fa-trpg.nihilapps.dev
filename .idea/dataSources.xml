@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="verceldb@ep-tiny-lake-a4g2akye.us-east-1.aws.neon.tech" uuid="549656c5-b214-48fb-8d4e-7a0d3e0692ae">
+    <data-source source="LOCAL" name="postgres@svc.sel5.cloudtype.app" uuid="2965514f-2430-4bcb-aa6e-57628b414b77">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://ep-tiny-lake-a4g2akye.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require</jdbc-url>
+      <jdbc-url>jdbc:postgresql://svc.sel5.cloudtype.app:32276/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

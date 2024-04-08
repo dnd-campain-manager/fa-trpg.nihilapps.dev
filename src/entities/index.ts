@@ -13,3 +13,8 @@ export {
   type SignOutDto
 } from './auth/auth.types';
 export { authStore } from './auth/auth.store';
+
+export {
+  type createCampainDto,
+  type updateCampainDto
+} from './campains/campains.types';

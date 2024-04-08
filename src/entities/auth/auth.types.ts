@@ -7,10 +7,12 @@ export interface SignInDto {
 
 export interface SignOutDto {
   userId: string;
+  signInId: string;
 }
 
 export interface TokenRefreshDto {
   userId: string;
+  signInId: string;
   refreshToken: string;
 }
 
@@ -23,6 +25,7 @@ export interface TokenInfo {
 }
 
 export interface UserSession extends User {
+  signInId: string;
   accessToken: string;
   refreshToken: string;
   accessExp: number;
