@@ -4,6 +4,9 @@ import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { enableCache } from '@iconify/react';
+
+enableCache('local');
 
 interface Props {
   children: React.ReactNode;

@@ -3,22 +3,22 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
-  Calendar, LoadingCircle, Nihil, useGetCampains
+  LoadingCircle, Nihil, useCreateCampain, useGetCampains
 } from '@/src/common';
+import { Button } from '@/src/shadcn';
 
 interface Props {
   styles?: ClassNameValue;
 }
 
-export function SessionCalendar({ styles, }: Props) {
+export function CampainList({ styles, }: Props) {
   const {
     data: campains,
     isLoading,
     isFetching,
   } = useGetCampains();
 
-  console.log(Calendar.monthData());
-  console.log(Calendar.monthData(null, 1));
+  const createCampain = useCreateCampain();
 
   const css = {
     default: twJoin([
@@ -27,14 +27,16 @@ export function SessionCalendar({ styles, }: Props) {
     ]),
   };
 
-  if (isLoading || isFetching) {
+  if (isFetching || isLoading) {
     return <LoadingCircle />;
   }
 
   return (
     <>
-      {Nihil.string(campains.data)}
-      <div>content</div>
+      <div className={css.default}>
+        <Button size='sm'>캠페인 만들기</Button>
+        {Nihil.string(campains.data)}
+      </div>
     </>
   );
 }

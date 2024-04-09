@@ -15,6 +15,6 @@ export {
 export { authStore } from './auth/auth.store';
 
 export {
-  type createCampainDto,
-  type updateCampainDto
+  type CreateCampainDto,
+  type UpdateCampainDto
 } from './campains/campains.types';

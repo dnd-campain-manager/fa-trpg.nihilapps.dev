@@ -3,8 +3,11 @@ import logo from './logo/logo.png';
 import logoWhite from './logo/logo-w.png';
 import blackhole from './blackhole.jpg';
 
+import MingcuteLoadingFill from './icon/MingcuteLoadingFill.svg';
+
 export {
   logo,
   logoWhite,
-  blackhole
+  blackhole,
+  MingcuteLoadingFill
 };

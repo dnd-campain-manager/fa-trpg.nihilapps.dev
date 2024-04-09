@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { blackhole, logoWhite } from '@/src/images';
 import { Button } from '@/src/shadcn';
 import { authStore } from '@/src/entities';
-import { useSignOut } from '@/src/common';
+import { CustomButton, useSignOut } from '@/src/common';
 
 interface Props {
   styles?: ClassNameValue;
@@ -60,21 +60,18 @@ export function HomePage({ styles, }: Props) {
       <header className='absolute z-[2] right-0 mt-5 mr-5'>
         {session ? (
           <>
-            <Button onClick={onClickSignOut} className='bg-white hover:bg-blue-500 text-black-base hover:text-white p-0 px-3 leading-[0] mr-3 text-[110%]'>
-              <Icon icon='mdi:user-lock-open' className='mr-1' /> 로그아웃
-            </Button>
+            <Link href='/mypage'>
+              <CustomButton icon='mdi:user' styles='mr-3'>마이페이지</CustomButton>
+            </Link>
+            <CustomButton icon='mdi:user-lock-open' actions={onClickSignOut}>로그아웃</CustomButton>
           </>
         ) : (
           <>
-            <Link href='/auth/signin'>
-              <Button size='sm' className='bg-white hover:bg-blue-500 text-black-base hover:text-white p-0 px-3 leading-[0] mr-3 text-[110%]'>
-                <Icon icon='mdi:user-lock' className='mr-1' /> 로그인
-              </Button>
-            </Link>
             <Link href='/auth/signup'>
-              <Button size='sm' className='bg-white hover:bg-blue-500 text-black-base hover:text-white p-0 px-3 leading-[0] text-[110%]'>
-                <Icon icon='mdi:user-plus' className='mr-1' /> 회원가입
-              </Button>
+              <CustomButton icon='mdi:user-plus'>회원가입</CustomButton>
+            </Link>
+            <Link href='/auth/signin'>
+              <CustomButton icon='mdi:user-lock' styles='mr-3'>로그인</CustomButton>
             </Link>
           </>
         )}
@@ -108,7 +105,7 @@ export function HomePage({ styles, }: Props) {
             href='https://github.com/NIHILncunia'
             target='_blank'
             rel='noreferrer noopener'
-            className='ml-2 inline-flex flex-row items-center hover:text-green-600 transition-colors duration-200 underline'
+            className='ml-2 inline-flex flex-row items-center hover:text-blue-500 transition-colors duration-200 underline'
           >
             NIHILncunia
             <Icon icon='gg:external' className='text-[1.5rem]' />
@@ -121,7 +118,7 @@ export function HomePage({ styles, }: Props) {
             href='https://cafe.naver.com/monchikin'
             target='_blank'
             rel='noreferrer noopener'
-            className='inline-flex flex-row items-center hover:text-green-600 transition-colors duration-200 underline'
+            className='inline-flex flex-row items-center hover:text-blue-500 transition-colors duration-200 underline'
           >
             환상공작소.
           </a>
