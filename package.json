@@ -1,7 +1,7 @@
 {
   "main": "index.js",
   "scripts": {
-    "remove": "rm -rf node_modules/.cache && rm -rf build/",
+    "remove": "rm -rf node_modules/.cache build/",
     "serve": "yarn run remove && next dev",
     "start": "yarn run build && next start",
     "build": "yarn run remove && next build",

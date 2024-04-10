@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db } from '@/src/common';
+import { Db } from '@/src/utils';
 import { CreateCampainDto } from '@/src/entities';
 
 export async function GET() {

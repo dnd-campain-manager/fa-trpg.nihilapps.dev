@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { TokenRefreshDto, UserSession } from '@/src/entities';
-import { Db, Jwt, Nihil } from '@/src/common';
+import { Db, Jwt, Nihil } from '@/src/utils';
 
 export async function POST(req: NextRequest) {
   const { userId, signInId, refreshToken, }: TokenRefreshDto = await req.json();

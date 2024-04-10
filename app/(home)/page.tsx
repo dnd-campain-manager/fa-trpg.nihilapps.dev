@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { setMeta } from '@/src/common';
 import { HomePage } from '@/src/components';
+import { setMeta } from '@/src/utils';
 
 export const metadata: Metadata = setMeta({
   title: '홈',

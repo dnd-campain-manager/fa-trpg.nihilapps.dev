@@ -8,9 +8,10 @@ import { Icon } from '@iconify/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { blackhole, logoWhite } from '@/src/images';
-import { Button } from '@/src/shadcn';
+import { Button, Card, CardContent } from '@/src/shadcn';
 import { authStore } from '@/src/entities';
-import { CustomButton, useSignOut } from '@/src/common';
+import { CustomButton, FooterBlock } from '@/src/components';
+import { useSignOut } from '@/src/hooks';
 
 interface Props {
   styles?: ClassNameValue;
@@ -68,10 +69,10 @@ export function HomePage({ styles, }: Props) {
         ) : (
           <>
             <Link href='/auth/signup'>
-              <CustomButton icon='mdi:user-plus'>회원가입</CustomButton>
+              <CustomButton icon='mdi:user-plus' styles='mr-3'>회원가입</CustomButton>
             </Link>
             <Link href='/auth/signin'>
-              <CustomButton icon='mdi:user-lock' styles='mr-3'>로그인</CustomButton>
+              <CustomButton icon='mdi:user-lock'>로그인</CustomButton>
             </Link>
           </>
         )}
@@ -98,32 +99,7 @@ export function HomePage({ styles, }: Props) {
         {/*</Link>*/}
       </div>
 
-      <footer className='absolute z-[2] bottom-0 w-[300px] text-center left-1/2 translate-x-[-50%] text-white text-[1.2rem] pb-5'>
-        <p className=''>
-          made by
-          <a
-            href='https://github.com/NIHILncunia'
-            target='_blank'
-            rel='noreferrer noopener'
-            className='ml-2 inline-flex flex-row items-center hover:text-blue-500 transition-colors duration-200 underline'
-          >
-            NIHILncunia
-            <Icon icon='gg:external' className='text-[1.5rem]' />
-          </a>
-        </p>
-
-        <p className='flex flex-row gap-1 items-center justify-center'>
-          <Icon icon='ic:baseline-copyright' />
-          <a
-            href='https://cafe.naver.com/monchikin'
-            target='_blank'
-            rel='noreferrer noopener'
-            className='inline-flex flex-row items-center hover:text-blue-500 transition-colors duration-200 underline'
-          >
-            환상공작소.
-          </a>
-        </p>
-      </footer>
+      <FooterBlock styles='mo-sm:max-w-[700px]' />
 
       <div
         style={{

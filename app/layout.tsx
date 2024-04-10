@@ -1,10 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
-import '@/src/common/styles/tailwind.css';
-import '@/src/common/styles/shadcn.styles.css';
+import '@/src/styles/tailwind.css';
+import '@/src/styles/shadcn.styles.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { configData, Providers } from '@/src/common';
+import { configData } from '@/src/data';
+import { LayoutProviders } from '@/src/widgets';
 
 export const metadata: Metadata = {
   metadataBase: new URL(configData.url),
@@ -48,7 +49,7 @@ export default function AppLayout({ children, }: Props) {
   return (
     <html lang='ko' suppressHydrationWarning>
       <body>
-        <Providers>
+        <LayoutProviders>
           {children}
           <ToastContainer
             position='bottom-right'
@@ -62,7 +63,7 @@ export default function AppLayout({ children, }: Props) {
             pauseOnHover
             theme='dark'
           />
-        </Providers>
+        </LayoutProviders>
       </body>
     </html>
   );

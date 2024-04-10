@@ -11,19 +11,21 @@ interface AuthState {
 
 export const authStore = create(
   persist(
-    devtools<AuthState>((set) => ({
-      session: null,
-      updateSession(session: UserSession) {
-        set((state) => ({
-          session: { ...state.session, ...session, },
-        }));
-      },
-      removeSession() {
-        set(() => ({
-          session: null,
-        }));
-      },
-    })),
+    devtools<AuthState>(
+      (set) => ({
+        session: null,
+        updateSession(session: UserSession) {
+          set((state) => ({
+            session: { ...state.session, ...session, },
+          }));
+        },
+        removeSession() {
+          set(() => ({
+            session: null,
+          }));
+        },
+      })
+    ),
     {
       name: 'fa/auth-state',
       storage: createJSONStorage(() => localStorage),

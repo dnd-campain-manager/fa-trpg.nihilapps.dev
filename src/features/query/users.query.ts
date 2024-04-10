@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { Api } from '@/src/common';
+import { Api } from '@/src/utils';
 import { CreateUserDto, UpdateUserDto } from '@/src/entities';
 
 export class UsersQuery {

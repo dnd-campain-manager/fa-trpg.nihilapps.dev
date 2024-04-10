@@ -25,7 +25,8 @@ import {
   Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
 
-import { CustomLabel, useSignUp } from '@/src/common';
+import { CustomLabel } from '@/src/components';
+import { useSignUp } from '@/src/hooks';
 
 interface Props {
   styles?: ClassNameValue;
@@ -231,8 +232,10 @@ export function SignUpForm({ styles, }: Props) {
             </form>
           </Form>
 
-          <div className='text-right mt-2 text-middle'>
-            <p>이미 계정이 있으면 <Link href='/auth/signin' className='underline hover:text-blue-500 transition-colors duration-200'>로그인</Link>하세요.</p>
+          <h3 className='font-900 text-h6 mt-5 text-center text-black-base'>이미 계정이 있으신가요?</h3>
+
+          <div className='text-center mt-2 text-middle'>
+            <p>지금 바로 <Link href='/auth/signin' className='rounded-1 border-2 border-black-base p-0 px-2 text-black-base hover:text-white hover:bg-blue-500 hover:border-blue-500 transition-colors duration-200 font-500'>로그인</Link>하세요.</p>
           </div>
         </CardContent>
       </Card>

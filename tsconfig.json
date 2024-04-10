@@ -28,6 +28,7 @@
     }
   },
   "include": [
+    "custom-images.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

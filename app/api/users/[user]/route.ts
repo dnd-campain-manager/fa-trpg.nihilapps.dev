@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db } from '@/src/common';
+import { Db } from '@/src/utils';
 import { UpdateUserDto } from '@/src/entities';
 
 interface Params {

@@ -1,8 +1,9 @@
 import React from 'react';
 import { twJoin } from 'tailwind-merge';
-import { Logo, PageTitle, setMeta } from '@/src/common';
-import { SignUpForm } from '@/src/components';
-import { blackhole } from '@/src/images';
+import {
+  AuthHeader, LogoBlock, PageTitle, SignUpForm
+} from '@/src/components';
+import { setMeta } from '@/src/utils';
 
 interface Props {
   //
@@ -23,20 +24,10 @@ export default function SignUpPage() {
   return (
     <>
       <div className='relative z-[2]'>
-        <Logo />
-        <PageTitle>회원가입</PageTitle>
+        <AuthHeader>회원가입</AuthHeader>
 
         <SignUpForm />
       </div>
-
-      <div
-        style={{
-          backgroundImage: `url(${blackhole.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
-        }}
-        className={css.image}
-      />
     </>
   );
 }

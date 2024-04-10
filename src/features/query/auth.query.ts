@@ -1,7 +1,7 @@
 import {
   SignInDto, SignOutDto, TokenRefreshDto, UserSession
 } from '@/src/entities';
-import { Api } from '@/src/common';
+import { Api } from '@/src/utils';
 
 export class AuthQuery {
   static async signInUser(signInDto: SignInDto) {

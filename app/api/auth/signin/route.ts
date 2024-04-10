@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { compare } from 'bcryptjs';
 import { cookies } from 'next/headers';
 import { SignInDto, UserSession } from '@/src/entities';
-import { Db, Jwt, Nihil } from '@/src/common';
+import { Db, Jwt, Nihil } from '@/src/utils';
 
 export async function POST(req: NextRequest) {
   const { name, password, }: SignInDto = await req.json();

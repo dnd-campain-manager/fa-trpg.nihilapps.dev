@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { hash } from 'bcryptjs';
-import { Db } from '@/src/common';
+import { Db } from '@/src/utils';
 import { CreateUserDto } from '@/src/entities';
 
 export async function GET() {

@@ -13,9 +13,9 @@ import {
   Form, FormControl, FormField, FormItem, Input, Message,
   Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
-
-import { CustomLabel, useSignIn } from '@/src/common';
+import { CustomLabel } from '@/src/components';
 import { authStore } from '@/src/entities';
+import { useSignIn } from '@/src/hooks';
 
 interface Props {
   styles?: ClassNameValue;
@@ -156,19 +156,21 @@ export function SignInForm({ styles, }: Props) {
             </form>
           </Form>
 
-          <div className='flex flex-row gap-3 mt-2 justify-end text-black-base text-middle'>
-            <Link
-              href='/auth/signup'
-              className='underline hover:text-blue-500 transition-colors duration-200'
-            >
-              회원가입
-            </Link>
-            <Link
-              href='/auth/password-reset'
-              className='underline hover:text-blue-500 transition-colors duration-200'
-            >
-              비밀번호가 기억나지 않아요
-            </Link>
+          <h3 className='font-900 text-h6 mt-5 text-center text-black-base'>계정이 없으신가요?</h3>
+
+          <div className='text-center mt-2 text-middle'>
+            <p>
+              <Link href='/auth/signup' className='rounded-1 border-2 border-black-base p-0 px-2 text-black-base hover:text-white hover:bg-blue-500 hover:border-blue-500 transition-colors duration-200 font-500'>회원가입</Link>
+              을 해야 세션 참여, 캐릭터 관리를 할 수 있습니다.
+            </p>
+          </div>
+
+          <h3 className='font-900 text-h6 mt-5 text-center text-black-base'>비밀번호가 기억나지 않아요!</h3>
+
+          <div className='text-center mt-2 text-middle'>
+            <p>
+              <Link href='/auth/password-reset' className='rounded-1 border-2 border-black-base p-0 px-2 text-black-base hover:text-white hover:bg-blue-500 hover:border-blue-500 transition-colors duration-200 font-500'>비밀번호 재설정</Link>을 통해서 새로운 비밀번호를 사용할 수 있습니다.
+            </p>
           </div>
         </CardContent>
       </Card>

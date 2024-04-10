@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { SignOutDto } from '@/src/entities';
-import { Db } from '@/src/common';
+import { Db } from '@/src/utils';
 
 export async function POST(req: NextRequest) {
   const { signInId, userId, }: SignOutDto = await req.json();

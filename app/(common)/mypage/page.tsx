@@ -1,5 +1,5 @@
 import React from 'react';
-import { setMeta } from '@/src/common';
+import { setMeta } from '@/src/utils';
 
 interface Props {
   //

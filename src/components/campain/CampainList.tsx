@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import {
-  LoadingCircle, Nihil, useCreateCampain, useGetCampains
-} from '@/src/common';
 import { Button } from '@/src/shadcn';
+import { useCreateCampain, useGetCampains } from '@/src/hooks';
+import { LoadingCircle } from '@/src/components';
+import { Nihil } from '@/src/utils';
 
 interface Props {
   styles?: ClassNameValue;

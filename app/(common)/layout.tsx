@@ -1,5 +1,5 @@
 import React from 'react';
-import { DefaultPage } from '@/src/common';
+import { DefaultPage } from '@/src/widgets';
 
 interface Props {
   children: React.ReactNode;

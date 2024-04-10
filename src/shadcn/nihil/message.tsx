@@ -3,7 +3,7 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { cva } from 'class-variance-authority';
-import { cn } from '@/src/common/utils/shacdnUtils';
+import { cn } from '@/src/utils/shacdnUtils';
 
 interface Props {
   color?: ('red' | 'blue' | 'orange' | 'green');

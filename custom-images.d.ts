@@ -21,7 +21,7 @@ declare module '*.png' {
 }
 
 declare module '*.svg' {
-  const svg: React.JSX.Element<React.SVGProps<SVGSVGElement>>;
+  const svg: any;
   export default svg;
 }
 

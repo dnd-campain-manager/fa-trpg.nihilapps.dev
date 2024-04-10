@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import {
-  Calendar, LoadingCircle, Nihil, useGetCampains
-} from '@/src/common';
+import { CampainList, LoadingCircle } from '@/src/components';
+import { useGetCampains } from '@/src/hooks';
+import { Calendar } from '@/src/utils';
 
 interface Props {
   styles?: ClassNameValue;
@@ -33,8 +33,7 @@ export function SessionCalendar({ styles, }: Props) {
 
   return (
     <>
-      {Nihil.string(campains.data)}
-      <div>content</div>
+      <CampainList />
     </>
   );
 }
