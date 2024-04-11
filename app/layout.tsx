@@ -3,9 +3,7 @@ import { Metadata } from 'next';
 import '@/src/styles/tailwind.css';
 import '@/src/styles/shadcn.styles.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
 import { configData } from '@/src/data';
-import { LayoutProviders } from '@/src/widgets';
 
 export const metadata: Metadata = {
   metadataBase: new URL(configData.url),
@@ -48,23 +46,7 @@ interface Props {
 export default function AppLayout({ children, }: Props) {
   return (
     <html lang='ko' suppressHydrationWarning>
-      <body>
-        <LayoutProviders>
-          {children}
-          <ToastContainer
-            position='bottom-right'
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable
-            pauseOnHover
-            theme='dark'
-          />
-        </LayoutProviders>
-      </body>
+      {children}
     </html>
   );
 }

@@ -21,7 +21,9 @@ export {
   type TokenRefreshDto,
   type TokenInfo,
   type UserSession,
-  type SignOutDto
+  type SignOutDto,
+  type UserCheck,
+  type ResetPasswordDto
 } from './auth/auth.types';
 export { authStore } from './auth/auth.store';
 
@@ -29,3 +31,8 @@ export {
   type CreateCampainDto,
   type UpdateCampainDto
 } from './campains/campains.types';
+
+export {
+  type CreateSessionsDto,
+  type UpdateSessionDto
+} from './sessions/sessions.types';

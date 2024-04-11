@@ -12,16 +12,16 @@ interface Props {
 export function FooterBlock({ styles, }: Props) {
   const css = {
     default: twJoin([
-      `absolute z-[2] bottom-5 text-center left-1/2 translate-x-[-50%] text-black-base text-[1.2rem] w-full mo-sm:max-w-[900px] font-500`,
+      `z-[2] bottom-5 text-center left-1/2 translate-x-[-50%] text-black-base text-[1.2rem] w-full mo-sm:max-w-[940px] px-5 font-500 fixed`,
       styles,
     ]),
   };
 
   return (
     <>
-      <Card className={css.default}>
-        <CardContent className='!p-1'>
-          <footer>
+      <footer className={css.default}>
+        <Card>
+          <CardContent className='!p-1'>
             <small className='text-black-base'>
               Made by
               <a
@@ -46,9 +46,9 @@ export function FooterBlock({ styles, }: Props) {
                 환상공작소.
               </a>
             </small>
-          </footer>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </footer>
     </>
   );
 }

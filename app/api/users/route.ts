@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { hash } from 'bcryptjs';
-import { Db } from '@/src/utils';
+import { DataHash, Db } from '@/src/utils';
 import { CreateUserDto } from '@/src/entities';
 
 export async function GET() {
@@ -42,7 +41,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const hashedPassword = await hash(password, 10);
+  const hashedPassword = await DataHash.hashData(password);
 
   await Db.auth().create({
     data: {
@@ -55,6 +54,6 @@ export async function POST(req: NextRequest) {
     data: newUser,
     message: 'ok',
   }, {
-    status: 200,
+    status: 201,
   });
 }

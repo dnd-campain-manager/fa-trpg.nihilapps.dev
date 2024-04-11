@@ -148,7 +148,7 @@ export function SignInForm({ styles, }: Props) {
               <div className='mt-10'>
                 <Button
                   type='submit'
-                  className='w-full hover:bg-blue-500 hover:text-white hover:border-blue-500 !text-h6 py-6'
+                  className='w-full border-2 border-primary hover:bg-blue-500 hover:text-white hover:border-blue-500 !text-h6 py-6'
                 >
                   로그인
                 </Button>
@@ -156,22 +156,13 @@ export function SignInForm({ styles, }: Props) {
             </form>
           </Form>
 
-          <h3 className='font-900 text-h6 mt-5 text-center text-black-base'>계정이 없으신가요?</h3>
+          <Link href='/auth/signup'>
+            <Button className='w-full mt-5 !text-h6 !box-border py-6 bg-white text-black-base border-2 border-black-base hover:bg-blue-500 hover:text-white hover:border-blue-500'>회원가입 하기</Button>
+          </Link>
 
-          <div className='text-center mt-2 text-middle'>
-            <p>
-              <Link href='/auth/signup' className='rounded-1 border-2 border-black-base p-0 px-2 text-black-base hover:text-white hover:bg-blue-500 hover:border-blue-500 transition-colors duration-200 font-500'>회원가입</Link>
-              을 해야 세션 참여, 캐릭터 관리를 할 수 있습니다.
-            </p>
-          </div>
-
-          <h3 className='font-900 text-h6 mt-5 text-center text-black-base'>비밀번호가 기억나지 않아요!</h3>
-
-          <div className='text-center mt-2 text-middle'>
-            <p>
-              <Link href='/auth/password-reset' className='rounded-1 border-2 border-black-base p-0 px-2 text-black-base hover:text-white hover:bg-blue-500 hover:border-blue-500 transition-colors duration-200 font-500'>비밀번호 재설정</Link>을 통해서 새로운 비밀번호를 사용할 수 있습니다.
-            </p>
-          </div>
+          <Link href='/auth/reset'>
+            <Button className='w-full mt-5 !text-h6 !box-border py-6 bg-white text-black-base border-2 border-black-base hover:bg-blue-500 hover:text-white hover:border-blue-500'>비밀번호 재설정</Button>
+          </Link>
         </CardContent>
       </Card>
     </>

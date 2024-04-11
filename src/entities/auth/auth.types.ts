@@ -24,6 +24,18 @@ export interface TokenInfo {
   exp: number;
 }
 
+export interface UserCheck {
+  userId: string;
+  signInId: string;
+  password: string;
+}
+
+export interface ResetPasswordDto {
+  userId: string;
+  signInId: string;
+  newPassword: string;
+}
+
 export interface UserSession extends User {
   signInId: string;
   accessToken: string;

@@ -1,5 +1,6 @@
 import {
-  SignInDto, SignOutDto, TokenRefreshDto, UserSession
+  ResetPasswordDto,
+  SignInDto, SignOutDto, TokenRefreshDto, UserCheck, UserSession
 } from '@/src/entities';
 import { Api } from '@/src/utils';
 
@@ -22,10 +23,32 @@ export class AuthQuery {
     return data;
   }
 
-  static async tokenRefresh(tokenRefreshDto: TokenRefreshDto) {
+  static async tokenRefresh(
+    tokenRefreshDto: TokenRefreshDto
+  ) {
     const { data, } = await Api.post<UserSession, TokenRefreshDto>(
       '/auth/refresh',
       tokenRefreshDto
+    );
+
+    return data;
+  }
+
+  static async userCheck(userCheckDto: UserCheck) {
+    const { data, } = await Api.post<null, UserCheck>(
+      '/auth/reset',
+      userCheckDto
+    );
+
+    return data;
+  }
+
+  static async resetPassword(
+    resetPasswordDto: ResetPasswordDto
+  ) {
+    const { data, } = await Api.post<null, ResetPasswordDto>(
+      '/auth/reset/password',
+      resetPasswordDto
     );
 
     return data;

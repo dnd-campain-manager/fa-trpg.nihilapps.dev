@@ -17,6 +17,14 @@ export class CampainsQuery {
     return data;
   }
 
+  static async getByName(name: string) {
+    const { data, } = await Api.get<Campain[]>(
+      `/campains/name/${name}`
+    );
+
+    return data;
+  }
+
   static async create(createCampainDto: CreateCampainDto) {
     const { data, } = await Api.post<Campain, CreateCampainDto>(
       '/campains',

@@ -1,5 +1,6 @@
 export { configData } from './config.data';
 export {
   usersKeys,
-  campainsKeys
+  campainsKeys,
+  sessionsKeys
 } from './keys.data';

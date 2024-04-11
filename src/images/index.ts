@@ -6,6 +6,8 @@ import blackhole from './blackhole.jpg';
 import loadingSvg from './icon/loading.svg';
 import calendarSvg from './icon/calendar.svg';
 import archiveSvg from './icon/archiveSvg.svg';
+import peopleSvg from './icon/peopleSvg.svg';
+import bookSvg from './icon/bookSvg.svg';
 
 export {
   logo,
@@ -13,5 +15,7 @@ export {
   blackhole,
   loadingSvg,
   calendarSvg,
-  archiveSvg
+  archiveSvg,
+  peopleSvg,
+  bookSvg
 };

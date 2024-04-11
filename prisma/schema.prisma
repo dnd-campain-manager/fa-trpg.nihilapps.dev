@@ -83,7 +83,7 @@ model Session {
   playersNumber Int
   players       String[] // 유저 아이디들 넣음
   exp           Int      @default(0)
-  rewardUrl     String
+  rewardUrl     String?
 
   @@map("sessions")
 }

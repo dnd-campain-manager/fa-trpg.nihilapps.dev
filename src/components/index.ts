@@ -20,6 +20,7 @@ export { AuthHeader } from './auth/AuthHeader';
 export { SessionCalendar } from './calendar/SessionCalendar';
 
 export { CampainList } from './campain/CampainList';
+export { CampainSearch } from './campain/CampainSearch';
 
 export { CustomLabel } from './form/CustomLabel';
 export { CustomButton } from './form/CustomButton';

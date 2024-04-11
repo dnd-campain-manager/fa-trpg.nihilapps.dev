@@ -3,6 +3,7 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { Icon } from '@iconify/react';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/src/shadcn';
 
 interface Props {
@@ -15,9 +16,12 @@ interface Props {
 export function CustomButton({
   children, icon, actions, styles,
 }: Props) {
+  const pathname = usePathname();
+
   const css = {
     default: twJoin([
       `bg-white hover:bg-blue-500 text-black-base hover:text-white p-0 px-3 leading-[0] text-[110%]`,
+      pathname !== '/' && `text-white bg-primary hover:bg-blue-500`,
       styles,
     ]),
   };

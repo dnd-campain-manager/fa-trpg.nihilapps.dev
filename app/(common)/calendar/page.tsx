@@ -1,6 +1,5 @@
 import React from 'react';
 import { setMeta } from '@/src/utils';
-import { SessionCalendar } from '@/src/components';
 
 interface Props {
   //
@@ -14,7 +13,7 @@ export const metadata = setMeta({
 export default function page() {
   return (
     <>
-      <SessionCalendar />
+      <div>content</div>
     </>
   );
 }

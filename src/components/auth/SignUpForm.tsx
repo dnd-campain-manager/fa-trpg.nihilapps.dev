@@ -225,18 +225,16 @@ export function SignUpForm({ styles, }: Props) {
 
               <Button
                 type='submit'
-                className='w-full hover:bg-blue-500 hover:text-white hover:border-blue-500 !text-h6 py-6'
+                className='w-full hover:bg-blue-500 hover:text-white border-2 border-primary hover:border-blue-500 !text-h6 py-6'
               >
                 회원가입
               </Button>
             </form>
           </Form>
 
-          <h3 className='font-900 text-h6 mt-5 text-center text-black-base'>이미 계정이 있으신가요?</h3>
-
-          <div className='text-center mt-2 text-middle'>
-            <p>지금 바로 <Link href='/auth/signin' className='rounded-1 border-2 border-black-base p-0 px-2 text-black-base hover:text-white hover:bg-blue-500 hover:border-blue-500 transition-colors duration-200 font-500'>로그인</Link>하세요.</p>
-          </div>
+          <Link href='/auth/signin'>
+            <Button className='w-full mt-5 !text-h6 !box-border py-6 bg-white text-black-base border-2 border-black-base hover:bg-blue-500 hover:text-white hover:border-blue-500'>로그인 하기</Button>
+          </Link>
         </CardContent>
       </Card>
     </>

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { compare } from 'bcryptjs';
 import { cookies } from 'next/headers';
 import { SignInDto, UserSession } from '@/src/entities';
-import { Db, Jwt, Nihil } from '@/src/utils';
+import {
+  DataHash, Db, Jwt, Nihil
+} from '@/src/utils';
 
 export async function POST(req: NextRequest) {
   const { name, password, }: SignInDto = await req.json();
@@ -28,9 +29,10 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const passwordMatch = await compare(password, userAuth.password);
-
-  console.log('passwordMatch >> ', passwordMatch);
+  const passwordMatch = await DataHash.compareData(
+    password,
+    userAuth.password
+  );
 
   if (!passwordMatch) {
     return NextResponse.json({
