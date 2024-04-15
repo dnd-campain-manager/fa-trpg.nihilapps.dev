@@ -12,6 +12,18 @@ export async function GET(_req: NextRequest, { params, }: Params) {
     where: {
       name: params.name,
     },
+    include: {
+      Master: {
+        select: {
+          masterType: true,
+          User: true,
+        },
+      },
+      Campain: true,
+    },
+    orderBy: {
+      number: 'desc',
+    },
   });
 
   if (!sessions) {

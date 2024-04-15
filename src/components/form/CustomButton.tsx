@@ -2,43 +2,44 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { Icon } from '@iconify/react';
-import { usePathname } from 'next/navigation';
-import { Button } from '@/src/shadcn';
 
 interface Props {
   children: React.ReactNode;
-  icon?: string;
+  type?: 'button' | 'submit' | 'reset';
+  alter?: boolean;
+  disabled?: boolean;
+  color?: 'white' | 'black';
+  full?: boolean;
   actions?: any;
   styles?: ClassNameValue;
 }
 
 export function CustomButton({
-  children, icon, actions, styles,
+  children, type = 'button', alter, disabled = false, color = 'black', full = false, actions, styles,
 }: Props) {
-  const pathname = usePathname();
-
   const css = {
     default: twJoin([
-      `bg-white hover:bg-blue-500 text-black-base hover:text-white p-0 px-3 leading-[0] text-[110%]`,
-      pathname !== '/' && `text-white bg-primary hover:bg-blue-500`,
+      `text-middle flex flex-row gap-1 items-center justify-center border-2 font-500 hover:bg-blue-500 hover:border-blue-500 hover:text-white rounded-1 px-3 py-1 transition-colors duration-200`,
+      color === 'black' && `bg-primary text-white border-primary`,
+      color === 'white' && `bg-white text-black-base border-white`,
+      full && `w-full mo-md:max-w-[940px] px-5 mx-auto py-2 !text-h5 !font-700`,
+      (alter && color === 'black') && `bg-white !text-black-base hover:!text-white`,
+      (disabled && color === 'black') && `cursor-default opacity-40 !bg-primary !text-white !border-primary`,
+      (disabled && color === 'white') && `cursor-default opacity-40 !bg-white !text-black-base !border-white`,
       styles,
     ]),
   };
 
   return (
     <>
-      <Button size='sm' onClick={actions} className={css.default}>
-        {icon ? (
-          <>
-            <Icon icon={icon} className='mr-1' /> {children}
-          </>
-        ) : (
-          <>
-            {children}
-          </>
-        )}
-      </Button>
+      <button
+        type={type}
+        onClick={actions}
+        disabled={disabled}
+        className={css.default}
+      >
+        {children}
+      </button>
     </>
   );
 }

@@ -10,7 +10,6 @@ import { UserRole, UserType } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Button,
   Form,
   FormControl,
   FormField,
@@ -25,7 +24,7 @@ import {
   Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
 
-import { CustomLabel } from '@/src/components';
+import { CustomButton, CustomFormItem, CustomLabel } from '@/src/components';
 import { useSignUp } from '@/src/hooks';
 
 interface Props {
@@ -116,19 +115,13 @@ export function SignUpForm({ styles, }: Props) {
                 render={
                   ({ field, }) => (
                     <FormItem>
-                      <CustomLabel target='name'>이름</CustomLabel>
-                      <FormControl>
-                        <Input
-                          id='name'
-                          type='text'
-                          value={field.value}
-                          onChange={field.onChange}
-                          className={css.input}
-                        />
-                      </FormControl>
-                      {errors.name && (
-                        <Message color='red'>{errors.name.message}</Message>
-                      )}
+                      <CustomFormItem
+                        name='name'
+                        type='text'
+                        label='이름'
+                        field={field}
+                        form={form}
+                      />
                     </FormItem>
                   )
                 }
@@ -139,20 +132,14 @@ export function SignUpForm({ styles, }: Props) {
                 render={
                   ({ field, }) => (
                     <FormItem>
-                      <CustomLabel target='password'>비밀번호</CustomLabel>
-                      <FormControl>
-                        <Input
-                          id='password'
-                          type='password'
-                          autoComplete='off'
-                          value={field.value}
-                          onChange={field.onChange}
-                          className={css.input}
-                        />
-                      </FormControl>
-                      {errors.password && (
-                        <Message color='red'>{errors.password.message}</Message>
-                      )}
+                      <CustomFormItem
+                        name='password'
+                        type='password'
+                        code='test1,test2,test3'
+                        label='비밀번호'
+                        field={field}
+                        form={form}
+                      />
                     </FormItem>
                   )
                 }
@@ -163,7 +150,7 @@ export function SignUpForm({ styles, }: Props) {
                 render={
                   ({ field, }) => (
                     <FormItem className='!text-middle [&_span]:!text-middle'>
-                      <CustomLabel target='role'>권한</CustomLabel>
+                      {/*<CustomLabel target='role'>권한</CustomLabel>*/}
                       <Select
                         value={field.value}
                         onValueChange={field.onChange}
@@ -192,48 +179,44 @@ export function SignUpForm({ styles, }: Props) {
                 render={
                   ({ field, }) => (
                     <FormItem className='!text-middle [&_span]:!text-middle'>
-                      <CustomLabel styles='!font-900'>
-                        설정자로 가입하시겠습니까?
-                      </CustomLabel>
-                      <RadioGroup
-                        defaultValue={field.value}
-                        onValueChange={field.onChange}
-                        className=''
-                      >
-                        <FormItem className='flex flex-row gap-2 items-center'>
-                          <FormControl>
-                            <RadioGroupItem id='type-player' value='player' />
-                          </FormControl>
-                          <CustomLabel target='type-player'>
-                            일반 회원으로 가입합니다.
-                          </CustomLabel>
-                        </FormItem>
-                        <FormItem className='flex flex-row gap-2 items-center'>
-                          <FormControl>
-                            <RadioGroupItem id='type-creator' value='creator' />
-                          </FormControl>
-                          <CustomLabel target='type-creator'>
-                            설정자로 가입합니다.
-                          </CustomLabel>
-                        </FormItem>
-                      </RadioGroup>
+                      content
+                      {/*<CustomLabel styles='!font-900'>*/}
+                      {/*  설정자로 가입하시겠습니까?*/}
+                      {/*</CustomLabel>*/}
+                      {/*<RadioGroup*/}
+                      {/*  defaultValue={field.value}*/}
+                      {/*  onValueChange={field.onChange}*/}
+                      {/*  className=''*/}
+                      {/*>*/}
+                      {/*  <FormItem className='flex flex-row gap-2 items-center'>*/}
+                      {/*    <FormControl>*/}
+                      {/*      <RadioGroupItem id='type-player' value='player' />*/}
+                      {/*    </FormControl>*/}
+                      {/*    <CustomLabel target='type-player'>*/}
+                      {/*      일반 회원으로 가입합니다.*/}
+                      {/*    </CustomLabel>*/}
+                      {/*  </FormItem>*/}
+                      {/*  <FormItem className='flex flex-row gap-2 items-center'>*/}
+                      {/*    <FormControl>*/}
+                      {/*      <RadioGroupItem id='type-creator' value='creator' />*/}
+                      {/*    </FormControl>*/}
+                      {/*    <CustomLabel target='type-creator'>*/}
+                      {/*      설정자로 가입합니다.*/}
+                      {/*    </CustomLabel>*/}
+                      {/*  </FormItem>*/}
+                      {/*</RadioGroup>*/}
                     </FormItem>
                   )
                 }
                 name='userType'
               />
 
-              <Button
-                type='submit'
-                className='w-full hover:bg-blue-500 hover:text-white border-2 border-primary hover:border-blue-500 !text-h6 py-6'
-              >
-                회원가입
-              </Button>
+              <CustomButton type='submit' full>회원가입</CustomButton>
             </form>
           </Form>
 
-          <Link href='/auth/signin'>
-            <Button className='w-full mt-5 !text-h6 !box-border py-6 bg-white text-black-base border-2 border-black-base hover:bg-blue-500 hover:text-white hover:border-blue-500'>로그인 하기</Button>
+          <Link href='/auth/signin' className='mt-5 block'>
+            <CustomButton full alter>로그인 하기</CustomButton>
           </Link>
         </CardContent>
       </Card>

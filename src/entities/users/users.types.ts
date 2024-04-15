@@ -1,4 +1,12 @@
-import { UserRole, UserType } from '@prisma/client';
+import {
+  Master,
+  Pc, User, UserRole, UserType
+} from '@prisma/client';
+
+export interface ExtendedUser extends User {
+  Master: Master[];
+  Pc: Pc[];
+}
 
 export interface CreateUserDto {
   name: string;

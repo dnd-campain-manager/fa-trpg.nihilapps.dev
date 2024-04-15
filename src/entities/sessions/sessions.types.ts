@@ -1,4 +1,10 @@
-import { Session } from '@prisma/client';
+import { Campain, Session } from '@prisma/client';
+import { CustomMaster } from '@/src/entities';
+
+export interface ExtendedSession extends Session {
+  Master: CustomMaster[];
+  Campain: Campain[];
+}
 
 export interface CreateSessionsDto {
   campainId: string;
@@ -7,6 +13,7 @@ export interface CreateSessionsDto {
   name: string;
   startTime: Date;
   endTime: Date;
+  gameTime: string;
   playersNumber: number;
   content: string;
   players: string[];

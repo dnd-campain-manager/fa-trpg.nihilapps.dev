@@ -9,11 +9,10 @@ import Link from 'next/link';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import {
-  Button,
   Form, FormControl, FormField, FormItem, Input, Message,
   Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
-import { CustomLabel } from '@/src/components';
+import { CustomButton, CustomLabel } from '@/src/components';
 import { authStore } from '@/src/entities';
 import { useSignIn } from '@/src/hooks';
 
@@ -146,22 +145,23 @@ export function SignInForm({ styles, }: Props) {
               />
 
               <div className='mt-10'>
-                <Button
-                  type='submit'
-                  className='w-full border-2 border-primary hover:bg-blue-500 hover:text-white hover:border-blue-500 !text-h6 py-6'
-                >
+                <CustomButton full type='submit'>
                   로그인
-                </Button>
+                </CustomButton>
               </div>
             </form>
           </Form>
 
-          <Link href='/auth/signup'>
-            <Button className='w-full mt-5 !text-h6 !box-border py-6 bg-white text-black-base border-2 border-black-base hover:bg-blue-500 hover:text-white hover:border-blue-500'>회원가입 하기</Button>
+          <Link href='/auth/signup' className='block mt-5'>
+            <CustomButton full alter>
+              회원가입 하기
+            </CustomButton>
           </Link>
 
-          <Link href='/auth/reset'>
-            <Button className='w-full mt-5 !text-h6 !box-border py-6 bg-white text-black-base border-2 border-black-base hover:bg-blue-500 hover:text-white hover:border-blue-500'>비밀번호 재설정</Button>
+          <Link href='/auth/reset' className='block mt-5'>
+            <CustomButton full alter>
+              비밀번호 재설정
+            </CustomButton>
           </Link>
         </CardContent>
       </Card>

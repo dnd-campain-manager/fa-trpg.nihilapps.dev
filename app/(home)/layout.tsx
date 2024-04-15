@@ -17,7 +17,7 @@ export default function HomeLayout({ children, }: Props) {
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
         }}
-        className='w-screen h-screen'
+        className='w-screen h-screen p-5'
       >
         <LayoutProviders>
           {children}

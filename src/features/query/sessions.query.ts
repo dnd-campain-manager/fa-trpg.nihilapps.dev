@@ -1,22 +1,26 @@
 import { Session } from '@prisma/client';
 import { Api } from '@/src/utils';
-import { CreateSessionsDto, UpdateSessionDto } from '@/src/entities';
+import { CreateSessionsDto, ExtendedSession, UpdateSessionDto } from '@/src/entities';
 
 export class SessionsQuery {
   static async getAll() {
-    const { data, } = await Api.get<Session[]>('/sessions');
+    const { data, } = await Api.get<ExtendedSession[]>(
+      '/sessions'
+    );
 
     return data;
   }
 
   static async getById(id: string) {
-    const { data, } = await Api.get<Session>(`/sessions/${id}`);
+    const { data, } = await Api.get<ExtendedSession>(
+      `/sessions/${id}`
+    );
 
     return data;
   }
 
   static async getByName(name: string) {
-    const { data, } = await Api.get<Session[]>(
+    const { data, } = await Api.get<ExtendedSession[]>(
       `/sessions/name/${name}`
     );
 

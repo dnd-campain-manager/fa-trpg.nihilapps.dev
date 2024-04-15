@@ -13,6 +13,15 @@ export async function GET(_req: NextRequest, { params, }: Params) {
     where: {
       id: params.id,
     },
+    include: {
+      Master: {
+        select: {
+          masterType: true,
+          User: true,
+        },
+      },
+      Campain: true,
+    },
   });
 
   return NextResponse.json({

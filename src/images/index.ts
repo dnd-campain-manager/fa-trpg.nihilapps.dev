@@ -8,6 +8,10 @@ import calendarSvg from './icon/calendar.svg';
 import archiveSvg from './icon/archiveSvg.svg';
 import peopleSvg from './icon/peopleSvg.svg';
 import bookSvg from './icon/bookSvg.svg';
+import userSvg from './icon/user.svg';
+import userLockOpenSvg from './icon/userLockOpen.svg';
+import userPlusSvg from './icon/userPlus.svg';
+import userLockSvg from './icon/userLock.svg';
 
 export {
   logo,
@@ -17,5 +21,9 @@ export {
   calendarSvg,
   archiveSvg,
   peopleSvg,
-  bookSvg
+  bookSvg,
+  userSvg,
+  userLockOpenSvg,
+  userPlusSvg,
+  userLockSvg
 };

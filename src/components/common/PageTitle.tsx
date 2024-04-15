@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { HeadingItem } from '@/src/components';
+import { Card } from '@/src/shadcn';
 
 interface Props {
   children: React.ReactNode;
@@ -12,19 +12,16 @@ interface Props {
 export function PageTitle({ children, styles, }: Props) {
   const css = {
     default: twJoin([
-      `text-center mb-5 mt-5`,
+      `mb-5 mt-10 bg-primary border-primary text-center !font-900 !text-h4 text-white py-2`,
       styles,
-    ]),
-    content: twJoin([
-      `text-black-base text-center border-t-[5px] border-black-base`,
     ]),
   };
 
   return (
     <>
-      <HeadingItem level='h2' styles={css.default}>
-        <span className={css.content}>{children}</span>
-      </HeadingItem>
+      <Card className={css.default}>
+        <h2>{children}</h2>
+      </Card>
     </>
   );
 }

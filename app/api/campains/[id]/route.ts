@@ -12,6 +12,29 @@ export async function GET(_: NextRequest, { params, }: Params) {
     where: {
       id: params.id,
     },
+    include: {
+      Session: {
+        include: {
+          Master: {
+            select: {
+              masterType: true,
+              User: true,
+            },
+          },
+        },
+      },
+      Master: {
+        select: {
+          masterType: true,
+          User: true,
+        },
+      },
+      Pc: {
+        include: {
+          User: true,
+        },
+      },
+    },
   });
 
   return NextResponse.json({

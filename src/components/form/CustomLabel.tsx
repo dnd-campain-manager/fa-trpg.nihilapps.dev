@@ -2,30 +2,36 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { FormLabel } from '@/src/shadcn';
+import { ControllerRenderProps, FieldValues, UseFormReturn } from 'react-hook-form';
 
-interface Props {
-  target?: string;
+interface Props<T extends string> {
+  name: string;
   children: React.ReactNode;
+  field: ControllerRenderProps<FieldValues, T>;
+  form?: UseFormReturn;
   styles?: ClassNameValue;
 }
 
-export function CustomLabel({ target, children, styles, }: Props) {
+export function CustomLabel<T extends string>({
+  name, children, field, form, styles,
+}: Props<T>) {
   const css = {
     default: twJoin([
-      `!text-xsmall mo-sm:!text-small mo-md:!text-middle !m-0`,
+      `block text-normal text-black-base font-700`,
+      form.formState.errors[name] && `text-red-500`,
+      (field.value && !form.formState.errors[name]) && `text-blue-500`,
       styles,
     ]),
   };
 
   return (
     <>
-      <FormLabel
-        htmlFor={target}
+      <label
+        htmlFor={name}
         className={css.default}
       >
         {children}
-      </FormLabel>
+      </label>
     </>
   );
 }

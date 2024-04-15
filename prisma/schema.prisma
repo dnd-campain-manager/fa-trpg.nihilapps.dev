@@ -51,6 +51,7 @@ model Master {
   masterType MasterType
   Session    Session[]
 
+  @@index([userId, campainId])
   @@map("masters")
 }
 
@@ -60,7 +61,7 @@ model Campain {
   status    CampainStatus @default(ready)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
-  url       String
+  url       String?
   subMaster String[]
   Master    Master[]
   Session   Session[]
@@ -79,6 +80,7 @@ model Session {
   name          String   @unique
   startTime     DateTime
   endTime       DateTime
+  gameTime      String
   content       String
   playersNumber Int
   players       String[] // 유저 아이디들 넣음

@@ -1,7 +1,7 @@
 import React from 'react';
 import { twJoin } from 'tailwind-merge';
 import {
-  AuthHeader, LogoBlock, PageTitle, SignUpForm
+  AuthHeader, SignUpForm
 } from '@/src/components';
 import { setMeta } from '@/src/utils';
 

@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import {
   Button, Card, CardContent, Form, FormControl, FormField, FormItem, Input
 } from '@/src/shadcn';
+import { CustomButton } from '@/src/components';
 
 interface Props {
   styles?: ClassNameValue;
@@ -64,19 +65,19 @@ export function CampainSearch({ styles, }: Props) {
                   control={form.control}
                   render={
                     ({ field, }) => (
-                      <FormItem className='flex flex-row gap-1 items-center justify-center'>
+                      <FormItem className='flex flex-row gap-1 items-stretch'>
                         <FormControl>
                           <Input
                             type='text'
-                            placeholder='검색어를 입력하세요.'
+                            placeholder='캠페인 이름을 입력하세요.'
                             value={field.value}
                             onChange={field.onChange}
                             className='!placeholder:text-middle !text-middle !border-black-300'
                           />
                         </FormControl>
-                        <Button type='submit' className='!m-0 hover:!bg-blue-500'>
+                        <CustomButton type='submit' styles='!mt-0'>
                           <Icon icon='ph:magnifying-glass-bold' className='text-[140%]' />
-                        </Button>
+                        </CustomButton>
                       </FormItem>
                     )
                   }

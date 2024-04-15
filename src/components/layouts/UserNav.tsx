@@ -7,13 +7,17 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authStore } from '@/src/entities';
 import { useSignOut } from '@/src/hooks';
-import { CustomButton } from '@/src/components';
+import { CustomButton, SvgIcon } from '@/src/components';
+import {
+  userLockOpenSvg, userLockSvg, userPlusSvg, userSvg
+} from '@/src/images';
 
 interface Props {
+  color?: 'black' | 'white';
   styles?: ClassNameValue;
 }
 
-export function UserNav({ styles, }: Props) {
+export function UserNav({ color = 'black', styles, }: Props) {
   const { session, removeSession, } = authStore();
 
   const qc = useQueryClient();
@@ -41,32 +45,48 @@ export function UserNav({ styles, }: Props) {
 
   const css = {
     default: twJoin([
-      `text-right mb-2`,
+      `flex flex-row gap-1 items-center`,
       styles,
     ]),
   };
 
   return (
     <>
-      <header className={css.default}>
-        {session ? (
-          <>
-            <Link href='/mypage'>
-              <CustomButton icon='mdi:user' styles='mr-3'>마이페이지</CustomButton>
-            </Link>
-            <CustomButton icon='mdi:user-lock-open' actions={onClickSignOut}>로그아웃</CustomButton>
-          </>
-        ) : (
-          <>
-            <Link href='/auth/signup'>
-              <CustomButton icon='mdi:user-plus' styles='mr-3'>회원가입</CustomButton>
-            </Link>
-            <Link href='/auth/signin'>
-              <CustomButton icon='mdi:user-lock'>로그인</CustomButton>
-            </Link>
-          </>
-        )}
-      </header>
+      <div className={css.default}>
+        <div className='flex-1 shrink-0 text-black-base text-middle font-900'>
+          {session && (
+            <span><strong>{session.name}</strong></span>
+          )}
+        </div>
+
+        <div className='text-right mb-2 flex flex-row gap-3'>
+          {session ? (
+            <>
+              <Link href='/mypage'>
+                <CustomButton color={color}>
+                  <SvgIcon icon={userSvg} styles='w-[20px]' /> 마이페이지
+                </CustomButton>
+              </Link>
+              <CustomButton color={color} actions={onClickSignOut}>
+                <SvgIcon icon={userLockOpenSvg} styles='w-[20px]' /> 로그아웃
+              </CustomButton>
+            </>
+          ) : (
+            <>
+              <Link href='/auth/signup'>
+                <CustomButton color={color}>
+                  <SvgIcon icon={userPlusSvg} styles='w-[20px]' /> 회원가입
+                </CustomButton>
+              </Link>
+              <Link href='/auth/signin'>
+                <CustomButton color={color}>
+                  <SvgIcon icon={userLockSvg} styles='w-[20px]' /> 로그인
+                </CustomButton>
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 }

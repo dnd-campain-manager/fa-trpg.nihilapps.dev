@@ -3,7 +3,12 @@ import { DataHash, Db } from '@/src/utils';
 import { CreateUserDto } from '@/src/entities';
 
 export async function GET() {
-  const users = await Db.users().findMany();
+  const users = await Db.users().findMany({
+    include: {
+      Master: true,
+      Pc: true,
+    },
+  });
 
   return NextResponse.json({
     data: users,
@@ -21,6 +26,10 @@ export async function POST(req: NextRequest) {
   const findUser = await Db.users().findFirst({
     where: {
       name,
+    },
+    include: {
+      Master: true,
+      Pc: true,
     },
   });
 

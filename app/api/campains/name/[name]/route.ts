@@ -12,6 +12,32 @@ export async function GET(_req: NextRequest, { params, }: Params) {
     where: {
       name: params.name,
     },
+    include: {
+      Session: {
+        include: {
+          Master: {
+            select: {
+              masterType: true,
+              User: true,
+            },
+          },
+        },
+      },
+      Master: {
+        select: {
+          masterType: true,
+          User: true,
+        },
+      },
+      Pc: {
+        include: {
+          User: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
   });
 
   if (!campains) {

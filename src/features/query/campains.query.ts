@@ -1,16 +1,18 @@
 import { Campain } from '@prisma/client';
 import { Api } from '@/src/utils';
-import { CreateCampainDto, UpdateCampainDto } from '@/src/entities';
+import { CreateCampainDto, ExtendedCampain, UpdateCampainDto } from '@/src/entities';
 
 export class CampainsQuery {
   static async getAll() {
-    const { data, } = await Api.get<Campain[]>('/campains');
+    const { data, } = await Api.get<ExtendedCampain[]>(
+      '/campains?page=1'
+    );
 
     return data;
   }
 
   static async getById(id: string) {
-    const { data, } = await Api.get<Campain>(
+    const { data, } = await Api.get<ExtendedCampain>(
       `/campains/${id}`
     );
 
@@ -18,7 +20,7 @@ export class CampainsQuery {
   }
 
   static async getByName(name: string) {
-    const { data, } = await Api.get<Campain[]>(
+    const { data, } = await Api.get<ExtendedCampain[]>(
       `/campains/name/${name}`
     );
 

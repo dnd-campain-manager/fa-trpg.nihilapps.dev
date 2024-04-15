@@ -13,6 +13,10 @@ export async function GET(_: NextRequest, { params, }: Params) {
     where: {
       id: params.id,
     },
+    include: {
+      Master: true,
+      Pc: true,
+    },
   });
 
   return NextResponse.json({

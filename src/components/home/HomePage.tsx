@@ -7,8 +7,8 @@ import Image from 'next/image';
 import {
   bookSvg, calendarSvg, logoWhite
 } from '@/src/images';
-import { Button } from '@/src/shadcn';
 import {
+  CustomButton,
   FooterBlock, SvgIcon, UserNav
 } from '@/src/components';
 
@@ -25,14 +25,11 @@ export function HomePage({ styles, }: Props) {
     image: twJoin([
       `w-screen h-screen absolute top-0 left-0`,
     ]),
-    button: twJoin([
-      `bg-white hover:bg-blue-500 hover:text-white text-black-base w-full !text-h5 !font-900 p-8`,
-    ]),
   };
 
   return (
     <>
-      <UserNav />
+      <UserNav color='white' />
 
       <div className={css.default}>
         <h1 className='select-none px-5'>
@@ -45,20 +42,24 @@ export function HomePage({ styles, }: Props) {
           />
         </h1>
         <Link href='/calendar' className='block w-full mo-md:max-w-[940px] text-center px-5'>
-          <Button size='sm' className={`${css.button} flex flex-row gap-1 items-center`}>
+          <CustomButton
+            full
+            color='white'
+            styles=''
+          >
             <SvgIcon icon={calendarSvg} styles='w-[25px]' /> 세션 일정
-          </Button>
+          </CustomButton>
         </Link>
-        <span className='block w-full mo-md:max-w-[940px] text-center px-5'>
-          <Button size='sm' className={`${css.button} flex flex-row gap-1 items-center`} disabled>
-            <SvgIcon icon={bookSvg} styles='w-[25px]' /> 센테라 위키(준비중)
-          </Button>
-        </span>
-        {/*<Link href='/docs' className='block w-full mo-sm:max-w-[700px] text-center'>*/}
-        {/*  <Button size='sm' className={`${css.button} flex flex-row gap-1 items-center`}>*/}
+        {/*<Link href='/docs' className='block w-full mo-md:max-w-[940px] text-center px-5'>*/}
+        {/*  <CustomButton full color='white'>*/}
         {/*    <SvgIcon icon={bookSvg} styles='w-[25px]' /> 센테라 위키(준비중)*/}
-        {/*  </Button>*/}
+        {/*  </CustomButton>*/}
         {/*</Link>*/}
+        <span className='block w-full mo-md:max-w-[940px] text-center px-5'>
+          <CustomButton full color='white' disabled>
+            <SvgIcon icon={bookSvg} styles='w-[25px]' /> 센테라 위키(준비중)
+          </CustomButton>
+        </span>
       </div>
 
       <FooterBlock styles='mo-sm:max-w-[700px]' />

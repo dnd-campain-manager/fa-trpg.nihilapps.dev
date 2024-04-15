@@ -1,16 +1,20 @@
 import { User } from '@prisma/client';
 import { Api } from '@/src/utils';
-import { CreateUserDto, UpdateUserDto } from '@/src/entities';
+import { CreateUserDto, ExtendedUser, UpdateUserDto } from '@/src/entities';
 
 export class UsersQuery {
   static async getAll() {
-    const { data, } = await Api.get<User[]>('/users');
+    const { data, } = await Api.get<ExtendedUser[]>(
+      '/users'
+    );
 
     return data;
   }
 
   static async getById(id: string) {
-    const { data, } = await Api.get<User>(`/users/${id}`);
+    const { data, } = await Api.get<ExtendedUser>(
+      `/users/${id}`
+    );
 
     return data;
   }

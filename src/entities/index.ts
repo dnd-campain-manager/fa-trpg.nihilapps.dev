@@ -13,7 +13,8 @@ export {
 
 export {
   type CreateUserDto,
-  type UpdateUserDto
+  type UpdateUserDto,
+  type ExtendedUser
 } from './users/users.types';
 
 export {
@@ -29,10 +30,19 @@ export { authStore } from './auth/auth.store';
 
 export {
   type CreateCampainDto,
-  type UpdateCampainDto
+  type UpdateCampainDto,
+  type ExtendedCampain,
+  type CustomMaster,
+  type ExtendedPc
 } from './campains/campains.types';
 
 export {
   type CreateSessionsDto,
-  type UpdateSessionDto
+  type UpdateSessionDto,
+  type ExtendedSession
 } from './sessions/sessions.types';
+
+export {
+  type createMasterDto,
+  type updateMasterDto
+} from './masters/masters.types';

@@ -2,8 +2,40 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Db } from '@/src/utils';
 import { CreateCampainDto } from '@/src/entities';
 
-export async function GET() {
-  const campains = await Db.campains().findMany();
+export async function GET(req: NextRequest) {
+  const { nextUrl, } = req;
+  const page = nextUrl.searchParams.get('page');
+
+  const campains = await Db.campains().findMany({
+    include: {
+      Session: {
+        include: {
+          Master: {
+            select: {
+              masterType: true,
+              User: true,
+            },
+          },
+        },
+      },
+      Master: {
+        select: {
+          masterType: true,
+          User: true,
+        },
+      },
+      Pc: {
+        include: {
+          User: true,
+        },
+      },
+    },
+    skip: page ? (+page - 1) * +page : 0,
+    take: 5,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 
   return NextResponse.json({
     data: campains,

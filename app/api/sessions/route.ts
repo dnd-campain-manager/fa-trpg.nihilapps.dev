@@ -3,7 +3,20 @@ import { Db } from '@/src/utils';
 import { CreateSessionsDto } from '@/src/entities';
 
 export async function GET() {
-  const sessions = await Db.sessions().findMany();
+  const sessions = await Db.sessions().findMany({
+    include: {
+      Master: {
+        select: {
+          masterType: true,
+          User: true,
+        },
+      },
+      Campain: true,
+    },
+    orderBy: {
+      number: 'desc',
+    },
+  });
 
   return NextResponse.json({
     data: sessions,
@@ -15,7 +28,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const {
-    campainId, masterId, number, name, startTime, endTime, exp, playersNumber, players, content, rewardUrl,
+    campainId, masterId, number, name, startTime, endTime, playersNumber, players, content, gameTime,
   }: CreateSessionsDto = await req.json();
 
   const newSession = await Db.sessions().create({
@@ -29,6 +42,7 @@ export async function POST(req: NextRequest) {
       playersNumber,
       content,
       players,
+      gameTime,
     },
   });
 
