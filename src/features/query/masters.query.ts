@@ -1,9 +1,9 @@
-import { createMasterDto, updateMasterDto } from '@/src/entities';
+import { CreateMasterDto, ExtendedMaster, UpdateMasterDto } from '@/src/entities';
 import { Api } from '@/src/utils';
 
 export class MastersQuery {
-  static async create(createMasterDto: createMasterDto) {
-    const { data, } = await Api.post(
+  static async create(createMasterDto: CreateMasterDto) {
+    const { data, } = await Api.post<ExtendedMaster, CreateMasterDto>(
       `/masters`,
       createMasterDto
     );
@@ -11,10 +11,18 @@ export class MastersQuery {
     return data;
   }
 
-  static async update(name: string, updateMasterDto: updateMasterDto) {
-    const { data, } = await Api.patch(
-      `/masters/name/${name}`,
+  static async update(id: string, updateMasterDto: UpdateMasterDto) {
+    const { data, } = await Api.patch<ExtendedMaster, UpdateMasterDto>(
+      `/masters/${id}`,
       updateMasterDto
+    );
+
+    return data;
+  }
+
+  static async delete(id: string) {
+    const { data, } = await Api.delete<ExtendedMaster>(
+      `/masters/${id}`
     );
 
     return data;

@@ -45,7 +45,7 @@ export function UserNav({ color = 'black', styles, }: Props) {
 
   const css = {
     default: twJoin([
-      `flex flex-row gap-1 items-center`,
+      `flex flex-row gap-1 items-center mb-2`,
       styles,
     ]),
   };
@@ -59,27 +59,27 @@ export function UserNav({ color = 'black', styles, }: Props) {
           )}
         </div>
 
-        <div className='text-right mb-2 flex flex-row gap-3'>
+        <div className='text-right flex flex-row gap-3'>
           {session ? (
             <>
               <Link href='/mypage'>
-                <CustomButton color={color}>
+                <CustomButton color={color} h36>
                   <SvgIcon icon={userSvg} styles='w-[20px]' /> 마이페이지
                 </CustomButton>
               </Link>
-              <CustomButton color={color} actions={onClickSignOut}>
+              <CustomButton color={color} h36 actions={onClickSignOut}>
                 <SvgIcon icon={userLockOpenSvg} styles='w-[20px]' /> 로그아웃
               </CustomButton>
             </>
           ) : (
             <>
               <Link href='/auth/signup'>
-                <CustomButton color={color}>
+                <CustomButton color={color} h36>
                   <SvgIcon icon={userPlusSvg} styles='w-[20px]' /> 회원가입
                 </CustomButton>
               </Link>
               <Link href='/auth/signin'>
-                <CustomButton color={color}>
+                <CustomButton color={color} h36>
                   <SvgIcon icon={userLockSvg} styles='w-[20px]' /> 로그인
                 </CustomButton>
               </Link>

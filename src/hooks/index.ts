@@ -27,3 +27,7 @@ export { useCreateSession } from './query/sessions/useCreateSession';
 export { useUpdateSession } from './query/sessions/useUpdateSession';
 export { useDeleteSession } from './query/sessions/useDeleteSession';
 export { useGetSessionByCampainId } from './query/sessions/useGetSessionByCampainId';
+
+export { useCreateMaster } from './query/masters/useCreateMaster';
+export { useUpdateMaster } from './query/masters/useUpdateMaster';
+export { useDeleteMaster } from './query/masters/useDeleteMaster';

@@ -13,8 +13,8 @@ interface Props {
 export function FooterBlock({ floating = false, styles, }: Props) {
   const css = {
     default: twJoin([
-      `text-center mt-10 w-full mo-md:max-w-[940px] px-5 mx-auto text-middle mb-5`,
-      floating && `absolute bottom-5 left-1/2 translate-x-[-50%]`,
+      `text-center mt-10 w-full mo-md:max-w-[940px] px-5 mx-auto text-middle`,
+      floating && `absolute bottom-0 left-1/2 translate-x-[-50%]`,
       styles,
     ]),
   };
@@ -50,6 +50,7 @@ export function FooterBlock({ floating = false, styles, }: Props) {
             </small>
           </CardContent>
         </Card>
+        <div className='h-5' />
       </footer>
     </>
   );

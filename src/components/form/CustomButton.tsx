@@ -11,17 +11,19 @@ interface Props {
   color?: 'white' | 'black';
   full?: boolean;
   actions?: any;
+  h36?: boolean;
   styles?: ClassNameValue;
 }
 
 export function CustomButton({
-  children, type = 'button', alter, disabled = false, color = 'black', full = false, actions, styles,
+  children, type = 'button', alter, disabled = false, color = 'black', full = false, actions, h36 = false, styles,
 }: Props) {
   const css = {
     default: twJoin([
       `text-middle flex flex-row gap-1 items-center justify-center border-2 font-500 hover:bg-blue-500 hover:border-blue-500 hover:text-white rounded-1 px-3 py-1 transition-colors duration-200`,
       color === 'black' && `bg-primary text-white border-primary`,
       color === 'white' && `bg-white text-black-base border-white`,
+      h36 && !full && `h-[36px]`,
       full && `w-full mo-md:max-w-[940px] px-5 mx-auto py-2 !text-h5 !font-700`,
       (alter && color === 'black') && `bg-white !text-black-base hover:!text-white`,
       (disabled && color === 'black') && `cursor-default opacity-40 !bg-primary !text-white !border-primary`,

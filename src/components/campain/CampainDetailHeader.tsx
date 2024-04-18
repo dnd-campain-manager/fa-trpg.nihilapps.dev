@@ -46,7 +46,7 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
   const isSubMaster = useMemo(
     () => {
       return subMaster.find((item) => (
-        item.User.id === session.id
+        item.User.id === session?.id
       ));
     },
     [ session, subMaster, ]
@@ -97,15 +97,15 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
         <div className='mb-5 flex flex-row gap-2 items-stretch justify-end'>
           {isEditable && (
             <>
-              <CustomButton>
+              <CustomButton h36>
                 <Icon icon='material-symbols:settings-rounded' />
               </CustomButton>
               <AddSubMasterButton campain={campain} />
             </>
           )}
-          <CustomButton>캐릭터 등록</CustomButton>
+          <CustomButton h36>캐릭터 등록</CustomButton>
           {isSessionCreatable && (
-            <CustomButton>세션 생성</CustomButton>
+            <CustomButton h36>세션 생성</CustomButton>
           )}
         </div>
       )}

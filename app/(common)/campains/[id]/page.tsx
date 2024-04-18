@@ -1,7 +1,7 @@
 import React from 'react';
 import { setMeta } from '@/src/utils';
 import { CampainsQuery } from '@/src/features';
-import { CampainDetailContent, CampainDetailHeader } from '@/src/components';
+import { CampainDetail } from '@/src/components';
 
 interface Props {
   params: {
@@ -24,13 +24,8 @@ export async function generateMetadata({ params, }: Params) {
   });
 }
 
-export default async function CampainDetailPage({ params, }: Props) {
-  const { data: campain, } = await CampainsQuery.getById(params.id);
-
+export default function CampainDetailPage({ params, }: Props) {
   return (
-    <>
-      <CampainDetailHeader campain={campain} />
-      <CampainDetailContent campain={campain} />
-    </>
+    <CampainDetail campainId={params.id} />
   );
 }

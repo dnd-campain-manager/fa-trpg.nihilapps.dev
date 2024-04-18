@@ -43,6 +43,7 @@ export {
 } from './sessions/sessions.types';
 
 export {
-  type createMasterDto,
-  type updateMasterDto
+  type CreateMasterDto,
+  type UpdateMasterDto,
+  type ExtendedMaster
 } from './masters/masters.types';

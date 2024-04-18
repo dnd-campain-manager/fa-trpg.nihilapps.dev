@@ -4,3 +4,4 @@ export { UsersQuery } from './query/users.query';
 export { AuthQuery } from './query/auth.query';
 export { CampainsQuery } from './query/campains.query';
 export { SessionsQuery } from './query/sessions.query';
+export { MastersQuery } from './query/masters.query';
