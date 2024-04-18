@@ -8,8 +8,9 @@
     @apply p-0 m-0 box-border font-sans
   }
 
-  .home-body {
-    @apply relative isolate after:absolute after:bg-white after:z-[-1] after:inset-0 after:opacity-60
+  .a11y-hidden {
+    @apply absolute w-[1px] h-[1px] m-[-1px] overflow-hidden;
+    clip-path: polygon(0 0, 0 0, 0 0);
   }
 }
 

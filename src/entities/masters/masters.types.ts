@@ -1,7 +1,7 @@
 import { MasterType } from '@prisma/client';
 
 export interface createMasterDto {
-  name: string;
+  userId: string;
   campainId: string;
 }
 

@@ -14,17 +14,11 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { name, campainId, }: createMasterDto = await req.json();
-
-  const user = await Db.users().findFirst({
-    where: {
-      name,
-    },
-  });
+  const { userId, campainId, }: createMasterDto = await req.json();
 
   const newMaster = await Db.masters().create({
     data: {
-      userId: user.id,
+      userId,
       campainId,
       masterType: 'subMaster',
     },

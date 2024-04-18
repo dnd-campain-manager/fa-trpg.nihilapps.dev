@@ -6,13 +6,15 @@ import { Icon } from '@iconify/react';
 import { Card, CardContent } from '@/src/shadcn';
 
 interface Props {
+  floating?: boolean;
   styles?: ClassNameValue;
 }
 
-export function FooterBlock({ styles, }: Props) {
+export function FooterBlock({ floating = false, styles, }: Props) {
   const css = {
     default: twJoin([
-      `z-[2] bottom-5 text-center left-1/2 translate-x-[-50%] text-black-base text-[1.2rem] w-full mo-sm:max-w-[940px] px-5 font-500 fixed`,
+      `text-center mt-10 w-full mo-md:max-w-[940px] px-5 mx-auto text-middle mb-5`,
+      floating && `absolute bottom-5 left-1/2 translate-x-[-50%]`,
       styles,
     ]),
   };

@@ -9,9 +9,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useRouter } from 'next/navigation';
 import {
-  Button, Card, CardContent, Form, FormControl, FormField, FormItem, Input
+  Card, CardContent, Form, FormField, FormItem
 } from '@/src/shadcn';
-import { CustomButton } from '@/src/components';
+import { CustomButton, CustomFormItem, CustomInput } from '@/src/components';
 
 interface Props {
   styles?: ClassNameValue;
@@ -61,28 +61,21 @@ export function CampainSearch({ styles, }: Props) {
           <CardContent className='!p-2'>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onClickSearch)}>
-                <FormField
-                  control={form.control}
-                  render={
-                    ({ field, }) => (
-                      <FormItem className='flex flex-row gap-1 items-stretch'>
-                        <FormControl>
-                          <Input
-                            type='text'
-                            placeholder='캠페인 이름을 입력하세요.'
-                            value={field.value}
-                            onChange={field.onChange}
-                            className='!placeholder:text-middle !text-middle !border-black-300'
-                          />
-                        </FormControl>
-                        <CustomButton type='submit' styles='!mt-0'>
-                          <Icon icon='ph:magnifying-glass-bold' className='text-[140%]' />
-                        </CustomButton>
-                      </FormItem>
-                    )
-                  }
-                  name='search'
-                />
+                <div className='flex flex-row gap-2'>
+                  <CustomFormItem
+                    name='search'
+                    itemName='search'
+                    type='text'
+                    placeholder='캠페인 이름을 입력하세요.'
+                    form={form}
+                    validate={false}
+                    singleInput
+                    styles='flex-1 shrink-0'
+                  />
+                  <CustomButton type='submit' styles='!mt-0'>
+                    <Icon icon='ph:magnifying-glass-bold' className='text-[140%]' />
+                  </CustomButton>
+                </div>
               </form>
             </Form>
           </CardContent>

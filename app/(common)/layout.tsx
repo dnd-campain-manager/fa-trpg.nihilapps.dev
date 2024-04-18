@@ -16,8 +16,9 @@ export default function CommonLayout({ children, }: Props) {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
+          backgroundAttachment: 'fixed',
         }}
-        className='w-screen h-screen relative isolate after:absolute after:bg-white after:z-[-1] after:inset-0 after:opacity-60'
+        className='w-screen h-screen relative isolate after:fixed after:bg-white after:z-[-1] after:inset-0 after:opacity-60'
       >
         <LayoutProviders>
           <DefaultPage>

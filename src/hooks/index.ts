@@ -26,3 +26,4 @@ export { useGetSessionByName } from './query/sessions/useGetSessionByName';
 export { useCreateSession } from './query/sessions/useCreateSession';
 export { useUpdateSession } from './query/sessions/useUpdateSession';
 export { useDeleteSession } from './query/sessions/useDeleteSession';
+export { useGetSessionByCampainId } from './query/sessions/useGetSessionByCampainId';

@@ -19,6 +19,14 @@ export class SessionsQuery {
     return data;
   }
 
+  static async getByCampainId(campainId: string) {
+    const { data, } = await Api.get<ExtendedSession[]>(
+      `/sessions/campain/${campainId}`
+    );
+
+    return data;
+  }
+
   static async getByName(name: string) {
     const { data, } = await Api.get<ExtendedSession[]>(
       `/sessions/name/${name}`

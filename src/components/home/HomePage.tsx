@@ -42,11 +42,7 @@ export function HomePage({ styles, }: Props) {
           />
         </h1>
         <Link href='/calendar' className='block w-full mo-md:max-w-[940px] text-center px-5'>
-          <CustomButton
-            full
-            color='white'
-            styles=''
-          >
+          <CustomButton full color='white'>
             <SvgIcon icon={calendarSvg} styles='w-[25px]' /> 세션 일정
           </CustomButton>
         </Link>
@@ -62,7 +58,7 @@ export function HomePage({ styles, }: Props) {
         </span>
       </div>
 
-      <FooterBlock styles='mo-sm:max-w-[700px]' />
+      <FooterBlock floating />
     </>
   );
 }

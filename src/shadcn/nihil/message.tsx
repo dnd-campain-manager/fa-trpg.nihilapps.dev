@@ -17,7 +17,7 @@ export function Message({
 }: Props) {
   const css = {
     default: twJoin([
-      `italic font-700 text-black-base inline-block text-small`,
+      `italic font-700 text-black-base inline-block text-small !mt-1`,
       styles,
     ]),
   };

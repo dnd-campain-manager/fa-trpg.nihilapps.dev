@@ -9,15 +9,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCreateCampain, useGetCampains } from '@/src/hooks';
 import {
   CampainItem,
-  CampainSearch, CustomButton, CustomForm, CustomInput, CustomLabel, LoadingCircle
+  CampainSearch, CustomButton, CustomForm, CustomFormItem, LoadingCircle
 } from '@/src/components';
 import {
-  Button,
   Card,
-  FormControl,
-  FormField,
-  FormItem,
-  Message,
   Sheet,
   SheetContent,
   SheetDescription,
@@ -25,7 +20,6 @@ import {
   SheetTitle
 } from '@/src/shadcn';
 import { authStore } from '@/src/entities';
-import { campainsKeys } from '@/src/data';
 
 interface Props {
   styles?: ClassNameValue;
@@ -55,8 +49,6 @@ export function CampainList({ styles, }: Props) {
     },
   });
 
-  const { formState: { errors, }, } = form;
-
   const {
     data: campains,
     isLoading,
@@ -75,18 +67,14 @@ export function CampainList({ styles, }: Props) {
 
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
-      console.log('data >> ', data);
-
       createCampain.mutate({
         userId: session.id,
         name: data.name,
-        status: 'open',
+        status: 'ready',
         url: data.url,
       }, {
         onSuccess() {
-          qc.invalidateQueries({
-            queryKey: campainsKeys.getAll,
-          });
+          qc.invalidateQueries();
 
           setSheetOpen(false);
         },
@@ -138,39 +126,23 @@ export function CampainList({ styles, }: Props) {
 
           <CustomForm form={form}>
             <form onSubmit={form.handleSubmit(onSubmitForm)}>
-              <FormField
-                control={form.control}
-                render={({ field, }) => (
-                  <FormItem className='mb-3'>
-                    <CustomLabel>캠페인 이름</CustomLabel>
-                    <FormControl>
-                      <CustomInput
-                        type='text'
-                        field={field}
-                      />
-                    </FormControl>
-                    {errors.name && (
-                      <Message color='red'>{errors.name?.message}</Message>
-                    )}
-                  </FormItem>
-                )}
+              <CustomFormItem
                 name='name'
+                itemName='name'
+                type='text'
+                label='캠페인 이름'
+                form={form}
+                styles='mb-3'
               />
 
-              <FormField
-                control={form.control}
-                render={({ field, }) => (
-                  <FormItem className='mb-3'>
-                    <CustomLabel>카페글 주소</CustomLabel>
-                    <FormControl>
-                      <CustomInput
-                        type='text'
-                        field={field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
+              <CustomFormItem
                 name='url'
+                itemName='url'
+                label='카페글 주소'
+                type='text'
+                validate={false}
+                form={form}
+                styles='mb-3'
               />
 
               <div>
@@ -183,7 +155,7 @@ export function CampainList({ styles, }: Props) {
         </SheetContent>
       </Sheet>
 
-      <div className='mt-5'>
+      <div className='mt-5 flex flex-col gap-5'>
         {campains.data.length === 0 && (
           <h3 className='py-20 text-center text-h3 font-900 text-black-base my-20 select-none'>
             캠페인이 없습니다.

@@ -2,17 +2,18 @@
 
 import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { object, string } from 'yup';
+import {
+  array, object, string
+} from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import {
-  Form, FormControl, FormField, FormItem, Input, Message,
-  Card, CardContent, CardDescription, CardHeader
+  Form, Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
-import { CustomButton, CustomLabel } from '@/src/components';
+import { CustomButton, CustomFormItem } from '@/src/components';
 import { authStore } from '@/src/entities';
 import { useSignIn } from '@/src/hooks';
 
@@ -23,9 +24,14 @@ interface Props {
 interface Inputs {
   name: string;
   password: string;
+  isNameSave: string[];
 }
 
 export function SignInForm({ styles, }: Props) {
+  const {
+    session, updateSession, enableSaveName, disableSaveName, isNameSave, savedName,
+  } = authStore();
+
   const formModel = object({
     name: string().required('아이디를 입력해주세요.'),
     password: string()
@@ -35,23 +41,23 @@ export function SignInForm({ styles, }: Props) {
       .matches(/(?=.*\d)(?=.*[a-zA-Z])/, {
         message: '비밀번호는 숫자와 영문자를 조합해야 합니다.',
       }),
+    isNameSave: array()
+      .of(string())
+      .optional(),
   });
 
   const form = useForm({
     mode: 'all',
     resolver: yupResolver(formModel),
     defaultValues: {
-      name: '',
+      name: isNameSave ? savedName : '',
       password: '',
+      isNameSave: isNameSave ? [ 'yes', ] : [],
     },
   });
 
-  const { formState: { errors, }, } = form;
-
   const qc = useQueryClient();
   const signIn = useSignIn();
-
-  const { session, updateSession, } = authStore();
 
   const router = useRouter();
 
@@ -64,9 +70,15 @@ export function SignInForm({ styles, }: Props) {
         onSuccess(res) {
           qc.invalidateQueries();
 
-          const { data, } = res;
+          if (data.isNameSave.includes('yes')) {
+            enableSaveName(data.name);
+          } else {
+            disableSaveName();
+          }
 
-          updateSession(data);
+          const { data: uSession, } = res;
+
+          updateSession(uSession);
 
           router.push('/calendar');
         },
@@ -99,49 +111,32 @@ export function SignInForm({ styles, }: Props) {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmitForm)} className={css.default}>
-              <FormField
-                control={form.control}
-                render={({ field, }) => (
-                  <FormItem>
-                    <CustomLabel target='name'>이름</CustomLabel>
-                    <FormControl>
-                      <Input
-                        id='name'
-                        type='text'
-                        value={field.value}
-                        onChange={field.onChange}
-                        className={css.input}
-                      />
-                    </FormControl>
-                    {errors.name && (
-                      <Message color='red'>{errors.name.message}</Message>
-                    )}
-                  </FormItem>
-                )}
+              <CustomFormItem
                 name='name'
+                itemName='name'
+                type='text'
+                label='이름'
+                form={form}
               />
 
-              <FormField
-                control={form.control}
-                render={({ field, }) => (
-                  <FormItem>
-                    <CustomLabel target='password'>비밀번호</CustomLabel>
-                    <FormControl>
-                      <Input
-                        id='password'
-                        type='password'
-                        autoComplete='off'
-                        value={field.value}
-                        onChange={field.onChange}
-                        className={css.input}
-                      />
-                    </FormControl>
-                    {errors.password && (
-                      <Message color='red'>{errors.password.message}</Message>
-                    )}
-                  </FormItem>
-                )}
+              <CustomFormItem
                 name='password'
+                itemName='password'
+                type='password'
+                label='비밀번호'
+                form={form}
+              />
+
+              <div className='bg-black-200 h-[2px]' />
+
+              <CustomFormItem
+                name='isNameSave'
+                itemName='isNameSave'
+                mode='checkbox'
+                code='yes'
+                codeLabel='이름 저장'
+                validate={false}
+                form={form}
               />
 
               <div className='mt-10'>

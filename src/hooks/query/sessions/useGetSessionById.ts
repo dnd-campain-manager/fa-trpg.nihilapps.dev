@@ -6,6 +6,7 @@ export function useGetSessionById(id: string) {
   const query = useQuery({
     queryKey: sessionsKeys.getById(id),
     queryFn: () => SessionsQuery.getById(id),
+    enabled: !!id,
   });
 
   return query;

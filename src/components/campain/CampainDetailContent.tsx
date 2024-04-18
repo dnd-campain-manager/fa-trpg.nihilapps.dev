@@ -12,8 +12,6 @@ interface Props {
 }
 
 export function CampainDetailContent({ campain, styles, }: Props) {
-  console.log(campain);
-
   const css = {
     default: twJoin([
       ``,

@@ -11,20 +11,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  Input,
-  Message, RadioGroup, RadioGroupItem,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
 
-import { CustomButton, CustomFormItem, CustomLabel } from '@/src/components';
+import { CustomButton, CustomFormItem } from '@/src/components';
 import { useSignUp } from '@/src/hooks';
 
 interface Props {
@@ -49,8 +39,8 @@ export function SignUpForm({ styles, }: Props) {
       .matches(/(?=.*\d)(?=.*[a-zA-Z])/, {
         message: '비밀번호는 숫자와 영문자를 조합해야 합니다.',
       }),
-    userRole: string().optional(),
     userType: string().optional(),
+    userRole: string().optional(),
   });
 
   const form = useForm({
@@ -63,8 +53,6 @@ export function SignUpForm({ styles, }: Props) {
       userType: 'player',
     },
   });
-
-  const { formState: { errors, }, } = form;
 
   const qc = useQueryClient();
   const signUp = useSignUp();
@@ -110,105 +98,44 @@ export function SignUpForm({ styles, }: Props) {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmitForm)} className={css.default}>
-              <FormField
-                control={form.control}
-                render={
-                  ({ field, }) => (
-                    <FormItem>
-                      <CustomFormItem
-                        name='name'
-                        type='text'
-                        label='이름'
-                        field={field}
-                        form={form}
-                      />
-                    </FormItem>
-                  )
-                }
+              <CustomFormItem
                 name='name'
+                itemName='name'
+                type='text'
+                label='이름'
+                form={form}
               />
-              <FormField
-                control={form.control}
-                render={
-                  ({ field, }) => (
-                    <FormItem>
-                      <CustomFormItem
-                        name='password'
-                        type='password'
-                        code='test1,test2,test3'
-                        label='비밀번호'
-                        field={field}
-                        form={form}
-                      />
-                    </FormItem>
-                  )
-                }
+
+              <CustomFormItem
                 name='password'
+                itemName='password'
+                type='password'
+                label='비밀번호'
+                form={form}
               />
-              <FormField
-                control={form.control}
-                render={
-                  ({ field, }) => (
-                    <FormItem className='!text-middle [&_span]:!text-middle'>
-                      {/*<CustomLabel target='role'>권한</CustomLabel>*/}
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        disabled
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder='일반회원'
-                              id='role'
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value='admin' className='!text-middle'>관리자</SelectItem>
-                          <SelectItem value='normal' className='!text-middle'>일반회원</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )
-                }
+
+              <CustomFormItem
                 name='userRole'
+                itemName='userRole'
+                label='권한'
+                mode='select'
+                validate={false}
+                code='admin,normal'
+                codeLabel='관리자,일반회원'
+                disabled
+                form={form}
               />
-              <FormField
-                control={form.control}
-                render={
-                  ({ field, }) => (
-                    <FormItem className='!text-middle [&_span]:!text-middle'>
-                      content
-                      {/*<CustomLabel styles='!font-900'>*/}
-                      {/*  설정자로 가입하시겠습니까?*/}
-                      {/*</CustomLabel>*/}
-                      {/*<RadioGroup*/}
-                      {/*  defaultValue={field.value}*/}
-                      {/*  onValueChange={field.onChange}*/}
-                      {/*  className=''*/}
-                      {/*>*/}
-                      {/*  <FormItem className='flex flex-row gap-2 items-center'>*/}
-                      {/*    <FormControl>*/}
-                      {/*      <RadioGroupItem id='type-player' value='player' />*/}
-                      {/*    </FormControl>*/}
-                      {/*    <CustomLabel target='type-player'>*/}
-                      {/*      일반 회원으로 가입합니다.*/}
-                      {/*    </CustomLabel>*/}
-                      {/*  </FormItem>*/}
-                      {/*  <FormItem className='flex flex-row gap-2 items-center'>*/}
-                      {/*    <FormControl>*/}
-                      {/*      <RadioGroupItem id='type-creator' value='creator' />*/}
-                      {/*    </FormControl>*/}
-                      {/*    <CustomLabel target='type-creator'>*/}
-                      {/*      설정자로 가입합니다.*/}
-                      {/*    </CustomLabel>*/}
-                      {/*  </FormItem>*/}
-                      {/*</RadioGroup>*/}
-                    </FormItem>
-                  )
-                }
+
+              <CustomFormItem
                 name='userType'
+                itemName='userType'
+                mode='radio'
+                label='설정자로 가입하시겠습니까?'
+                code='player,creator'
+                codeLabel={'일반회원으로 가입합니다.,'
+                  + '설정자로 가입합니다.'}
+                validate={false}
+                form={form}
               />
 
               <CustomButton type='submit' full>회원가입</CustomButton>

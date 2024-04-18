@@ -14,7 +14,7 @@ export async function GET() {
     data: users,
     message: 'ok',
   }, {
-    status: 409,
+    status: 200,
   });
 }
 

@@ -12,5 +12,6 @@ export const campainsKeys = {
 export const sessionsKeys = {
   getAll: [ 'getSessions', ],
   getById: (id: string) => [ 'getSessionById', id, ],
+  getByCampainId: (campainId: string) => [ 'getSessionByCampainId', campainId, ],
   getByName: (name: string) => [ 'getSessionById', name, ],
 };
