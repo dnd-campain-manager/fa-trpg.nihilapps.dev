@@ -9,7 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCreateCampain, useGetCampains } from '@/src/hooks';
 import {
   CampainItem,
-  CampainSearch, CustomButton, CustomForm, CustomFormItem, LoadingCircle
+  CampainSearch, CustomButton, CustomForm, CustomFormItem, LoadingCircle, PageTitle
 } from '@/src/components';
 import {
   Card,
@@ -99,9 +99,9 @@ export function CampainList({ styles, }: Props) {
 
   return (
     <>
-      <Card className={css.title}>
-        <h2>캠페인 목록</h2>
-      </Card>
+      <PageTitle icon='mdi:archive'>
+        캠페인 목록
+      </PageTitle>
 
       <CampainSearch styles='mt-5 mb-2' />
 

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import { UserSession } from '@/src/entities';
 
 interface AuthState {
@@ -15,36 +15,34 @@ interface AuthState {
 }
 
 export const authStore = create(
-  persist(
-    devtools<AuthState>(
-      (set) => ({
-        session: null,
-        isNameSave: false,
-        savedName: '',
-        updateSession(session: UserSession) {
-          set((state) => ({
-            session: { ...state.session, ...session, },
-          }));
-        },
-        removeSession() {
-          set(() => ({
-            session: null,
-          }));
-        },
-        enableSaveName(name: string) {
-          set(() => ({
-            isNameSave: true,
-            savedName: name,
-          }));
-        },
-        disableSaveName() {
-          set(() => ({
-            isNameSave: false,
-            savedName: '',
-          }));
-        },
-      })
-    ),
+  persist<AuthState>(
+    (set) => ({
+      session: null,
+      isNameSave: false,
+      savedName: '',
+      updateSession(session: UserSession) {
+        set((state) => ({
+          session: { ...state.session, ...session, },
+        }));
+      },
+      removeSession() {
+        set(() => ({
+          session: null,
+        }));
+      },
+      enableSaveName(name: string) {
+        set(() => ({
+          isNameSave: true,
+          savedName: name,
+        }));
+      },
+      disableSaveName() {
+        set(() => ({
+          isNameSave: false,
+          savedName: '',
+        }));
+      },
+    }),
     {
       name: 'fa/auth-state',
       storage: createJSONStorage(() => localStorage),

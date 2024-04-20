@@ -74,10 +74,10 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
       styles,
     ]),
     status: twJoin([
-      `rounded-2 p-1 px-2 text-middle inline-flex items-center justify-center font-900 border border-white`,
-      campain.status === 'ready' && ``,
+      `rounded-2 p-1 px-4 text-middle inline-flex items-center justify-center font-900 border border-white`,
+      campain.status === 'ready' && `bg-black-400 text-white`,
       campain.status === 'open' && `bg-green-500 text-white`,
-      campain.status === 'close' && ``,
+      campain.status === 'close' && `bg-red-500 text-white`,
     ]),
     itemName: twJoin([
       `inline-block rounded-1 p-1 px-2 mr-2 bg-blue-200 text-black-base font-500`,
@@ -87,7 +87,12 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
   return (
     <>
       <div className='flex flex-row items-stretch gap-2 mt-10 mb-2'>
-        <PageTitle styles='mb-0 mt-0 flex-1 shrink-0'>{campain.name}</PageTitle>
+        <PageTitle
+          icon='mdi:archive'
+          styles='!mb-0 mt-0 flex-1 shrink-0'
+        >
+          캠페인: {campain.name}
+        </PageTitle>
         <span className={css.status}>
           {status}
         </span>

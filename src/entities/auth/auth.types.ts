@@ -1,4 +1,5 @@
-import { User, UserRole } from '@prisma/client';
+import { UserRole } from '@prisma/client';
+import { ExtendedUser } from '@/src/entities';
 
 export interface SignInDto {
   name: string;
@@ -36,7 +37,7 @@ export interface ResetPasswordDto {
   newPassword: string;
 }
 
-export interface UserSession extends User {
+export interface UserSession extends ExtendedUser {
   signInId: string;
   accessToken: string;
   refreshToken: string;

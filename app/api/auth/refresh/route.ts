@@ -28,6 +28,10 @@ export async function POST(req: NextRequest) {
     where: {
       id: userId,
     },
+    include: {
+      Master: true,
+      Pc: true,
+    },
   });
 
   if (refreshTokenInfo.id !== userId) {

@@ -5,6 +5,7 @@ import { ClassNameValue, twJoin } from 'tailwind-merge';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQueryClient } from '@tanstack/react-query';
+import { usePathname } from 'next/navigation';
 import {
   Jwt, Nihil
 } from '@/src/utils';
@@ -19,6 +20,7 @@ interface Props {
 export function LogoBlock({ styles, }: Props) {
   const { session, updateSession, } = authStore();
 
+  const pathname = usePathname();
   const qc = useQueryClient();
   const tokenRefresh = useTokenRefresh();
 
@@ -47,7 +49,7 @@ export function LogoBlock({ styles, }: Props) {
         });
       }
     }
-  }, [ session, ]);
+  }, [ session, pathname, ]);
 
   const css = {
     default: twJoin([

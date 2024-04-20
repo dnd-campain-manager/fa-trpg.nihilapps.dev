@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 type CommonState = {
   darkMode: boolean;
@@ -7,13 +7,11 @@ type CommonState = {
 };
 
 export const commonStore = create(
-  persist(
-    devtools<CommonState>(
-      () => ({
-        darkMode: false,
-        mainColor: '',
-      })
-    ),
+  persist<CommonState>(
+    () => ({
+      darkMode: false,
+      mainColor: '',
+    }),
     {
       name: 'fa/common-state',
       storage: createJSONStorage(() => localStorage),

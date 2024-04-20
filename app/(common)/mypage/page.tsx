@@ -1,5 +1,6 @@
 import React from 'react';
 import { setMeta } from '@/src/utils';
+import { MyPage } from '@/src/components';
 
 interface Props {
   //
@@ -10,10 +11,8 @@ export const metadata = setMeta({
   url: '/mypage',
 });
 
-export default function MyPage() {
+export default function UserMyPage() {
   return (
-    <>
-      <div>content</div>
-    </>
+    <MyPage />
   );
 }

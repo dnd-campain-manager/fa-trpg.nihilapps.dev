@@ -31,7 +31,6 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
 
   const {
     data: users,
-    refetch: usersRefetch,
     isLoading,
     isFetching,
   } = useGetUsers();
@@ -52,8 +51,6 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
     },
     [ users, ]
   );
-
-  console.log(usersArray);
 
   const formModel = object({
     userId: string()
@@ -100,7 +97,6 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
       }, {
         onSuccess({ data: master, }) {
           qc.invalidateQueries({
-            type: 'all',
             queryKey: [ 'getCampainById', campain.id, ],
           });
 

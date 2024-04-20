@@ -12,6 +12,10 @@ export async function POST(req: NextRequest) {
     where: {
       name,
     },
+    include: {
+      Master: true,
+      Pc: true,
+    },
   });
 
   if (!findUser.name) {

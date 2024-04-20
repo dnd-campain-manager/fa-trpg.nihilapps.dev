@@ -1,7 +1,7 @@
 import React from 'react';
 import { setMeta } from '@/src/utils';
 import { CampainsQuery } from '@/src/features';
-import { CampainDetailHeader } from '@/src/components';
+import { CampainSessionList } from '@/src/components';
 
 interface Props {
   params: {
@@ -25,11 +25,7 @@ export async function generateMetadata({ params, }: Params) {
 }
 
 export default async function SessionListPage({ params, }: Props) {
-  const { data: campain, } = await CampainsQuery.getById(params.id);
-
   return (
-    <>
-      <CampainDetailHeader campain={campain} />
-    </>
+    <CampainSessionList campainId={params.id} />
   );
 }
