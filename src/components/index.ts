@@ -20,6 +20,8 @@ export { AuthHeader } from './auth/AuthHeader';
 export { MyPage } from './mypage/MyPage';
 export { PasswordChangeButton } from './mypage/PasswordChangeButton';
 export { ChangePersonalDataButton } from './mypage/ChangePersonalDataButton';
+export { MyMasterList } from './mypage/MyMasterList';
+export { MasterItem } from './mypage/MasterItem';
 
 export { SessionCalendar } from './calendar/SessionCalendar';
 

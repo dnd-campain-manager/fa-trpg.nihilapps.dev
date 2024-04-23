@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authStore } from '@/src/entities';
 import { useGetUserById, useSignOut } from '@/src/hooks';
-import { CustomButton, SvgIcon } from '@/src/components';
+import { CustomButton, LoadingCircle, SvgIcon } from '@/src/components';
 import {
   userLockOpenSvg, userLockSvg, userPlusSvg, userSvg
 } from '@/src/images';
@@ -20,22 +20,11 @@ interface Props {
 export function UserNav({ color = 'black', styles, }: Props) {
   const { session, removeSession, } = authStore();
 
-  const user = useGetUserById(session.userId);
-
-  const userData = useMemo(
-    () => {
-      if (user.isLoading || user.isFetching) {
-        return null;
-      }
-
-      const {
-        data,
-      } = user.data;
-
-      return data;
-    },
-    [ user.isLoading, user.isFetching, ]
-  );
+  const {
+    data: userData,
+    isLoading,
+    isFetching,
+  } = useGetUserById(session?.userId);
 
   const qc = useQueryClient();
   const signOut = useSignOut();
@@ -67,12 +56,18 @@ export function UserNav({ color = 'black', styles, }: Props) {
     ]),
   };
 
+  if (isLoading || isFetching) {
+    return <LoadingCircle />;
+  }
+
   return (
     <>
       <div className={css.default}>
-        <div className='flex-1 shrink-0 text-black-base text-middle font-900'>
+        <div className='flex-1 shrink-0 text-black-base text-middle'>
           {session && (
-            <span><strong>{userData.name}</strong></span>
+            <span className='inline-block p-1 px-2 rounded-1 bg-white'>
+              <strong className='font-900'>{userData?.data.name}</strong>님 환영합니다.
+            </span>
           )}
         </div>
 

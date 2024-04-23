@@ -11,15 +11,20 @@ export function useUser(userId: string) {
   const userData = useMemo(
     () => {
       if (isLoading || isFetching) {
-        return null;
+        return {
+          name: '',
+          email: '',
+        };
       }
 
-      const { data, } = user;
-
-      return data;
+      return user?.data;
     },
-    [ isLoading, isFetching, ]
+    [ user, isLoading, isFetching, ]
   );
 
-  return userData;
+  return {
+    userData,
+    isLoading,
+    isFetching,
+  };
 }

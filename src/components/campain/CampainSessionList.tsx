@@ -3,7 +3,7 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { useGetCampainById } from '@/src/hooks';
-import { CampainDetailHeader, LoadingCircle } from '@/src/components';
+import { CampainDetailHeader, LoadingCircle, PageTitle } from '@/src/components';
 
 interface Props {
   campainId: string;
@@ -31,6 +31,10 @@ export function CampainSessionList({ campainId, styles, }: Props) {
   return (
     <>
       <CampainDetailHeader campain={campain?.data} />
+
+      <PageTitle styles='mt-5'>
+        세션 목록
+      </PageTitle>
     </>
   );
 }

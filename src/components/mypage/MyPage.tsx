@@ -4,9 +4,9 @@ import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { authStore } from '@/src/entities';
 import {
-  ChangePersonalDataButton, PageTitle, PasswordChangeButton
+  ChangePersonalDataButton, LoadingCircle, MyMasterList, PageTitle, PasswordChangeButton
 } from '@/src/components';
-import { useUser } from '@/src/hooks';
+import { useGetUserById } from '@/src/hooks';
 
 interface Props {
   styles?: ClassNameValue;
@@ -15,9 +15,11 @@ interface Props {
 export function MyPage({ styles, }: Props) {
   const { session, } = authStore();
 
-  const userData = useUser(session.userId);
-
-  console.log('userData >> ', userData);
+  const {
+    data: userData,
+    isLoading,
+    isFetching,
+  } = useGetUserById(session?.userId);
 
   const css = {
     default: twJoin([
@@ -25,6 +27,10 @@ export function MyPage({ styles, }: Props) {
       styles,
     ]),
   };
+
+  if (isLoading || isFetching) {
+    return <LoadingCircle />;
+  }
 
   return (
     <>
@@ -34,9 +40,11 @@ export function MyPage({ styles, }: Props) {
         </PageTitle>
 
         <div className='flex flex-row gap-2'>
-          <ChangePersonalDataButton />
+          <ChangePersonalDataButton userData={userData?.data} />
           <PasswordChangeButton />
         </div>
+
+        <MyMasterList userData={userData?.data} />
       </div>
     </>
   );

@@ -1,11 +1,20 @@
 import {
-  Master,
-  Pc, User, UserRole, UserType
+  Campain,
+  Master, Pc, Session, User, UserRole, UserType
 } from '@prisma/client';
 
+export interface ExtendedUserMaster extends Master {
+  Session: Session[];
+  Campain: Campain;
+}
+
+export interface ExtendedUserPc extends Pc {
+  Campain: Campain;
+}
+
 export interface ExtendedUser extends User {
-  Master: Master[];
-  Pc: Pc[];
+  Master: ExtendedUserMaster[];
+  Pc: ExtendedUserPc[];
 }
 
 export interface CreateUserDto {

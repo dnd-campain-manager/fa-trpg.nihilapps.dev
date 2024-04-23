@@ -5,8 +5,17 @@ import { CreateUserDto } from '@/src/entities';
 export async function GET() {
   const users = await Db.users().findMany({
     include: {
-      Master: true,
-      Pc: true,
+      Master: {
+        include: {
+          Session: true,
+          Campain: true,
+        },
+      },
+      Pc: {
+        include: {
+          Campain: true,
+        },
+      },
     },
   });
 
@@ -28,8 +37,17 @@ export async function POST(req: NextRequest) {
       name,
     },
     include: {
-      Master: true,
-      Pc: true,
+      Master: {
+        include: {
+          Session: true,
+          Campain: true,
+        },
+      },
+      Pc: {
+        include: {
+          Campain: true,
+        },
+      },
     },
   });
 

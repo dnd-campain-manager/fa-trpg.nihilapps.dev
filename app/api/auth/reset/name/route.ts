@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  if (findUser) {
+  if (findUser && findUser.id !== userId) {
     return NextResponse.json({
       data: null,
       message: '이미 존재하는 이름입니다. 다른 이름을 입력해주세요.',

@@ -8,16 +8,19 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import {
-  CustomButton, CustomForm, CustomFormItem, CustomSheetHeader
+  CustomButton, CustomForm, CustomFormItem, CustomSheetHeader, LoadingCircle
 } from '@/src/components';
 import { Message, Sheet, SheetContent } from '@/src/shadcn';
-import { UseChangePersonalData, useUserCheck } from '@/src/hooks';
-import { ApiError, authStore } from '@/src/entities';
+import {
+  UseChangePersonalData, useGetUserById, useUser, useUserCheck
+} from '@/src/hooks';
+import { ApiError, authStore, ExtendedUser } from '@/src/entities';
 import { Nihil } from '@/src/utils';
 
-// interface Props {
-//   styles?: ClassNameValue;
-// }
+interface Props {
+  userData: ExtendedUser;
+  // styles?: ClassNameValue;
+}
 
 interface Inputs1 {
   password: string;
@@ -28,7 +31,7 @@ interface Inputs2 {
   newEmail: string;
 }
 
-export function ChangePersonalDataButton() {
+export function ChangePersonalDataButton({ userData, }: Props) {
   const [ open, setOpen, ] = useState(false);
   const [ step2, setStep2, ] = useState(false);
   const [ errorMessage, setErrorMessage, ] = useState('');
@@ -40,7 +43,9 @@ export function ChangePersonalDataButton() {
 
   const qc = useQueryClient();
   const userCheck = useUserCheck();
-  const changePersonalData = UseChangePersonalData();
+  const changePersonalData = UseChangePersonalData(
+    session?.userId
+  );
 
   const formModel1 = object({
     password: string().required('현재 비밀번호를 입력해주세요.')
@@ -70,23 +75,15 @@ export function ChangePersonalDataButton() {
     mode: 'all',
     resolver: yupResolver(formModel2),
     defaultValues: {
-      newName: session ? session.name : '',
-      newEmail: session
-        ? (
-          session.email
-            ? session.email
-            : ''
-        )
-        : '',
+      newName: session ? userData.name : '',
+      newEmail: session ? userData.email : '',
     },
   });
-
-  console.log(form2.formState);
 
   const onSubmitCheck: SubmitHandler<Inputs1> = useCallback(
     (data) => {
       userCheck.mutate({
-        userId: session.id,
+        userId: session.userId,
         signInId: session.signInId,
         password: data.password,
       }, {
@@ -112,7 +109,7 @@ export function ChangePersonalDataButton() {
   const onSubmitChangeData: SubmitHandler<Inputs2> = useCallback(
     (data) => {
       changePersonalData.mutate({
-        userId: session.id,
+        userId: session.userId,
         signInId: session.signInId,
         newName: data.newName,
         newEmail: data.newEmail,
@@ -124,6 +121,7 @@ export function ChangePersonalDataButton() {
               text: '개인정보가 변경되었습니다.',
             });
 
+            setOpen(false);
             setErrorMessage('');
           }
         },

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db } from '@/src/utils';
-import { UpdateUserDto } from '@/src/entities';
+import { Db, Nihil } from '@/src/utils';
+import { ExtendedUser, UpdateUserDto } from '@/src/entities';
 
 interface Params {
   params: {
@@ -14,13 +14,22 @@ export async function GET(_: NextRequest, { params, }: Params) {
       id: params.id,
     },
     include: {
-      Master: true,
-      Pc: true,
+      Master: {
+        include: {
+          Session: true,
+          Campain: true,
+        },
+      },
+      Pc: {
+        include: {
+          Campain: true,
+        },
+      },
     },
   });
 
   return NextResponse.json({
-    data: user,
+    data: Nihil.undefinedToString<ExtendedUser>(user),
     message: 'ok',
   }, {
     status: 200,

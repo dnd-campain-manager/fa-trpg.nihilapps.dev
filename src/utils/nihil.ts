@@ -67,4 +67,21 @@ export class Nihil {
       type,
     });
   }
+
+  static undefinedToString<T extends object>(data: T) {
+    const copy = { ...data, };
+    const keys = Object.keys(copy);
+
+    keys.forEach((key) => {
+      if (copy[key] === undefined) {
+        copy[key] = '';
+      }
+
+      if (copy[key] === null) {
+        copy[key] = '';
+      }
+    });
+
+    return copy;
+  }
 }

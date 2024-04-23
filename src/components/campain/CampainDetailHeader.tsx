@@ -7,7 +7,7 @@ import { AddSubMasterButton, CustomButton, PageTitle } from '@/src/components';
 import { Card, CardContent } from '@/src/shadcn';
 import { Auth, Nihil } from '@/src/utils';
 import { authStore, ExtendedCampain } from '@/src/entities';
-import { useGetUserById } from '@/src/hooks';
+import { useUser } from '@/src/hooks';
 
 interface Props {
   campain: ExtendedCampain;
@@ -17,21 +17,16 @@ interface Props {
 export function CampainDetailHeader({ campain, styles, }: Props) {
   const session = authStore((state) => state.session);
 
-  const {
-    data: user,
-  } = useGetUserById(session.userId);
+  const userData = useUser(session?.userId);
 
   const mainMaster = Auth.findMainMaster(campain);
   const isSubMaster = Auth.isSubMaster(campain, session);
 
   const isMainMaster = Auth.isMainMaster(campain, session);
-  const isAdmin = Auth.isAdmin(user?.data);
+  const isAdmin = Auth.isAdmin(userData);
 
   const isEditable = isMainMaster || isAdmin;
   const isSessionCreatable = (isMainMaster || isSubMaster) || isAdmin;
-
-  // const isSessionCreatable = ((session?.id === mainMaster.User.id) || isSubMaster)
-  //   || session?.userRole === 'admin';
 
   const status = useMemo(() => {
     const statusLabel = {

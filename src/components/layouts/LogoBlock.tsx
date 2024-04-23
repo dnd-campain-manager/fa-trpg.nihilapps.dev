@@ -35,7 +35,9 @@ export function LogoBlock({ styles, }: Props) {
           refreshToken: session.refreshToken,
         }, {
           onSuccess(res) {
-            qc.invalidateQueries();
+            qc.invalidateQueries({
+              queryKey: [],
+            });
 
             const { data, } = res;
 
