@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authStore } from '@/src/entities';
-import { useSignOut } from '@/src/hooks';
+import { useGetUserById, useSignOut } from '@/src/hooks';
 import { CustomButton, SvgIcon } from '@/src/components';
 import {
   userLockOpenSvg, userLockSvg, userPlusSvg, userSvg
@@ -20,6 +20,23 @@ interface Props {
 export function UserNav({ color = 'black', styles, }: Props) {
   const { session, removeSession, } = authStore();
 
+  const user = useGetUserById(session.userId);
+
+  const userData = useMemo(
+    () => {
+      if (user.isLoading || user.isFetching) {
+        return null;
+      }
+
+      const {
+        data,
+      } = user.data;
+
+      return data;
+    },
+    [ user.isLoading, user.isFetching, ]
+  );
+
   const qc = useQueryClient();
   const signOut = useSignOut();
 
@@ -29,7 +46,7 @@ export function UserNav({ color = 'black', styles, }: Props) {
     () => {
       signOut.mutate({
         signInId: session.signInId,
-        userId: session.id,
+        userId: session.userId,
       }, {
         onSuccess() {
           qc.invalidateQueries();
@@ -55,7 +72,7 @@ export function UserNav({ color = 'black', styles, }: Props) {
       <div className={css.default}>
         <div className='flex-1 shrink-0 text-black-base text-middle font-900'>
           {session && (
-            <span><strong>{session.name}</strong></span>
+            <span><strong>{userData.name}</strong></span>
           )}
         </div>
 

@@ -30,7 +30,7 @@ export function LogoBlock({ styles, }: Props) {
 
       if (isExpired) {
         tokenRefresh.mutate({
-          userId: session.id,
+          userId: session.userId,
           signInId: session.signInId,
           refreshToken: session.refreshToken,
         }, {

@@ -7,14 +7,17 @@ import { Form } from '@/src/shadcn';
 
 interface Props {
   form: UseFormReturn;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
   children: React.ReactNode;
   styles?: ClassNameValue;
 }
 
-export function CustomForm({ form, children, styles, }: Props) {
+export function CustomForm({
+  form, onSubmit, children, styles,
+}: Props) {
   const css = {
     default: twJoin([
-      ``,
+      `flex flex-col gap-3`,
       styles,
     ]),
   };
@@ -22,7 +25,9 @@ export function CustomForm({ form, children, styles, }: Props) {
   return (
     <>
       <Form {...form}>
-        {children}
+        <form onSubmit={onSubmit} className={css.default}>
+          {children}
+        </form>
       </Form>
     </>
   );

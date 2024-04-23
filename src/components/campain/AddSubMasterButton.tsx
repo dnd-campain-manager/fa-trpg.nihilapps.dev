@@ -129,35 +129,36 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
 
           {users?.data && (
             <>
-              <CustomForm form={form}>
-                <form onSubmit={form.handleSubmit(onClickAddSubMaster)}>
-                  <CustomFormItem
-                    name='userId'
-                    itemName='userId'
-                    label='이름'
-                    mode='select'
-                    code={usersArray.ids.join(',') || 'none'}
-                    codeLabel={usersArray.names.join(',') || '- 선택하세요 -'}
-                    placeholder='이름을 입력하세요.'
-                    form={form}
-                    styles='mb-3'
-                  />
+              <CustomForm
+                form={form}
+                onSubmit={form.handleSubmit(onClickAddSubMaster)}
+              >
+                <CustomFormItem
+                  name='userId'
+                  itemName='userId'
+                  label='이름'
+                  mode='select'
+                  code={usersArray.ids.join(',') || 'none'}
+                  codeLabel={usersArray.names.join(',') || '- 선택하세요 -'}
+                  placeholder='이름을 입력하세요.'
+                  form={form}
+                  styles='mb-3'
+                />
 
-                  <CustomFormItem
-                    name='campainId'
-                    itemName='campainId'
-                    label='캠페인'
-                    mode='input'
-                    disabled
-                    form={form}
-                    validate={false}
-                    styles='mb-3'
-                  />
+                <CustomFormItem
+                  name='campainId'
+                  itemName='campainId'
+                  label='캠페인'
+                  mode='input'
+                  disabled
+                  form={form}
+                  validate={false}
+                  styles='mb-3'
+                />
 
-                  <CustomButton styles='w-full mt-5' type='submit'>
-                    등록
-                  </CustomButton>
-                </form>
+                <CustomButton styles='w-full mt-5' type='submit'>
+                  등록
+                </CustomButton>
               </CustomForm>
             </>
           )}

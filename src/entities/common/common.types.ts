@@ -3,6 +3,11 @@ export type ApiResponse<T> = {
   message: string;
 }
 
+export type ApiError = {
+  data: null;
+  message: string;
+}
+
 export interface ISiteMeta {
   title: string;
   url?: string;

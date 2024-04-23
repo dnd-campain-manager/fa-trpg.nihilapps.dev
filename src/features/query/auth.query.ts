@@ -1,4 +1,5 @@
 import {
+  ChangePersonalDataDto,
   ResetPasswordDto,
   SignInDto, SignOutDto, TokenRefreshDto, UserCheck, UserSession
 } from '@/src/entities';
@@ -49,6 +50,17 @@ export class AuthQuery {
     const { data, } = await Api.post<null, ResetPasswordDto>(
       '/auth/reset/password',
       resetPasswordDto
+    );
+
+    return data;
+  }
+
+  static async changePersonalData(
+    changePersonalDataDto: ChangePersonalDataDto
+  ) {
+    const { data, } = await Api.post<UserSession, ChangePersonalDataDto>(
+      '/auth/reset/name',
+      changePersonalDataDto
     );
 
     return data;

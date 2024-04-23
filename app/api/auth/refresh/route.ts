@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
   });
 
   const newSession: UserSession = {
-    ...user,
+    userId: user.id,
     signInId,
     accessToken: newAccessToken,
     accessExp: newAccessTokenInfo.exp,

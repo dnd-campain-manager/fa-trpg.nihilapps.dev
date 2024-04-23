@@ -68,7 +68,7 @@ export function CampainList({ styles, }: Props) {
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
       createCampain.mutate({
-        userId: session.id,
+        userId: session.userId,
         name: data.name,
         status: 'ready',
         url: data.url,
@@ -124,33 +124,34 @@ export function CampainList({ styles, }: Props) {
             </SheetDescription>
           </SheetHeader>
 
-          <CustomForm form={form}>
-            <form onSubmit={form.handleSubmit(onSubmitForm)}>
-              <CustomFormItem
-                name='name'
-                itemName='name'
-                type='text'
-                label='캠페인 이름'
-                form={form}
-                styles='mb-3'
-              />
+          <CustomForm
+            form={form}
+            onSubmit={form.handleSubmit(onSubmitForm)}
+          >
+            <CustomFormItem
+              name='name'
+              itemName='name'
+              type='text'
+              label='캠페인 이름'
+              form={form}
+              styles='mb-3'
+            />
 
-              <CustomFormItem
-                name='url'
-                itemName='url'
-                label='카페글 주소'
-                type='text'
-                validate={false}
-                form={form}
-                styles='mb-3'
-              />
+            <CustomFormItem
+              name='url'
+              itemName='url'
+              label='카페글 주소'
+              type='text'
+              validate={false}
+              form={form}
+              styles='mb-3'
+            />
 
-              <div>
-                <CustomButton type='submit' styles='w-full'>
-                  생성하기
-                </CustomButton>
-              </div>
-            </form>
+            <div>
+              <CustomButton type='submit' styles='w-full'>
+                생성하기
+              </CustomButton>
+            </div>
           </CustomForm>
         </SheetContent>
       </Sheet>

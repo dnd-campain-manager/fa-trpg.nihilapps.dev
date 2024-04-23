@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
+import { Icon } from '@iconify/react';
 
 interface Props {
   children: React.ReactNode;
@@ -12,11 +13,12 @@ interface Props {
   full?: boolean;
   actions?: any;
   h36?: boolean;
+  icon?: string;
   styles?: ClassNameValue;
 }
 
 export function CustomButton({
-  children, type = 'button', alter, disabled = false, color = 'black', full = false, actions, h36 = false, styles,
+  children, type = 'button', alter, disabled = false, color = 'black', full = false, actions, h36 = false, styles, icon,
 }: Props) {
   const css = {
     default: twJoin([
@@ -30,6 +32,9 @@ export function CustomButton({
       (disabled && color === 'white') && `cursor-default opacity-40 !bg-white !text-black-base !border-white`,
       styles,
     ]),
+    icon: twJoin([
+      `text-[150%] mr-1`,
+    ]),
   };
 
   return (
@@ -40,6 +45,9 @@ export function CustomButton({
         disabled={disabled}
         className={css.default}
       >
+        {icon && (
+          <Icon icon={icon} className={css.icon} />
+        )}
         {children}
       </button>
     </>

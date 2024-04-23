@@ -3,7 +3,8 @@
 export {
   type ApiResponse,
   type IConfigData,
-  type ISiteMeta
+  type ISiteMeta,
+  type ApiError
 } from './common/common.types';
 
 export {
@@ -24,7 +25,8 @@ export {
   type UserSession,
   type SignOutDto,
   type UserCheck,
-  type ResetPasswordDto
+  type ResetPasswordDto,
+  type ChangePersonalDataDto
 } from './auth/auth.types';
 export { authStore } from './auth/auth.store';
 

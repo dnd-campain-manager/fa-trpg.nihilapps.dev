@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
   if (!matchPassword) {
     return NextResponse.json({
       data: null,
-      message: '비밀번호가 일치하지 않습니다.',
+      message: '비밀번호가 일치하지 않습니다. 다시 확인해주세요.',
     }, {
       status: 401,
     });

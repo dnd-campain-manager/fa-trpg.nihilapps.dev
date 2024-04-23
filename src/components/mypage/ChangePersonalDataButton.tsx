@@ -1,42 +1,48 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { object, ref, string } from 'yup';
+// import { ClassNameValue, twJoin } from 'tailwind-merge';
+import { useQueryClient } from '@tanstack/react-query';
+import { object, string } from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import {
   CustomButton, CustomForm, CustomFormItem, CustomSheetHeader
 } from '@/src/components';
-import { ApiError, authStore } from '@/src/entities';
-import { useResetPassword, useUserCheck } from '@/src/hooks';
 import { Message, Sheet, SheetContent } from '@/src/shadcn';
+import { UseChangePersonalData, useUserCheck } from '@/src/hooks';
+import { ApiError, authStore } from '@/src/entities';
 import { Nihil } from '@/src/utils';
 
-interface Props {
-  styles?: ClassNameValue;
-}
+// interface Props {
+//   styles?: ClassNameValue;
+// }
 
 interface Inputs1 {
   password: string;
 }
 
 interface Inputs2 {
-  newPassword: string;
-  newPasswordConfirm: string;
+  newName: string;
+  newEmail: string;
 }
 
-export function PasswordChangeButton({ styles, }: Props) {
+export function ChangePersonalDataButton() {
   const [ open, setOpen, ] = useState(false);
   const [ step2, setStep2, ] = useState(false);
   const [ errorMessage, setErrorMessage, ] = useState('');
 
-  const session = authStore((state) => state.session);
-  const userCheck = useUserCheck();
-  const resetPassword = useResetPassword();
+  const {
+    session,
+    updateSession,
+  } = authStore();
 
-  const formModel1 = object().shape({
+  const qc = useQueryClient();
+  const userCheck = useUserCheck();
+  const changePersonalData = UseChangePersonalData();
+
+  const formModel1 = object({
     password: string().required('현재 비밀번호를 입력해주세요.')
       .min(8, '비밀번호는 8~30자로 구성됩니다.')
       .max(30, '비밀번호는 8~30자로 구성됩니다.')
@@ -53,39 +59,34 @@ export function PasswordChangeButton({ styles, }: Props) {
     },
   });
 
-  const formModel2 = object().shape({
-    newPassword: string().required('새로운 비밀번호를 입력해주세요.')
-      .min(8, '비밀번호는 8~30자로 구성됩니다.')
-      .max(30, '비밀번호는 8~30자로 구성됩니다.')
-      .matches(/(?=.*\d)(?=.*[a-zA-Z])/, {
-        message: '비밀번호는 숫자와 영문자를 조합해야 합니다.',
-      }),
-    newPasswordConfirm: string()
-      .oneOf(
-        [ ref('newPassword'), ],
-        '비밀번호가 일치하지 않습니다.'
-      )
-      .required('비밀번호를 다시 입력해주세요.')
-      .min(8, '비밀번호는 8~30자로 구성됩니다.')
-      .max(30, '비밀번호는 8~30자로 구성됩니다.')
-      .matches(/(?=.*\d)(?=.*[a-zA-Z])/, {
-        message: '비밀번호는 숫자와 영문자를 조합해야 합니다.',
-      }),
+  const formModel2 = object({
+    newName: string().required('새로 변경할 이름을 입력해주세요.'),
+    newEmail: string()
+      .email('이메일 형식이 아닙니다.')
+      .optional(),
   });
 
   const form2 = useForm({
     mode: 'all',
     resolver: yupResolver(formModel2),
     defaultValues: {
-      newPassword: '',
-      newPasswordConfirm: '',
+      newName: session ? session.name : '',
+      newEmail: session
+        ? (
+          session.email
+            ? session.email
+            : ''
+        )
+        : '',
     },
   });
+
+  console.log(form2.formState);
 
   const onSubmitCheck: SubmitHandler<Inputs1> = useCallback(
     (data) => {
       userCheck.mutate({
-        userId: session.userId,
+        userId: session.id,
         signInId: session.signInId,
         password: data.password,
       }, {
@@ -93,7 +94,7 @@ export function PasswordChangeButton({ styles, }: Props) {
           if (res.message === 'ok') {
             Nihil.toast({
               type: 'success',
-              text: '이제 비밀번호를 재설정해주세요.',
+              text: '이제 개인정보를 변경할 수 있습니다.',
             });
 
             setStep2(true);
@@ -108,35 +109,31 @@ export function PasswordChangeButton({ styles, }: Props) {
     [ session, ]
   );
 
-  const onSubmitResetPassword: SubmitHandler<Inputs2> = useCallback(
+  const onSubmitChangeData: SubmitHandler<Inputs2> = useCallback(
     (data) => {
-      console.log(data);
-      resetPassword.mutate({
-        userId: session.userId,
+      changePersonalData.mutate({
+        userId: session.id,
         signInId: session.signInId,
-        newPassword: data.newPassword,
+        newName: data.newName,
+        newEmail: data.newEmail,
       }, {
         onSuccess(res) {
           if (res.message === 'ok') {
             Nihil.toast({
               type: 'success',
-              text: '비밀번호가 변경되었습니다.',
+              text: '개인정보가 변경되었습니다.',
             });
 
-            setOpen(false);
+            setErrorMessage('');
           }
+        },
+        onError(error: AxiosError<ApiError>) {
+          setErrorMessage(error.response.data.message);
         },
       });
     },
     [ session, ]
   );
-
-  const css = {
-    default: twJoin([
-      ``,
-      styles,
-    ]),
-  };
 
   return (
     <>
@@ -145,16 +142,16 @@ export function PasswordChangeButton({ styles, }: Props) {
         actions={() => {
           setOpen(true);
         }}
-        icon='material-symbols:password'
+        icon='bx:data'
       >
-        비밀번호 재설정
+        개인정보 변경
       </CustomButton>
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent>
           <CustomSheetHeader
-            title='비밀번호 재설정'
-            description='비밀번호를 변경하고 싶으실 경우 비밀번호를 재설정할 수 있습니다.'
+            title='개인정보 변경'
+            description='변경하고 싶은 개인 정보를 변경하세요.'
           />
 
           {!step2 && (
@@ -186,28 +183,34 @@ export function PasswordChangeButton({ styles, }: Props) {
           {step2 && (
             <CustomForm
               form={form2}
-              onSubmit={form2.handleSubmit(onSubmitResetPassword)}
+              onSubmit={form2.handleSubmit(onSubmitChangeData)}
             >
               <CustomFormItem
-                name='newPassword'
-                itemName='newPassword'
+                name='newName'
+                itemName='newName'
                 mode='input'
-                type='password'
-                label='새로운 비밀번호'
+                type='text'
+                label='이름'
                 form={form2}
               />
 
               <CustomFormItem
-                name='newPasswordConfirm'
-                itemName='newPasswordConfirm'
+                name='newEmail'
+                itemName='newEmail'
                 mode='input'
-                type='password'
-                label='비밀번호 확인'
+                type='email'
+                label='이메일'
                 form={form2}
               />
 
+              {errorMessage && (
+                <Message color='red'>
+                  {errorMessage}
+                </Message>
+              )}
+
               <CustomButton type='submit' styles='w-full'>
-                비밀번호 변경
+                개인정보 변경
               </CustomButton>
             </CustomForm>
           )}

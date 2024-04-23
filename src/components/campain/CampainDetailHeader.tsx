@@ -5,8 +5,9 @@ import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { Icon } from '@iconify/react';
 import { AddSubMasterButton, CustomButton, PageTitle } from '@/src/components';
 import { Card, CardContent } from '@/src/shadcn';
-import { Nihil } from '@/src/utils';
+import { Auth, Nihil } from '@/src/utils';
 import { authStore, ExtendedCampain } from '@/src/entities';
+import { useGetUserById } from '@/src/hooks';
 
 interface Props {
   campain: ExtendedCampain;
@@ -16,47 +17,21 @@ interface Props {
 export function CampainDetailHeader({ campain, styles, }: Props) {
   const session = authStore((state) => state.session);
 
-  const masters = campain.Master;
+  const {
+    data: user,
+  } = useGetUserById(session.userId);
 
-  const findMainMaster = () => {
-    const mainMaster = masters.find((item) => (
-      item.masterType === 'mainMaster'
-    ));
+  const mainMaster = Auth.findMainMaster(campain);
+  const isSubMaster = Auth.isSubMaster(campain, session);
 
-    return mainMaster;
-  };
+  const isMainMaster = Auth.isMainMaster(campain, session);
+  const isAdmin = Auth.isAdmin(user?.data);
 
-  const mainMaster = useMemo(() => {
-    const master = findMainMaster();
+  const isEditable = isMainMaster || isAdmin;
+  const isSessionCreatable = (isMainMaster || isSubMaster) || isAdmin;
 
-    return master;
-  }, [ campain, ]);
-
-  const subMaster = useMemo(
-    () => {
-      const subMasters = masters.filter((item) => (
-        item.masterType === 'subMaster'
-      ));
-
-      return subMasters;
-    },
-    [ masters, ]
-  );
-
-  const isSubMaster = useMemo(
-    () => {
-      return subMaster.find((item) => (
-        item.User.id === session?.id
-      ));
-    },
-    [ session, subMaster, ]
-  );
-
-  const isEditable = (session?.id === mainMaster.User.id)
-   || session?.userRole === 'admin';
-
-  const isSessionCreatable = ((session?.id === mainMaster.User.id) || isSubMaster)
-    || session?.userRole === 'admin';
+  // const isSessionCreatable = ((session?.id === mainMaster.User.id) || isSubMaster)
+  //   || session?.userRole === 'admin';
 
   const status = useMemo(() => {
     const statusLabel = {

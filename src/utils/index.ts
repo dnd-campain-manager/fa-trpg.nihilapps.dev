@@ -5,3 +5,4 @@ export { Api } from './axios';
 export { Calendar } from './calendar';
 export { setMeta } from './setMeta';
 export { DataHash } from './dataHash';
+export { Auth } from './auth';

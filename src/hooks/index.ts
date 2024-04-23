@@ -12,6 +12,7 @@ export { useSignOut } from './query/auth/useSignOut';
 export { useTokenRefresh } from './query/auth/useTokenRefresh';
 export { useUserCheck } from './query/auth/useUserCheck';
 export { useResetPassword } from './query/auth/useResetPassword';
+export { UseChangePersonalData } from './query/auth/useChangePersonalData';
 
 export { useGetCampains } from './query/campains/useGetCampains';
 export { useGetCampainById } from './query/campains/useGetCampainById';
@@ -31,3 +32,5 @@ export { useGetSessionByCampainId } from './query/sessions/useGetSessionByCampai
 export { useCreateMaster } from './query/masters/useCreateMaster';
 export { useUpdateMaster } from './query/masters/useUpdateMaster';
 export { useDeleteMaster } from './query/masters/useDeleteMaster';
+
+export { useUser } from './useUser';

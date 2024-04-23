@@ -5,6 +5,8 @@ import { DataHash, Db } from '@/src/utils';
 export async function POST(req: NextRequest) {
   const { userId, signInId, newPassword, }: ResetPasswordDto = await req.json();
 
+  console.log('newPassword >> ', newPassword);
+
   const hashedNewPassword = await DataHash.hashData(newPassword);
 
   await Db.auth().update({

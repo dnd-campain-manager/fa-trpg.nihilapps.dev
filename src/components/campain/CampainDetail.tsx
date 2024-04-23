@@ -11,11 +11,7 @@ interface Props {
 }
 
 export function CampainDetail({ campainId, styles, }: Props) {
-  const {
-    data: campain,
-    isLoading,
-    isFetching,
-  } = useGetCampainById(campainId);
+  const campain = useGetCampainById(campainId);
 
   const css = {
     default: twJoin([
@@ -24,14 +20,14 @@ export function CampainDetail({ campainId, styles, }: Props) {
     ]),
   };
 
-  if (isLoading || isFetching) {
+  if (campain.isLoading || campain.isFetching) {
     return <LoadingCircle />;
   }
 
   return (
     <>
-      <CampainDetailHeader campain={campain?.data} />
-      <CampainDetailContent campain={campain?.data} />
+      <CampainDetailHeader campain={campain?.data.data} />
+      <CampainDetailContent campain={campain?.data.data} />
     </>
   );
 }

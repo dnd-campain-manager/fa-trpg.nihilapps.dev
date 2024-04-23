@@ -3,7 +3,10 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { authStore } from '@/src/entities';
-import { CustomButton, PageTitle } from '@/src/components';
+import {
+  ChangePersonalDataButton, PageTitle, PasswordChangeButton
+} from '@/src/components';
+import { useUser } from '@/src/hooks';
 
 interface Props {
   styles?: ClassNameValue;
@@ -11,6 +14,10 @@ interface Props {
 
 export function MyPage({ styles, }: Props) {
   const { session, } = authStore();
+
+  const userData = useUser(session.userId);
+
+  console.log('userData >> ', userData);
 
   const css = {
     default: twJoin([
@@ -27,8 +34,8 @@ export function MyPage({ styles, }: Props) {
         </PageTitle>
 
         <div className='flex flex-row gap-2'>
-          <CustomButton full>개인정보 수정</CustomButton>
-          <CustomButton full>비밀번호 변경</CustomButton>
+          <ChangePersonalDataButton />
+          <PasswordChangeButton />
         </div>
       </div>
     </>
