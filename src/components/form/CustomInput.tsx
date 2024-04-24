@@ -88,6 +88,18 @@ export function CustomInput<T extends string>({
           />
         </FormControl>
       )}
+      {type === 'number' && (
+        <FormControl>
+          <Input
+            id={name}
+            type={type}
+            placeholder={placeholder}
+            disabled={disabled}
+            className={css.default}
+            {...field}
+          />
+        </FormControl>
+      )}
     </>
   );
 }

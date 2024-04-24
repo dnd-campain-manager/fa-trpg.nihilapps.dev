@@ -1,25 +1,22 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-// import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { useQueryClient } from '@tanstack/react-query';
 import { object, string } from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import {
-  CustomButton, CustomForm, CustomFormItem, CustomSheetHeader, LoadingCircle
+  CustomButton, CustomForm, CustomFormItem, CustomSheetHeader
 } from '@/src/components';
 import { Message, Sheet, SheetContent } from '@/src/shadcn';
 import {
-  UseChangePersonalData, useGetUserById, useUser, useUserCheck
+  UseChangePersonalData, useUserCheck
 } from '@/src/hooks';
 import { ApiError, authStore, ExtendedUser } from '@/src/entities';
 import { Nihil } from '@/src/utils';
 
 interface Props {
   userData: ExtendedUser;
-  // styles?: ClassNameValue;
 }
 
 interface Inputs1 {
@@ -38,10 +35,8 @@ export function ChangePersonalDataButton({ userData, }: Props) {
 
   const {
     session,
-    updateSession,
   } = authStore();
 
-  const qc = useQueryClient();
   const userCheck = useUserCheck();
   const changePersonalData = UseChangePersonalData(
     session?.userId
@@ -139,6 +134,7 @@ export function ChangePersonalDataButton({ userData, }: Props) {
         full
         actions={() => {
           setOpen(true);
+          setStep2(false);
         }}
         icon='bx:data'
       >

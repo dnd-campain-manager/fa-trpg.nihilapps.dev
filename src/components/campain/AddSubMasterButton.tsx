@@ -138,11 +138,11 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
                   itemName='userId'
                   label='이름'
                   mode='select'
-                  code={usersArray.ids.join(',') || 'none'}
-                  codeLabel={usersArray.names.join(',') || '- 선택하세요 -'}
+                  code={usersArray.ids.join(',')}
+                  codeLabel={usersArray.names.join(',')}
+                  disabled={usersArray.ids.length === 0}
                   placeholder='이름을 입력하세요.'
                   form={form}
-                  styles='mb-3'
                 />
 
                 <CustomFormItem
@@ -153,10 +153,9 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
                   disabled
                   form={form}
                   validate={false}
-                  styles='mb-3'
                 />
 
-                <CustomButton styles='w-full mt-5' type='submit'>
+                <CustomButton styles='w-full' type='submit'>
                   등록
                 </CustomButton>
               </CustomForm>

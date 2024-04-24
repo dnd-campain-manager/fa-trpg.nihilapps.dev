@@ -23,6 +23,7 @@ export async function GET(_: NextRequest, { params, }: Params) {
       Pc: {
         include: {
           Campain: true,
+          Class: true,
         },
       },
     },

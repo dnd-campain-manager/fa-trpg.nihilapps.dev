@@ -1,4 +1,5 @@
 export { useInput } from './useInput';
+export { useUser } from './useUser';
 
 export { useGetUsers } from './query/users/useGetUsers';
 export { useGetUserById } from './query/users/useGetUserById';
@@ -33,4 +34,10 @@ export { useCreateMaster } from './query/masters/useCreateMaster';
 export { useUpdateMaster } from './query/masters/useUpdateMaster';
 export { useDeleteMaster } from './query/masters/useDeleteMaster';
 
-export { useUser } from './useUser';
+export { useGetPcs } from './query/pcs/useGetPcs';
+export { useGetPcById } from './query/pcs/useGetPcById';
+export { useGetPcByName } from './query/pcs/useGetPcByName';
+export { useGetPcByLevel } from './query/pcs/useGetPcByLevel';
+export { useCreatePc } from './query/pcs/useCreatePc';
+export { useUpdatePc } from './query/pcs/useUpdatePc';
+export { useDeletePc } from './query/pcs/useDeletePc';

@@ -14,7 +14,7 @@ import {
   Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
 
-import { CustomButton, CustomFormItem } from '@/src/components';
+import { CustomButton, CustomForm, CustomFormItem } from '@/src/components';
 import { useSignUp } from '@/src/hooks';
 
 interface Props {
@@ -96,51 +96,49 @@ export function SignUpForm({ styles, }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmitForm)} className={css.default}>
-              <CustomFormItem
-                name='name'
-                itemName='name'
-                type='text'
-                label='이름'
-                form={form}
-              />
+          <CustomForm form={form} onSubmit={form.handleSubmit(onSubmitForm)}>
+            <CustomFormItem
+              name='name'
+              itemName='name'
+              type='text'
+              label='이름'
+              form={form}
+            />
 
-              <CustomFormItem
-                name='password'
-                itemName='password'
-                type='password'
-                label='비밀번호'
-                form={form}
-              />
+            <CustomFormItem
+              name='password'
+              itemName='password'
+              type='password'
+              label='비밀번호'
+              form={form}
+            />
 
-              <CustomFormItem
-                name='userRole'
-                itemName='userRole'
-                label='권한'
-                mode='select'
-                validate={false}
-                code='admin,normal'
-                codeLabel='관리자,일반회원'
-                disabled
-                form={form}
-              />
+            <CustomFormItem
+              name='userRole'
+              itemName='userRole'
+              label='권한'
+              mode='select'
+              validate={false}
+              code='admin,normal'
+              codeLabel='관리자,일반회원'
+              disabled
+              form={form}
+            />
 
-              <CustomFormItem
-                name='userType'
-                itemName='userType'
-                mode='radio'
-                label='설정자로 가입하시겠습니까?'
-                code='player,creator'
-                codeLabel={'일반회원으로 가입합니다.,'
-                  + '설정자로 가입합니다.'}
-                validate={false}
-                form={form}
-              />
+            <CustomFormItem
+              name='userType'
+              itemName='userType'
+              mode='radio'
+              label='설정자로 가입하시겠습니까?'
+              code='player,creator'
+              codeLabel={'일반회원으로 가입합니다.,'
+                + '설정자로 가입합니다.'}
+              validate={false}
+              form={form}
+            />
 
-              <CustomButton type='submit' full>회원가입</CustomButton>
-            </form>
-          </Form>
+            <CustomButton type='submit' full>회원가입</CustomButton>
+          </CustomForm>
 
           <Link href='/auth/signin' className='mt-5 block'>
             <CustomButton full alter>로그인 하기</CustomButton>

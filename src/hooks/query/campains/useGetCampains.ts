@@ -5,7 +5,7 @@ import { campainsKeys } from '@/src/data';
 export function useGetCampains() {
   const query = useQuery({
     queryKey: campainsKeys.getAll,
-    queryFn: CampainsQuery.getAll,
+    queryFn: () => CampainsQuery.getAll(),
   });
 
   return query;

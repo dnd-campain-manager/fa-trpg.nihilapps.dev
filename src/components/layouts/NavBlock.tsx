@@ -1,16 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
+import { useQueryClient } from '@tanstack/react-query';
 import { SvgIcon } from '@/src/components';
 import { archiveSvg, calendarSvg, peopleSvg } from '@/src/images';
+import { campainsKeys, pcsKeys } from '@/src/data';
+import { CampainsQuery, PcsQuery } from '@/src/features';
 
 interface Props {
   styles?: ClassNameValue
 }
 
 export function NavBlock({ styles, }: Props) {
+  const qc = useQueryClient();
+
+  useEffect(() => {
+    qc.prefetchQuery({
+      queryKey: campainsKeys.getAll,
+      queryFn: () => CampainsQuery.getAll(),
+    });
+
+    qc.prefetchQuery({
+      queryKey: pcsKeys.getAll,
+      queryFn: () => PcsQuery.getAll(),
+    });
+  }, [ qc, ]);
+
   const css = {
     default: twJoin([
       `flex flex-row gap-2`,

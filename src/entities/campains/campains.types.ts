@@ -3,7 +3,7 @@ import {
   User
 } from '@prisma/client';
 
-export interface ExtendedPc extends Pc {
+export interface ExtendedCampainPc extends Pc {
   User: User;
 }
 
@@ -19,7 +19,7 @@ interface ExtendedSession extends Session {
 export interface ExtendedCampain extends Campain {
   Session: ExtendedSession[];
   Master: CustomMaster[];
-  Pc: ExtendedPc[];
+  Pc: ExtendedCampainPc[];
 }
 
 export interface CreateCampainDto {

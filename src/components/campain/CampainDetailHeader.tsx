@@ -3,11 +3,13 @@
 import React, { useMemo } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { Icon } from '@iconify/react';
-import { AddSubMasterButton, CustomButton, PageTitle } from '@/src/components';
+import {
+  AddPcButton, AddSubMasterButton, CustomButton, PageTitle
+} from '@/src/components';
 import { Card, CardContent } from '@/src/shadcn';
 import { Auth, Nihil } from '@/src/utils';
 import { authStore, ExtendedCampain } from '@/src/entities';
-import { useUser } from '@/src/hooks';
+import { useGetUserById } from '@/src/hooks';
 
 interface Props {
   campain: ExtendedCampain;
@@ -17,13 +19,15 @@ interface Props {
 export function CampainDetailHeader({ campain, styles, }: Props) {
   const session = authStore((state) => state.session);
 
-  const userData = useUser(session?.userId);
+  const {
+    data: userData,
+  } = useGetUserById(session?.userId);
 
   const mainMaster = Auth.findMainMaster(campain);
   const isSubMaster = Auth.isSubMaster(campain, session);
 
   const isMainMaster = Auth.isMainMaster(campain, session);
-  const isAdmin = Auth.isAdmin(userData);
+  const isAdmin = Auth.isAdmin(userData?.data);
 
   const isEditable = isMainMaster || isAdmin;
   const isSessionCreatable = (isMainMaster || isSubMaster) || isAdmin;
@@ -78,7 +82,8 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
               <AddSubMasterButton campain={campain} />
             </>
           )}
-          <CustomButton h36>캐릭터 등록</CustomButton>
+          <AddPcButton campain={campain} />
+          {/*<CustomButton h36>캐릭터 등록</CustomButton>*/}
           {isSessionCreatable && (
             <CustomButton h36>세션 생성</CustomButton>
           )}

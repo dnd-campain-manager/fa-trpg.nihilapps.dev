@@ -11,17 +11,13 @@ interface Props {
 }
 
 export function MyMasterList({ userData, styles, }: Props) {
-  console.log(userData);
+  const masters = userData?.Master;
 
-  const {
-    Master: masters,
-  } = userData;
-
-  const masterings = masters.filter(
+  const masterings = masters?.filter(
     (master) => master.Campain.status !== 'close'
   );
 
-  const closeMastering = masters.filter(
+  const closeMastering = masters?.filter(
     (master) => master.Campain.status === 'close'
   );
 
@@ -39,7 +35,7 @@ export function MyMasterList({ userData, styles, }: Props) {
       </PageTitle>
 
       <div className={css.default}>
-        {masters.length === 0 && (
+        {masterings.length === 0 && (
           <p className='font-900 text-h4 text-center text-black-base py-10'>
             마스터링 중인 캠페인이 없습니다.
           </p>

@@ -1,5 +1,5 @@
 import {
-  Campain,
+  Campain, Class,
   Master, Pc, Session, User, UserRole, UserType
 } from '@prisma/client';
 
@@ -10,6 +10,7 @@ export interface ExtendedUserMaster extends Master {
 
 export interface ExtendedUserPc extends Pc {
   Campain: Campain;
+  Class: Class[];
 }
 
 export interface ExtendedUser extends User {

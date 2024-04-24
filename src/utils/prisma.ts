@@ -59,4 +59,8 @@ export class Db {
   static documentSection() {
     return this.client().documentSection;
   }
+
+  static classData() {
+    return this.client().class;
+  }
 }

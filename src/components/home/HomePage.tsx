@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   bookSvg, calendarSvg, logoWhite
 } from '@/src/images';
@@ -11,12 +12,23 @@ import {
   CustomButton,
   FooterBlock, SvgIcon, UserNav
 } from '@/src/components';
+import { sessionsKeys } from '@/src/data';
+import { SessionsQuery } from '@/src/features';
 
 interface Props {
   styles?: ClassNameValue;
 }
 
 export function HomePage({ styles, }: Props) {
+  const qc = useQueryClient();
+
+  useEffect(() => {
+    qc.prefetchQuery({
+      queryKey: sessionsKeys.getAll,
+      queryFn: SessionsQuery.getAll,
+    });
+  }, []);
+
   const css = {
     default: twJoin([
       `absolute flex flex-col gap-5 items-center justify-center top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-screen`,

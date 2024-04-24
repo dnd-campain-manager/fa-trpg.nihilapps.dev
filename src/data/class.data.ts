@@ -1,0 +1,15 @@
+export const classObj = {
+  fighter: '파이터',
+  ranger: '레인저',
+  monk: '몽크',
+  rogue: '로그',
+  paladin: '팔라딘',
+  cleric: '클레릭',
+  babarian: '바바리안',
+  bard: '바드',
+  wizard: '위자드',
+  druid: '드루이드',
+  sorcerer: '소서러',
+  warlock: '워락',
+  artificer: '아티피서',
+};

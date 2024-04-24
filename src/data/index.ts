@@ -2,5 +2,8 @@ export { configData } from './config.data';
 export {
   usersKeys,
   campainsKeys,
-  sessionsKeys
+  sessionsKeys,
+  pcsKeys
 } from './keys.data';
+
+export { classObj } from './class.data';

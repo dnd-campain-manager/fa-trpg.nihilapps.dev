@@ -5,7 +5,8 @@ import { UseFormReturn } from 'react-hook-form';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
   CustomCheck,
-  CustomInput, CustomLabel, CustomRadio, CustomSelect
+  CustomInput, CustomLabel, CustomRadio, CustomSelect,
+  CustomTextArea
 } from '@/src/components';
 import { FormField, FormItem, Message } from '@/src/shadcn';
 
@@ -18,7 +19,7 @@ interface Props {
   disabled?: boolean;
   showMessage?: boolean;
   code?: string;
-  mode?: 'input' | 'radio' | 'select' | 'checkbox';
+  mode?: 'input' | 'radio' | 'select' | 'checkbox' | 'textarea';
   form: UseFormReturn;
   itemName?: string;
   validate?: boolean;
@@ -103,6 +104,15 @@ export function CustomFormItem({
                 disabled={disabled}
                 validate={validate}
                 styles={css.input}
+              />
+            )}
+            {mode === 'textarea' && (
+              <CustomTextArea
+                name={name}
+                field={field}
+                form={form}
+                disabled={disabled}
+                validate={validate}
               />
             )}
             {(showMessage && form.formState.errors[name]) && (

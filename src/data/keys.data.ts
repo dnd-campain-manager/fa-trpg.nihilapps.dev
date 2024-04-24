@@ -15,3 +15,10 @@ export const sessionsKeys = {
   getByCampainId: (campainId: string) => [ 'getSessionByCampainId', campainId, ],
   getByName: (name: string) => [ 'getSessionById', name, ],
 };
+
+export const pcsKeys = {
+  getAll: [ 'getPcs', ],
+  getById: (id: string) => [ 'getPcById', id, ],
+  getByName: (name: string) => [ 'getPcByName', name, ],
+  getByLevel: (level: number) => [ 'getPcByLevel', level, ],
+};

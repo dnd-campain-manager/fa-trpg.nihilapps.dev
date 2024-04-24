@@ -3,9 +3,9 @@ import { Api } from '@/src/utils';
 import { CreateCampainDto, ExtendedCampain, UpdateCampainDto } from '@/src/entities';
 
 export class CampainsQuery {
-  static async getAll() {
+  static async getAll(page?: number) {
     const { data, } = await Api.get<ExtendedCampain[]>(
-      '/campains?page=1'
+      `/campains?page=${page || 1}`
     );
 
     return data;

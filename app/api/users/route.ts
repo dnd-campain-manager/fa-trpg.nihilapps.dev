@@ -14,6 +14,7 @@ export async function GET() {
       Pc: {
         include: {
           Campain: true,
+          Class: true,
         },
       },
     },

@@ -37,7 +37,7 @@ export {
   type UpdateCampainDto,
   type ExtendedCampain,
   type CustomMaster,
-  type ExtendedPc
+  type ExtendedCampainPc
 } from './campains/campains.types';
 
 export {
@@ -51,3 +51,9 @@ export {
   type UpdateMasterDto,
   type ExtendedMaster
 } from './masters/masters.types';
+
+export {
+  type ExtendedPc,
+  type CreatePcDto,
+  type UpdatePcDto
+} from './pcs/pcs.types';
