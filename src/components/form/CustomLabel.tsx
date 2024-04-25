@@ -8,7 +8,7 @@ interface Props {
   name: string;
   children: React.ReactNode;
   form?: UseFormReturn;
-  mode?: 'input' | 'radio' | 'checkbox' | 'select' | 'textarea';
+  mode?: 'input' | 'radio' | 'checkbox' | 'select' | 'textarea' | 'date';
   disabled?: boolean;
   validate?: boolean;
   fieldLabel?: boolean;

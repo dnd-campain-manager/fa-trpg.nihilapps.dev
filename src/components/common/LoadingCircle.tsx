@@ -21,10 +21,8 @@ export function LoadingCircle({ styles, }: Props) {
   };
 
   return (
-    <>
-      <div className={css.default}>
-        <SvgIcon icon={loadingSvg} styles={css.icon} />
-      </div>
-    </>
+    <div className={css.default}>
+      <SvgIcon icon={loadingSvg} styles={css.icon} />
+    </div>
   );
 }

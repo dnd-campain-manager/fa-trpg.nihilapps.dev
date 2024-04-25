@@ -68,8 +68,8 @@ CREATE TABLE "campains" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "status" "CampainStatus" NOT NULL DEFAULT 'ready',
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "startTime" TIMESTAMP(3),
+    "endTime" TIMESTAMP(3),
     "url" TEXT NOT NULL,
     "subMaster" TEXT[],
 
@@ -89,7 +89,8 @@ CREATE TABLE "sessions" (
     "playersNumber" INTEGER NOT NULL,
     "players" TEXT[],
     "exp" INTEGER NOT NULL DEFAULT 0,
-    "rewardUrl" TEXT NOT NULL,
+    "rewardUrl" TEXT,
+    "gameTime" TEXT NOT NULL,
 
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
 );
@@ -113,9 +114,9 @@ CREATE TABLE "pcs" (
     "campainId" UUID NOT NULL,
     "userId" UUID NOT NULL,
     "name" TEXT NOT NULL,
-    "age" INTEGER,
+    "age" INTEGER NOT NULL DEFAULT 0,
     "organization" TEXT,
-    "story" TEXT NOT NULL,
+    "story" TEXT,
     "exp" INTEGER NOT NULL DEFAULT 0,
     "pp" INTEGER NOT NULL DEFAULT 0,
     "gp" INTEGER NOT NULL DEFAULT 0,
@@ -131,8 +132,9 @@ CREATE TABLE "pcs" (
 CREATE TABLE "classes" (
     "id" UUID NOT NULL,
     "pcId" UUID NOT NULL,
+    "order" INTEGER NOT NULL,
     "className" "PcClass" NOT NULL,
-    "level" TEXT,
+    "level" INTEGER,
 
     CONSTRAINT "classes_pkey" PRIMARY KEY ("id")
 );
@@ -177,6 +179,12 @@ CREATE TABLE "document_sections" (
 CREATE UNIQUE INDEX "users_name_key" ON "users"("name");
 
 -- CreateIndex
+CREATE INDEX "auths_userId_idx" ON "auths"("userId");
+
+-- CreateIndex
+CREATE INDEX "masters_userId_campainId_idx" ON "masters"("userId", "campainId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "campains_name_key" ON "campains"("name");
 
 -- CreateIndex
@@ -192,10 +200,10 @@ CREATE INDEX "classes_pcId_className_idx" ON "classes"("pcId", "className");
 ALTER TABLE "auths" ADD CONSTRAINT "auths_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "masters" ADD CONSTRAINT "masters_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "masters" ADD CONSTRAINT "masters_campainId_fkey" FOREIGN KEY ("campainId") REFERENCES "campains"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "masters" ADD CONSTRAINT "masters_campainId_fkey" FOREIGN KEY ("campainId") REFERENCES "campains"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "masters" ADD CONSTRAINT "masters_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_campainId_fkey" FOREIGN KEY ("campainId") REFERENCES "campains"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

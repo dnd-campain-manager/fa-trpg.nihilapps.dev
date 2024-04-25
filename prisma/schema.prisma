@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,7 +10,6 @@ datasource db {
 model User {
   id          String     @id @default(uuid()) @db.Uuid
   name        String     @unique
-  email       String?
   userType    UserType   @default(player)
   userRole    UserRole   @default(normal)
   playToken   Int        @default(0)
@@ -24,8 +17,8 @@ model User {
   masterPoint Int        @default(0)
   masterCount Int        @default(0)
   Auth        Auth[]
-  Master      Master[]
   Document    Document[]
+  Master      Master[]
   Pc          Pc[]
 
   @@map("users")
@@ -33,11 +26,11 @@ model User {
 
 model Auth {
   id           String  @id @default(uuid()) @db.Uuid
-  User         User    @relation(fields: [userId], references: [id])
   userId       String  @db.Uuid
   password     String
   accessToken  String?
   refreshToken String?
+  User         User    @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@map("auths")
@@ -45,11 +38,11 @@ model Auth {
 
 model Master {
   id         String     @id @default(uuid()) @db.Uuid
-  User       User       @relation(fields: [userId], references: [id])
   userId     String     @db.Uuid
-  Campain    Campain    @relation(fields: [campainId], references: [id])
   campainId  String     @db.Uuid
   masterType MasterType
+  Campain    Campain    @relation(fields: [campainId], references: [id])
+  User       User       @relation(fields: [userId], references: [id])
   Session    Session[]
 
   @@index([userId, campainId])
@@ -60,40 +53,39 @@ model Campain {
   id        String        @id @default(uuid()) @db.Uuid
   name      String        @unique
   status    CampainStatus @default(ready)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  url       String?
+  startTime DateTime?
+  endTime   DateTime?
+  url       String
   subMaster String[]
   Master    Master[]
-  Session   Session[]
   Pc        Pc[]
+  Session   Session[]
 
   @@map("campains")
 }
 
 model Session {
   id            String   @id @default(uuid()) @db.Uuid
-  Campain       Campain  @relation(fields: [campainId], references: [id])
   campainId     String   @db.Uuid
-  Master        Master   @relation(fields: [masterId], references: [id])
   masterId      String   @db.Uuid
   number        Int
   name          String   @unique
   startTime     DateTime
   endTime       DateTime
-  gameTime      String
   content       String
   playersNumber Int
-  players       String[] // 유저 아이디들 넣음
+  players       String[]
   exp           Int      @default(0)
   rewardUrl     String?
+  gameTime      String
+  Campain       Campain  @relation(fields: [campainId], references: [id])
+  Master        Master   @relation(fields: [masterId], references: [id])
 
   @@map("sessions")
 }
 
 model Document {
   id              String             @id @default(uuid()) @db.Uuid
-  User            User               @relation(fields: [userId], references: [id])
   userId          String             @db.Uuid
   title           String
   documentType    DocumentType
@@ -101,18 +93,17 @@ model Document {
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
   DocumentSection DocumentSection[]
+  User            User               @relation(fields: [userId], references: [id])
 
   @@map("documents")
 }
 
 model Pc {
   id           String  @id @default(uuid()) @db.Uuid
-  Campain      Campain @relation(fields: [campainId], references: [id])
   campainId    String  @db.Uuid
-  User         User    @relation(fields: [userId], references: [id])
   userId       String  @db.Uuid
   name         String
-  age          Int?
+  age          Int     @default(0)
   organization String?
   story        String?
   exp          Int     @default(0)
@@ -123,6 +114,8 @@ model Pc {
   cp           Int     @default(0)
   url          String
   Class        Class[]
+  Campain      Campain @relation(fields: [campainId], references: [id])
+  User         User    @relation(fields: [userId], references: [id])
 
   @@index([userId, name])
   @@map("pcs")
@@ -130,10 +123,11 @@ model Pc {
 
 model Class {
   id        String  @id @default(uuid()) @db.Uuid
-  Pc        Pc      @relation(fields: [pcId], references: [id])
   pcId      String  @db.Uuid
+  order     Int
   className PcClass
   level     Int?
+  Pc        Pc      @relation(fields: [pcId], references: [id])
 
   @@index([pcId, className])
   @@map("classes")
@@ -150,7 +144,6 @@ model Template {
 model EditBlock {
   id                String          @id @default(uuid()) @db.Uuid
   name              BlockName       @default(text)
-  DocumentSection   DocumentSection @relation(fields: [documentSectionId], references: [id])
   documentSectionId String          @db.Uuid
   order             Int
   text              String?
@@ -160,18 +153,19 @@ model EditBlock {
   messageColor      MessageColor?   @default(blue)
   who               String?
   headingLevel      HeadingLevel?   @default(h3)
+  DocumentSection   DocumentSection @relation(fields: [documentSectionId], references: [id])
 
   @@map("edit_blocks")
 }
 
 model DocumentSection {
   id         String      @id @default(uuid()) @db.Uuid
-  Document   Document?   @relation(fields: [documentId], references: [id])
   documentId String?     @db.Uuid
-  Template   Template?   @relation(fields: [templateId], references: [id])
   templateId String?     @db.Uuid
   order      Int
   title      String
+  Document   Document?   @relation(fields: [documentId], references: [id])
+  Template   Template?   @relation(fields: [templateId], references: [id])
   EditBlock  EditBlock[]
 
   @@map("document_sections")

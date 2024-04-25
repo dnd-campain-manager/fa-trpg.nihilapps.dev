@@ -35,6 +35,8 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
     isFetching,
   } = useGetUsers();
 
+  console.log(users?.data);
+
   const usersArray = useMemo(
     () => {
       const filteredUsers = users?.data.filter((user) => {
@@ -79,8 +81,6 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
 
   const onClickAddSubMaster: SubmitHandler<Inputs> = useCallback(
     (data) => {
-      console.log(data);
-
       if (data.userId === 'none') {
         Nihil.toast({
           type: 'error',
@@ -98,6 +98,10 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
         onSuccess({ data: master, }) {
           qc.invalidateQueries({
             queryKey: [ 'getCampainById', campain.id, ],
+          });
+
+          qc.invalidateQueries({
+            queryKey: [ 'getUsers', ],
           });
 
           Nihil.toast({

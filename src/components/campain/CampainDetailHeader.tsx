@@ -2,12 +2,11 @@
 
 import React, { useMemo } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { Icon } from '@iconify/react';
 import {
-  AddPcButton, AddSubMasterButton, CustomButton, PageTitle
+  AddPcButton, AddSubMasterButton, CampainItemStatus, CustomButton, PageTitle, UpdateCampainButton
 } from '@/src/components';
-import { Card, CardContent } from '@/src/shadcn';
-import { Auth, Nihil } from '@/src/utils';
+import { Card } from '@/src/shadcn';
+import { Auth } from '@/src/utils';
 import { authStore, ExtendedCampain } from '@/src/entities';
 import { useGetUserById } from '@/src/hooks';
 
@@ -23,7 +22,6 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
     data: userData,
   } = useGetUserById(session?.userId);
 
-  const mainMaster = Auth.findMainMaster(campain);
   const isSubMaster = Auth.isSubMaster(campain, session);
 
   const isMainMaster = Auth.isMainMaster(campain, session);
@@ -76,9 +74,7 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
         <div className='mb-5 flex flex-row gap-2 items-stretch justify-end'>
           {isEditable && (
             <>
-              <CustomButton h36>
-                <Icon icon='material-symbols:settings-rounded' />
-              </CustomButton>
+              <UpdateCampainButton campain={campain} />
               <AddSubMasterButton campain={campain} />
             </>
           )}
@@ -91,41 +87,7 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
       )}
 
       <Card className='mt-5'>
-        <CardContent className='!p-2 !text-middle flex flex-col gap-1'>
-          <p>
-            <span className={css.itemName}>캠페인 시작일</span>
-            {Nihil.dateToFormat(campain.createdAt)}
-          </p>
-          {campain.status === 'close' && (
-            <p>
-              <span className={css.itemName}>캠페인 종료일</span>
-              {Nihil.dateToFormat(campain.updatedAt)}
-            </p>
-          )}
-          <p>
-            <span className={css.itemName}>메인 마스터</span>
-            {mainMaster.User.name}
-          </p>
-          <p>
-            <span className={css.itemName}>서브 마스터</span>
-            {campain.Master.length !== 0 ? campain.Master.length - 1 : 0}명
-          </p>
-          <p>
-            <span className={css.itemName}>진행 세션수</span>
-            {campain.Session.length !== 0 ? campain.Session.length : 0}회
-          </p>
-          <p>
-            <span className={css.itemName}>캠페인 링크</span>
-            <a
-              href={campain.url}
-              target='_blank'
-              rel='noreferrer noopener'
-              className='underline text-black-base hover:text-blue-500 transition-colors duration-200'
-            >
-              {campain.url}
-            </a>
-          </p>
-        </CardContent>
+        <CampainItemStatus campain={campain} />
       </Card>
     </>
   );

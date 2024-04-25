@@ -3,7 +3,7 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { useGetPcs } from '@/src/hooks';
-import { CustomButton, LoadingCircle } from '@/src/components';
+import { LoadingCircle } from '@/src/components';
 import { Nihil } from '@/src/utils';
 
 interface Props {

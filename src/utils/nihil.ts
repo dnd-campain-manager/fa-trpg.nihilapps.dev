@@ -38,6 +38,10 @@ export class Nihil {
     return this.date(date).format('YYYY.M.D. HH:mm');
   }
 
+  static UTCString(date?: (string | number | Date)) {
+    return this.date(date).toISOString();
+  }
+
   static getDateInfo(date?: (string | number | Date)) {
     const year = this.date(date).get('year');
     const month = this.date(date).get('month');

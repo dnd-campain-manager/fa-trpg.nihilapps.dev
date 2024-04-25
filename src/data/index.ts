@@ -7,3 +7,4 @@ export {
 } from './keys.data';
 
 export { classObj } from './class.data';
+export { expData } from './exp.data';

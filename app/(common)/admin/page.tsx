@@ -1,19 +1,20 @@
 import React from 'react';
 import { setMeta } from '@/src/utils';
+import { AddUserButton } from '@/src/components/admin/AddUserButton';
 
 interface Props {
   //
 }
 
 export const metadata = setMeta({
-  title: '비밀번호 변경',
-  url: '/auth/password-reset',
+  title: '',
+  url: '',
 });
 
-export default function page() {
+export default function AdminPage() {
   return (
     <>
-      <div>content</div>
+      <AddUserButton />
     </>
   );
 }

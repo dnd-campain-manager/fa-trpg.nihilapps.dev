@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { object, string } from 'yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,10 +8,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCreateCampain, useGetCampains } from '@/src/hooks';
 import {
   CampainItem,
-  CampainSearch, CustomButton, CustomForm, CustomFormItem, LoadingCircle, PageTitle
+  CampainSearch, CustomButton, CustomForm, CustomFormItem, EmptyContent, LoadingCircle, PageTitle
 } from '@/src/components';
 import {
-  Card,
   Sheet,
   SheetContent,
   SheetDescription,
@@ -20,24 +18,21 @@ import {
   SheetTitle
 } from '@/src/shadcn';
 import { authStore } from '@/src/entities';
-
-interface Props {
-  styles?: ClassNameValue;
-}
+import { Db } from '@/src/utils';
 
 interface Inputs {
   name: string;
   url: string;
 }
 
-export function CampainList({ styles, }: Props) {
+export function CampainList() {
   const [ sheetOpen, setSheetOpen, ] = useState(false);
 
   const session = authStore((state) => state.session);
 
   const formModel = object({
-    name: string().required('이름을 입력하세요.'),
-    url: string().optional(),
+    name: string().required('이름을 입력해주세요.'),
+    url: string().required('캠페인 소개 카페 게시글 주소를 입력해주세요.'),
   });
 
   const form = useForm({
@@ -82,16 +77,6 @@ export function CampainList({ styles, }: Props) {
     },
     [ session, qc, ]
   );
-
-  const css = {
-    default: twJoin([
-      ``,
-      styles,
-    ]),
-    title: twJoin([
-      `mt-10 bg-primary border-primary text-center !font-900 !text-h4 text-white py-2`,
-    ]),
-  };
 
   if (isFetching || isLoading) {
     return <LoadingCircle />;
@@ -142,7 +127,6 @@ export function CampainList({ styles, }: Props) {
               itemName='url'
               label='카페글 주소'
               type='text'
-              validate={false}
               form={form}
               styles='mb-3'
             />
@@ -158,9 +142,7 @@ export function CampainList({ styles, }: Props) {
 
       <div className='mt-5 flex flex-col gap-5'>
         {campains.data.length === 0 && (
-          <h3 className='py-20 text-center text-h3 font-900 text-black-base my-20 select-none'>
-            캠페인이 없습니다.
-          </h3>
+          <EmptyContent>캠페인이 없습니다.</EmptyContent>
         )}
         {campains.data.map((item) => (
           <CampainItem key={item.id} campain={item} />

@@ -10,7 +10,6 @@ import { UserRole, UserType } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Form,
   Card, CardContent, CardDescription, CardHeader
 } from '@/src/shadcn';
 
@@ -121,7 +120,7 @@ export function SignUpForm({ styles, }: Props) {
               validate={false}
               code='admin,normal'
               codeLabel='관리자,일반회원'
-              disabled
+              disabled={process.env.NODE_ENV === 'production'}
               form={form}
             />
 

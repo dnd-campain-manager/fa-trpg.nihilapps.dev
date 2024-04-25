@@ -11,6 +11,7 @@ import { CustomButton, LoadingCircle, SvgIcon } from '@/src/components';
 import {
   userLockOpenSvg, userLockSvg, userPlusSvg, userSvg
 } from '@/src/images';
+import { Skeleton } from '@/src/shadcn';
 
 interface Props {
   color?: 'black' | 'white';
@@ -57,7 +58,13 @@ export function UserNav({ color = 'black', styles, }: Props) {
   };
 
   if (isLoading || isFetching) {
-    return <LoadingCircle />;
+    return (
+      <div className='justify-end flex flex-row gap-3 mb-2'>
+        <Skeleton className='!h-[36px] !w-[80px]' />
+        <Skeleton className='!h-[36px] !w-[135px]' />
+        <Skeleton className='!h-[36px] !w-[120px]' />
+      </div>
+    );
   }
 
   return (
@@ -74,24 +81,29 @@ export function UserNav({ color = 'black', styles, }: Props) {
         <div className='text-right flex flex-row gap-3'>
           {session ? (
             <>
+              <Link href='/admin'>
+                <CustomButton color={color} h36 styles='!w-[80px]'>
+                  관리자
+                </CustomButton>
+              </Link>
               <Link href='/mypage'>
-                <CustomButton color={color} h36>
+                <CustomButton color={color} h36 styles='!w-[135px]'>
                   <SvgIcon icon={userSvg} styles='w-[20px]' /> 마이페이지
                 </CustomButton>
               </Link>
-              <CustomButton color={color} h36 actions={onClickSignOut}>
+              <CustomButton color={color} h36 actions={onClickSignOut} styles='!w-[120px]'>
                 <SvgIcon icon={userLockOpenSvg} styles='w-[20px]' /> 로그아웃
               </CustomButton>
             </>
           ) : (
             <>
               <Link href='/auth/signup'>
-                <CustomButton color={color} h36>
+                <CustomButton color={color} h36 styles='!w-[135px]'>
                   <SvgIcon icon={userPlusSvg} styles='w-[20px]' /> 회원가입
                 </CustomButton>
               </Link>
               <Link href='/auth/signin'>
-                <CustomButton color={color} h36>
+                <CustomButton color={color} h36 styles='!w-[120px]'>
                   <SvgIcon icon={userLockSvg} styles='w-[20px]' /> 로그인
                 </CustomButton>
               </Link>

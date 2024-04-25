@@ -4,7 +4,7 @@ import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
-  CustomCheck,
+  CustomCheck, CustomDate,
   CustomInput, CustomLabel, CustomRadio, CustomSelect,
   CustomTextArea
 } from '@/src/components';
@@ -19,7 +19,7 @@ interface Props {
   disabled?: boolean;
   showMessage?: boolean;
   code?: string;
-  mode?: 'input' | 'radio' | 'select' | 'checkbox' | 'textarea';
+  mode?: 'input' | 'radio' | 'select' | 'checkbox' | 'textarea' | 'date';
   form: UseFormReturn;
   itemName?: string;
   validate?: boolean;
@@ -32,7 +32,7 @@ export function CustomFormItem({
 }: Props) {
   const css = {
     default: twJoin([
-      ``,
+      `!space-y-0 !mb-0`,
       styles,
     ]),
     input: twJoin([
@@ -108,6 +108,15 @@ export function CustomFormItem({
             )}
             {mode === 'textarea' && (
               <CustomTextArea
+                name={name}
+                field={field}
+                form={form}
+                disabled={disabled}
+                validate={validate}
+              />
+            )}
+            {mode === 'date' && (
+              <CustomDate
                 name={name}
                 field={field}
                 form={form}

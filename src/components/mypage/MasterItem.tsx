@@ -37,10 +37,10 @@ export function MasterItem({ master, styles, }: Props) {
     <>
       <div className={css.default}>
         <div className={css.top}>
-          <h4 className={css.title}>
+          <div className='flex flex-row items-center'>
             <span className={css.itemName}>캠페인 이름</span>
-            {master.Campain.name}
-          </h4>
+            <h4 className={css.title}>{master.Campain.name}</h4>
+          </div>
           <Link
             href={`/campains/${master.campainId}`}
           >

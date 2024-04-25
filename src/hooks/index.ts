@@ -1,6 +1,3 @@
-export { useInput } from './useInput';
-export { useUser } from './useUser';
-
 export { useGetUsers } from './query/users/useGetUsers';
 export { useGetUserById } from './query/users/useGetUserById';
 export { useCreateUser } from './query/users/useCreateUser';

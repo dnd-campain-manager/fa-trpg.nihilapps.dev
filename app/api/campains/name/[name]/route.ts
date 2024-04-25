@@ -36,7 +36,7 @@ export async function GET(_req: NextRequest, { params, }: Params) {
       },
     },
     orderBy: {
-      createdAt: 'desc',
+      startTime: 'desc',
     },
   });
 

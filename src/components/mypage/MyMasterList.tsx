@@ -3,7 +3,7 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { ExtendedUser } from '@/src/entities';
-import { MasterItem, PageTitle } from '@/src/components';
+import { EmptyContent, MasterItem, PageTitle } from '@/src/components';
 
 interface Props {
   userData: ExtendedUser;
@@ -36,9 +36,9 @@ export function MyMasterList({ userData, styles, }: Props) {
 
       <div className={css.default}>
         {masterings.length === 0 && (
-          <p className='font-900 text-h4 text-center text-black-base py-10'>
+          <EmptyContent>
             마스터링 중인 캠페인이 없습니다.
-          </p>
+          </EmptyContent>
         )}
 
         {masterings.map((master) => (
@@ -52,9 +52,9 @@ export function MyMasterList({ userData, styles, }: Props) {
 
       <div className={css.default}>
         {closeMastering.length === 0 && (
-          <p className='font-900 text-h4 text-center text-black-base py-10'>
+          <EmptyContent>
             종료된 캠페인이 없습니다.
-          </p>
+          </EmptyContent>
         )}
 
         {closeMastering.map((master) => (

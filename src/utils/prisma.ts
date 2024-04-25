@@ -63,4 +63,8 @@ export class Db {
   static classData() {
     return this.client().class;
   }
+
+  static userList() {
+    return this.client().user.findMany();
+  }
 }

@@ -48,7 +48,7 @@ export function CustomSelectItem<T extends string>({
       validCond && (field.value === value) && `!bg-blue-500 text-white`,
       invalidCond && (field.value === value) && `!bg-red-500 text-white`,
       disabled && (field.value === value) && `!bg-black-300 text-white`,
-      (field.value === value) && `!bg-black-500 text-white`,
+      (field.value === value) && `bg-black-500 text-white`,
       styles,
     ]),
   };

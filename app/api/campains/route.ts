@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
     skip: page ? (+page - 1) * +page : 0,
     take: 5,
     orderBy: {
-      createdAt: 'desc',
+      startTime: 'desc',
     },
   });
 

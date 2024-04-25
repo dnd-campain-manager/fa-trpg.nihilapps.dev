@@ -16,7 +16,11 @@ export async function GET(_req: NextRequest, { params, }: Params) {
     include: {
       User: true,
       Campain: true,
-      Class: true,
+      Class: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
     },
   });
 

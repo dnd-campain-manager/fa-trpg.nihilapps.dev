@@ -22,6 +22,8 @@ export function MyPage({ styles, }: Props) {
     isSuccess,
   } = useGetUserById(session?.userId);
 
+  console.log(userData?.data);
+
   const css = {
     default: twJoin([
       ``,

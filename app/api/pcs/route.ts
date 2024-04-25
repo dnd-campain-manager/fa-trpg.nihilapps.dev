@@ -7,7 +7,11 @@ export async function GET() {
     include: {
       User: true,
       Campain: true,
-      Class: true,
+      Class: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
     },
   });
 
@@ -51,6 +55,7 @@ export async function POST(req: NextRequest) {
       pcId: createdPc.id,
       className: className1,
       level: level1,
+      order: 1,
     },
   });
 
@@ -60,6 +65,7 @@ export async function POST(req: NextRequest) {
         pcId: createdPc.id,
         className: className2,
         level: level2,
+        order: 2,
       },
     });
   }
@@ -71,7 +77,11 @@ export async function POST(req: NextRequest) {
     include: {
       User: true,
       Campain: true,
-      Class: true,
+      Class: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
     },
   });
 
