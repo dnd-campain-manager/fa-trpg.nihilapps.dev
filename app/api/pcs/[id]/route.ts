@@ -39,8 +39,36 @@ export async function PATCH(req: NextRequest, { params, }: Params) {
     where: {
       id: params.id,
     },
-    data: updatedPcDto,
+    data: {
+      name: updatedPcDto.name,
+      exp: updatedPcDto.exp,
+      age: updatedPcDto.age,
+      story: updatedPcDto.story,
+      organization: updatedPcDto.organization,
+    },
   });
+
+  await Db.classData().update({
+    where: {
+      id: updatedPcDto.classId1,
+    },
+    data: {
+      className: updatedPcDto.className1,
+      level: updatedPcDto.level1,
+    },
+  });
+
+  if (updatedPcDto.classId2) {
+    await Db.classData().update({
+      where: {
+        id: updatedPcDto.classId2,
+      },
+      data: {
+        className: updatedPcDto.className2,
+        level: updatedPcDto.level2,
+      },
+    });
+  }
 
   return NextResponse.json({
     data: updatedPc,

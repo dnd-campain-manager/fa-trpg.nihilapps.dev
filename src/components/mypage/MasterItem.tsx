@@ -1,32 +1,26 @@
 'use client';
 
 import React from 'react';
-import { ClassNameValue, twJoin } from 'tailwind-merge';
+import { twJoin } from 'tailwind-merge';
 import Link from 'next/link';
 import { ExtendedUserMaster } from '@/src/entities';
-import { CustomButton } from '@/src/components';
+import {
+  CustomButton, InfoItem, WhiteBlock
+} from '@/src/components';
 
 interface Props {
   master: ExtendedUserMaster;
-  styles?: ClassNameValue;
 }
 
-export function MasterItem({ master, styles, }: Props) {
+export function MasterItem({ master, }: Props) {
   const typeString = {
     mainMaster: '메인 마스터',
     subMaster: '보조 마스터',
   };
 
   const css = {
-    default: twJoin([
-      `bg-white p-2 rounded-2 text-black-base font-500 text-middle flex flex-col gap-1`,
-      styles,
-    ]),
     top: twJoin([
       `flex flex-row items-center justify-between`,
-    ]),
-    itemName: twJoin([
-      `bg-blue-200 rounded-1 p-1 px-3 inline-block mr-2 font-900 h-[36px]`,
     ]),
     title: twJoin([
       `font-900`,
@@ -35,12 +29,11 @@ export function MasterItem({ master, styles, }: Props) {
 
   return (
     <>
-      <div className={css.default}>
+      <WhiteBlock>
         <div className={css.top}>
-          <div className='flex flex-row items-center'>
-            <span className={css.itemName}>캠페인 이름</span>
-            <h4 className={css.title}>{master.Campain.name}</h4>
-          </div>
+          <InfoItem name='캠페인 이름'>
+            {master.Campain.name}
+          </InfoItem>
           <Link
             href={`/campains/${master.campainId}`}
           >
@@ -50,19 +43,14 @@ export function MasterItem({ master, styles, }: Props) {
           </Link>
         </div>
 
-        <div className='flex flex-row items-center'>
-          <span className={css.itemName}>
-            마스터 유형
-          </span>
+        <InfoItem name='마스터 유형'>
           {typeString[master.masterType]}
-        </div>
-        <div className='flex flex-row items-center'>
-          <span className={css.itemName}>
-            진행 세션 횟수
-          </span>
+        </InfoItem>
+
+        <InfoItem name='세션 진행 횟수'>
           {master.Session.length}회
-        </div>
-      </div>
+        </InfoItem>
+      </WhiteBlock>
     </>
   );
 }

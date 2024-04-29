@@ -3,8 +3,7 @@
 import React, { useMemo } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import Link from 'next/link';
-import { CampainItemStatus, HeadingItem } from '@/src/components';
-import { Card } from '@/src/shadcn';
+import { CampainItemStatus, HeadingItem, WhiteBlock } from '@/src/components';
 import { ExtendedCampain } from '@/src/entities';
 
 interface Props {
@@ -41,8 +40,8 @@ export function CampainItem({ campain, styles, }: Props) {
 
   return (
     <>
-      <Card key={campain.id}>
-        <div className='flex flex-row items-stretch p-2 pb-0 gap-2'>
+      <WhiteBlock>
+        <div className='flex flex-row items-stretch pb-0 gap-2'>
           <Link href={`/campains/${campain.id}`} className='shrink-0 flex-1'>
             <HeadingItem
               level='h3'
@@ -56,7 +55,7 @@ export function CampainItem({ campain, styles, }: Props) {
           </span>
         </div>
         <CampainItemStatus campain={campain} />
-      </Card>
+      </WhiteBlock>
     </>
   );
 }

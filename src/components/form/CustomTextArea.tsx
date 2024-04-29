@@ -13,10 +13,11 @@ interface Props<T extends string> {
   disabled?: boolean;
   styles?: ClassNameValue;
   validate?: boolean;
+  longText?: boolean;
 }
 
 export function CustomTextArea<T extends string>({
-  name, placeholder, field, form, disabled, validate, styles,
+  name, placeholder, field, form, disabled, validate, styles, longText,
 }: Props<T>) {
   const invalidCond = validate
     && (
@@ -41,6 +42,7 @@ export function CustomTextArea<T extends string>({
   const css = {
     default: twJoin([
       `block !p-2 rounded-2 border-2 w-full border-black-base !text-middle placeholder:text-middle text-black-base font-500 !mt-1`,
+      longText && `!h-[150px]`,
       invalidCond && `text-red-500 border-red-500`,
       validCond && `text-blue-500 border-blue-500`,
       disabled && `text-black-200 !border-black-200 bg-black-50`,

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { Icon } from '@iconify/react';
 import { date, object, string } from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,7 +15,6 @@ import { Sheet, SheetContent } from '@/src/shadcn';
 
 interface Props {
   campain: ExtendedCampain;
-  styles?: ClassNameValue;
 }
 
 interface Inputs {
@@ -26,7 +24,7 @@ interface Inputs {
   status: CampainStatus;
 }
 
-export function UpdateCampainButton({ campain, styles, }: Props) {
+export function UpdateCampainButton({ campain, }: Props) {
   const [ open, setOpen, ] = useState(false);
 
   const { session, } = authStore();
@@ -68,13 +66,6 @@ export function UpdateCampainButton({ campain, styles, }: Props) {
     []
   );
 
-  const css = {
-    default: twJoin([
-      ``,
-      styles,
-    ]),
-  };
-
   return (
     <>
       <CustomButton h36 actions={onClickOpen}>
@@ -112,6 +103,10 @@ export function UpdateCampainButton({ campain, styles, }: Props) {
               validate={false}
               form={form}
             />
+
+            <CustomButton type='submit'>
+              캠페인 정보 수정
+            </CustomButton>
           </CustomForm>
         </SheetContent>
       </Sheet>

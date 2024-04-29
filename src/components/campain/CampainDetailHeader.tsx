@@ -3,9 +3,8 @@
 import React, { useMemo } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
-  AddPcButton, AddSubMasterButton, CampainItemStatus, CustomButton, PageTitle, UpdateCampainButton
+  AddPcButton, AddSubMasterButton, CampainItemStatus, CustomButton, PageTitle, UpdateCampainButton, WhiteBlock
 } from '@/src/components';
-import { Card } from '@/src/shadcn';
 import { Auth } from '@/src/utils';
 import { authStore, ExtendedCampain } from '@/src/entities';
 import { useGetUserById } from '@/src/hooks';
@@ -86,9 +85,9 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
         </div>
       )}
 
-      <Card className='mt-5'>
+      <WhiteBlock>
         <CampainItemStatus campain={campain} />
-      </Card>
+      </WhiteBlock>
     </>
   );
 }

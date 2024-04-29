@@ -4,7 +4,7 @@ import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { authStore } from '@/src/entities';
 import {
-  ChangePersonalDataButton, LoadingCircle, MyMasterList, MyPcList, PageTitle, PasswordChangeButton
+  ChangePersonalDataButton, LoadingCircle, MyMasterList, MyPageCountBlock, MyPcList, PageTitle, PasswordChangeButton
 } from '@/src/components';
 import { useGetUserById } from '@/src/hooks';
 
@@ -47,6 +47,8 @@ export function MyPage({ styles, }: Props) {
             <ChangePersonalDataButton userData={userData?.data} />
             <PasswordChangeButton />
           </div>
+
+          <MyPageCountBlock userData={userData?.data} />
 
           <MyPcList userData={userData?.data} />
           <MyMasterList userData={userData?.data} />

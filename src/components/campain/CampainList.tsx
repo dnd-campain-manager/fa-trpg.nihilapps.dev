@@ -18,7 +18,6 @@ import {
   SheetTitle
 } from '@/src/shadcn';
 import { authStore } from '@/src/entities';
-import { Db } from '@/src/utils';
 
 interface Inputs {
   name: string;

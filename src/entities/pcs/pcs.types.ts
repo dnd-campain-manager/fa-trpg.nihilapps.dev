@@ -33,4 +33,7 @@ export interface UpdatePcDto {
   level1?: number;
   className2?: PcClass;
   level2?: number;
+  exp?: number;
+  classId1?: string;
+  classId2?: string;
 }

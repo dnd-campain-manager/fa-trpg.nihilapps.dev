@@ -22,7 +22,7 @@ export function CustomButton({
 }: Props) {
   const css = {
     default: twJoin([
-      `text-middle flex flex-row gap-1 items-center justify-center border-2 font-500 hover:bg-blue-500 hover:border-blue-500 hover:text-white rounded-1 px-3 py-1 transition-colors duration-200`,
+      `text-middle flex flex-row gap-1 items-center justify-center border-2 font-500 hover:bg-blue-500 hover:border-blue-500 hover:text-white rounded-1 px-2 py-1 transition-colors duration-200`,
       color === 'black' && `bg-primary text-white border-primary`,
       color === 'white' && `bg-white text-black-base border-white`,
       h36 && !full && `h-[36px]`,
@@ -33,7 +33,8 @@ export function CustomButton({
       styles,
     ]),
     icon: twJoin([
-      `text-[150%] mr-1`,
+      `text-[100%]`,
+      full && `!text-[130%]`,
     ]),
   };
 

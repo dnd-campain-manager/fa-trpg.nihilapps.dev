@@ -12,6 +12,9 @@ export { LoadingCircle } from './common/LoadingCircle';
 export { SvgIcon } from './common/SvgIcon';
 export { EmptyContent } from './common/EmptyContent';
 export { ExternalLink } from './common/ExternalLink';
+export { InfoName } from './common/InfoName';
+export { InfoItem } from './common/InfoItem';
+export { WhiteBlock } from './common/WhiteBlock';
 
 export { HomePage } from './home/HomePage';
 
@@ -25,6 +28,7 @@ export { ChangePersonalDataButton } from './mypage/ChangePersonalDataButton';
 export { MyMasterList } from './mypage/MyMasterList';
 export { MyPcList } from './mypage/MyPcList';
 export { MasterItem } from './mypage/MasterItem';
+export { MyPageCountBlock } from './mypage/MyPageCountBlock';
 
 export { SessionCalendar } from './calendar/SessionCalendar';
 
@@ -56,5 +60,7 @@ export { CustomDate } from './form/CustomDate';
 export { CustomSheetHeader } from './sheet/CustomSheetHeader';
 
 export { PcList } from './pc/PcList';
+export { PcUpdate } from './pc/PcUpdate';
+export { PcDetail } from './pc/PcDetail';
 
 export { AddUserButton } from './admin/AddUserButton';

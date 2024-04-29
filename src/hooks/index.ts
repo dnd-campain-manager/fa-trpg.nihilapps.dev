@@ -38,3 +38,7 @@ export { useGetPcByLevel } from './query/pcs/useGetPcByLevel';
 export { useCreatePc } from './query/pcs/useCreatePc';
 export { useUpdatePc } from './query/pcs/useUpdatePc';
 export { useDeletePc } from './query/pcs/useDeletePc';
+
+// ---------- useInput ----------
+
+export { useInput } from './useInput';
