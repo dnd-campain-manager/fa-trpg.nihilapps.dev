@@ -1,10 +1,11 @@
 import {
-  Campain, CampainStatus, MasterType, Pc, Session,
+  Campain, CampainStatus, Class, MasterType, Pc, Session,
   User
 } from '@prisma/client';
 
 export interface ExtendedCampainPc extends Pc {
   User: User;
+  Class: Class;
 }
 
 export interface CustomMaster {

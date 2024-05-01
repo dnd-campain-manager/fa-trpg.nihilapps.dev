@@ -1,20 +1,20 @@
 import React from 'react';
 import { setMeta } from '@/src/utils';
-import { AdminBlock } from '@/src/components';
+import { AddUserForm } from '@/src/components';
 
 interface Props {
   //
 }
 
 export const metadata = setMeta({
-  title: '관리자 페이지',
-  url: '/admin',
+  title: '유저 추가',
+  url: '/admin/add-users',
 });
 
-export default function AdminPage() {
+export default function AddUsersPage() {
   return (
     <>
-      <AdminBlock />
+      <AddUserForm />
     </>
   );
 }

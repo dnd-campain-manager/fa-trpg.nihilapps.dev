@@ -39,6 +39,8 @@ export { useCreatePc } from './query/pcs/useCreatePc';
 export { useUpdatePc } from './query/pcs/useUpdatePc';
 export { useDeletePc } from './query/pcs/useDeletePc';
 
+export { useUserSync } from './query/admin/useUserSync';
+
 // ---------- useInput ----------
 
 export { useInput } from './useInput';

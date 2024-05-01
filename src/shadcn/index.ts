@@ -7,7 +7,7 @@ export * from './ui/badge';
 export * from './ui/breadcrumb';
 export * from './ui/button';
 
-export * from './ui/calendar';
+// export * from './ui/calendar';
 export * from './ui/card';
 export * from './ui/carousel';
 export * from './ui/checkbox';

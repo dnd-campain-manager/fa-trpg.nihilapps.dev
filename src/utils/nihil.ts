@@ -35,6 +35,10 @@ export class Nihil {
   }
 
   static dateToFormat(date?: (string | number | Date)) {
+    return this.date(date).format('YYYY.M.D.');
+  }
+
+  static dateToTimeFormat(date?: (string | number | Date)) {
     return this.date(date).format('YYYY.M.D. HH:mm');
   }
 
@@ -43,9 +47,13 @@ export class Nihil {
   }
 
   static getDateInfo(date?: (string | number | Date)) {
-    const year = this.date(date).get('year');
-    const month = this.date(date).get('month');
-    const nowDate = this.date(date).get('date');
+    const year = this.date(date).get('year').toString();
+    let month = this.date(date).get('month').toString();
+    month = (+month + 1) < 10 ? `0${+month + 1}` : `${+month + 1}`;
+
+    let nowDate = this.date(date).get('date').toString();
+    nowDate = +nowDate < 10 ? `0${nowDate}` : nowDate;
+
     const day = this.date(date).get('day');
 
     const dayToString = {
@@ -72,7 +80,7 @@ export class Nihil {
     });
   }
 
-  static undefinedToString<T extends object>(data: T) {
+  static undefinedToString<T>(data: T) {
     const copy = { ...data, };
     const keys = Object.keys(copy);
 

@@ -17,7 +17,8 @@ export {
   type UpdateUserDto,
   type ExtendedUser,
   type ExtendedUserMaster,
-  type ExtendedUserPc
+  type ExtendedUserPc,
+  type UserData
 } from './users/users.types';
 
 export {

@@ -110,7 +110,6 @@ export function PasswordChangeButton({ styles, }: Props) {
 
   const onSubmitResetPassword: SubmitHandler<Inputs2> = useCallback(
     (data) => {
-      console.log(data);
       resetPassword.mutate({
         userId: session.userId,
         signInId: session.signInId,

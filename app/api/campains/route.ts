@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
       },
       Pc: {
         include: {
+          Class: true,
           User: true,
         },
       },
@@ -37,8 +38,27 @@ export async function GET(req: NextRequest) {
     },
   });
 
+  const newCampains = campains.map((campain) => {
+    const pcs = campain.Pc;
+
+    const newPcs = pcs.map((pc) => {
+      const level1 = pc.Class[0].level;
+      const level2 = pc.Class[1] ? pc.Class[1].level : 0;
+
+      return {
+        ...pc,
+        totalLevel: level1 + level2,
+      };
+    });
+
+    return {
+      ...campain,
+      Pc: newPcs,
+    };
+  });
+
   return NextResponse.json({
-    data: campains,
+    data: newCampains,
     message: 'ok',
   }, {
     status: 200,

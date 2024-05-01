@@ -15,8 +15,18 @@ export async function GET() {
     },
   });
 
+  const newPcs = pcs.map((pc) => {
+    const level1 = pc.Class[0].level;
+    const level2 = pc.Class[1] ? pc.Class[1].level : 0;
+
+    return {
+      ...pc,
+      totalLevel: level1 + level2,
+    };
+  });
+
   return NextResponse.json({
-    data: pcs,
+    data: newPcs,
     message: 'ok',
   }, {
     status: 200,

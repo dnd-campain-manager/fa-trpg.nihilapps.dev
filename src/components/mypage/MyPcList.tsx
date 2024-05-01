@@ -3,7 +3,7 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import Link from 'next/link';
-import { ExtendedUser, ExtendedUserPc } from '@/src/entities';
+import { ExtendedUser } from '@/src/entities';
 import {
   CustomButton, EmptyContent, ExternalLink, InfoItem, PageTitle, WhiteBlock
 } from '@/src/components';
@@ -16,14 +16,6 @@ interface Props {
 
 export function MyPcList({ userData, styles, }: Props) {
   const pcs = userData?.Pc;
-
-  const totalLevel = (pc: ExtendedUserPc) => {
-    if (pc.Class.length === 1) {
-      return pc.Class[0].level;
-    } else {
-      return pc.Class[0].level + pc.Class[1].level;
-    }
-  };
 
   const css = {
     default: twJoin([
@@ -58,15 +50,29 @@ export function MyPcList({ userData, styles, }: Props) {
                 <Link href={`/pcs/${pc.id}`}>
                   <CustomButton h36>PC 상세 정보</CustomButton>
                 </Link>
+                <Link href={`/campains/${pc.campainId}`}>
+                  <CustomButton h36>{pc.Campain.name}</CustomButton>
+                </Link>
               </div>
             </div>
 
-            <InfoItem name='클래스 / 레벨'>
+            <InfoItem name='레벨'>
+              {pc.totalLevel}
+            </InfoItem>
+
+            <InfoItem name='클래스'>
               {classObj[pc.Class[0].className]} {pc.Class[0].level}레벨
+              {pc.Class[1] && (
+                <>{classObj[pc.Class[1].className]} {pc.Class[1].level}레벨</>
+              )}
             </InfoItem>
 
             <InfoItem name='경험치'>
-              {pc.exp}pt / {expData[totalLevel(pc)]}pt
+              {pc.exp}pt / {expData[pc.totalLevel]}pt
+            </InfoItem>
+
+            <InfoItem name='플레이어'>
+              {userData.name}
             </InfoItem>
 
             <InfoItem name='비욘드 주소'>

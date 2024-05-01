@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
-import { ClassNameValue, twJoin } from 'tailwind-merge';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   number, object, string
 } from 'yup';
@@ -10,16 +9,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { PcClass } from '@prisma/client';
 import { useQueryClient } from '@tanstack/react-query';
 import {
-  CustomButton, CustomForm, CustomFormItem, CustomSheetHeader
+  CustomButton, CustomForm, CustomFormItem, CustomSheetHeader, UserSyncButton
 } from '@/src/components';
 import { Sheet, SheetContent } from '@/src/shadcn';
-import { classObj, pcsKeys, usersKeys } from '@/src/data';
+import {
+  classObj, pcsKeys, userData, usersKeys
+} from '@/src/data';
 import { useCreatePc } from '@/src/hooks';
 import { authStore, ExtendedCampain } from '@/src/entities';
 
 interface Props {
   campain: ExtendedCampain;
-  styles?: ClassNameValue;
 }
 
 interface Inputs {
@@ -37,7 +37,7 @@ interface Inputs {
   level2?: number;
 }
 
-export function AddPcButton({ campain, styles, }: Props) {
+export function AddPcButton({ campain, }: Props) {
   const [ open, setOpen, ] = useState(false);
 
   const { session, } = authStore();
@@ -50,6 +50,7 @@ export function AddPcButton({ campain, styles, }: Props) {
   );
 
   const formModel = object({
+    userId: string().optional(),
     name: string().required('캐릭터 이름을 입력해주세요.'),
     age: number().optional(),
     organization: string().optional(),
@@ -71,6 +72,7 @@ export function AddPcButton({ campain, styles, }: Props) {
     mode: 'all',
     resolver: yupResolver(formModel),
     defaultValues: {
+      userId: '',
       name: '',
       age: 0,
       organization: '',
@@ -84,19 +86,21 @@ export function AddPcButton({ campain, styles, }: Props) {
     },
   });
 
+  useEffect(() => {
+    form.setValue('userId', session?.userId);
+  }, [ session, ]);
+
   const qc = useQueryClient();
   const createPc = useCreatePc();
 
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
       createPc.mutate({
-        userId: session?.userId,
+        userId: data.userId || session?.userId,
         campainId: campain.id,
         ...data,
       }, {
-        onSuccess(res) {
-          console.log(res);
-
+        onSuccess() {
           qc.invalidateQueries({
             queryKey: pcsKeys.getAll,
           });
@@ -115,13 +119,6 @@ export function AddPcButton({ campain, styles, }: Props) {
   const classCodes = Object.keys(classObj);
   const classLabels = Object.values(classObj);
 
-  const css = {
-    default: twJoin([
-      ``,
-      styles,
-    ]),
-  };
-
   return (
     <>
       <CustomButton h36 actions={onClickOpen}>캐릭터 등록</CustomButton>
@@ -134,6 +131,21 @@ export function AddPcButton({ campain, styles, }: Props) {
           />
 
           <CustomForm form={form} onSubmit={form.handleSubmit(onSubmitForm)}>
+            {process.env.NODE_ENV === 'development' && (
+              <>
+                <UserSyncButton />
+
+                <CustomFormItem
+                  name='userId'
+                  itemName='userId'
+                  label='플레이어 선택'
+                  mode='select'
+                  code={userData.map((user) => user.id).join(',')}
+                  codeLabel={userData.map((user) => user.name).join(',')}
+                  form={form}
+                />
+              </>
+            )}
             <CustomFormItem
               name='url'
               itemName='url'

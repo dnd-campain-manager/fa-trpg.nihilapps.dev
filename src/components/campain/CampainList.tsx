@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { object, string } from 'yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCreateCampain, useGetCampains } from '@/src/hooks';
 import {
   CampainItem,
-  CampainSearch, CustomButton, CustomForm, CustomFormItem, EmptyContent, LoadingCircle, PageTitle
+  CampainSearch, CustomButton, CustomForm, CustomFormItem, EmptyContent, LoadingCircle, PageTitle, UserSyncButton
 } from '@/src/components';
 import {
   Sheet,
@@ -18,8 +18,10 @@ import {
   SheetTitle
 } from '@/src/shadcn';
 import { authStore } from '@/src/entities';
+import { userData } from '@/src/data';
 
 interface Inputs {
+  userId: string;
   name: string;
   url: string;
 }
@@ -30,6 +32,7 @@ export function CampainList() {
   const session = authStore((state) => state.session);
 
   const formModel = object({
+    userId: string().optional(),
     name: string().required('이름을 입력해주세요.'),
     url: string().required('캠페인 소개 카페 게시글 주소를 입력해주세요.'),
   });
@@ -38,6 +41,7 @@ export function CampainList() {
     mode: 'all',
     resolver: yupResolver(formModel),
     defaultValues: {
+      userId: '',
       name: '',
       url: '',
     },
@@ -62,7 +66,7 @@ export function CampainList() {
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
       createCampain.mutate({
-        userId: session.userId,
+        userId: data.userId || session?.userId,
         name: data.name,
         status: 'ready',
         url: data.url,
@@ -76,6 +80,10 @@ export function CampainList() {
     },
     [ session, qc, ]
   );
+
+  useEffect(() => {
+    form.setValue('userId', session?.userId);
+  }, [ session, ]);
 
   if (isFetching || isLoading) {
     return <LoadingCircle />;
@@ -112,6 +120,22 @@ export function CampainList() {
             form={form}
             onSubmit={form.handleSubmit(onSubmitForm)}
           >
+            {process.env.NODE_ENV === 'development' && (
+              <>
+                <UserSyncButton />
+
+                <CustomFormItem
+                  name='userId'
+                  itemName='userId'
+                  label='플레이어 선택'
+                  mode='select'
+                  code={userData.map((user) => user.id).join(',')}
+                  codeLabel={userData.map((user) => user.name).join(',')}
+                  form={form}
+                />
+              </>
+            )}
+
             <CustomFormItem
               name='name'
               itemName='name'

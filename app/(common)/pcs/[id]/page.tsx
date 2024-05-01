@@ -25,7 +25,6 @@ export async function generateMetadata({ params, }: Params) {
 }
 
 export default function PcDetailPage({ params, }: Props) {
-  console.log('pcId >> ', params.id);
   return (
     <PcDetail pcId={params.id} />
   );

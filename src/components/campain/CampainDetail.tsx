@@ -25,9 +25,11 @@ export function CampainDetail({ campainId, styles, }: Props) {
   }
 
   return (
-    <>
-      <CampainDetailHeader campain={campain?.data.data} />
-      <CampainDetailContent campain={campain?.data.data} />
-    </>
+    campain.isSuccess && (
+      <>
+        <CampainDetailHeader campain={campain?.data.data} />
+        <CampainDetailContent campain={campain?.data.data} />
+      </>
+    )
   );
 }

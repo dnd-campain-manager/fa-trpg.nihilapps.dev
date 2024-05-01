@@ -3,6 +3,11 @@ import {
   Master, Pc, Session, User, UserRole, UserType
 } from '@prisma/client';
 
+export interface UserData {
+  id: string;
+  name: string;
+}
+
 export interface ExtendedUserMaster extends Master {
   Session: Session[];
   Campain: Campain;
@@ -11,6 +16,7 @@ export interface ExtendedUserMaster extends Master {
 export interface ExtendedUserPc extends Pc {
   Campain: Campain;
   Class: Class[];
+  totalLevel: number;
 }
 
 export interface ExtendedUser extends User {

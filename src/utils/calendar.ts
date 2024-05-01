@@ -30,18 +30,21 @@ export class Calendar {
     year: number,
     month: number
   ) {
-    const lastDate = Nihil.date(`${year}-${month + 1}-01`)
+    const lastDate = Nihil
+      .date(`${year}-${month}-01`)
       .daysInMonth();
 
-    return new Array(lastDate).fill(1).map((item, index) => {
-      const currentDate = Nihil.date(`${year}-${month + 1}-${item + index}`);
-      const day = currentDate.get('day');
-      const date = currentDate.get('date');
+    return new Array(lastDate).fill(1).map(
+      (item, index) => {
+        const currentDate = Nihil.date(`${year}-${month}-${item + index}`);
+        const day = currentDate.get('day');
+        const date = currentDate.get('date');
 
-      return {
-        day,
-        date,
-      };
-    });
+        return {
+          day,
+          date,
+        };
+      }
+    );
   }
 }

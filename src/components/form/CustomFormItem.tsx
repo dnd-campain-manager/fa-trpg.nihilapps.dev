@@ -25,11 +25,12 @@ interface Props {
   validate?: boolean;
   singleInput?: boolean;
   longText?: boolean;
+  initDate?: string;
   styles?: ClassNameValue;
 }
 
 export function CustomFormItem({
-  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false,
+  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate,
 }: Props) {
   const css = {
     default: twJoin([
@@ -121,8 +122,8 @@ export function CustomFormItem({
             {mode === 'date' && (
               <CustomDate
                 name={name}
-                field={field}
                 form={form}
+                initDate={initDate}
                 disabled={disabled}
                 validate={validate}
               />

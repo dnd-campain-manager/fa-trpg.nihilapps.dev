@@ -22,13 +22,13 @@ export function CampainDetailContent({ campain, styles, }: Props) {
   return (
     <>
       <Link href={`/campains/${campain.id}/masters`} className='block mt-5'>
-        <CustomButton full>마스터 목록</CustomButton>
+        <CustomButton full icon='mdi:alpha-m-circle'>마스터 목록</CustomButton>
       </Link>
       <Link href={`/campains/${campain.id}/pcs`} className='mt-5 block'>
-        <CustomButton full>PC 목록</CustomButton>
+        <CustomButton full icon='fluent:people-community-24-filled'>PC 목록</CustomButton>
       </Link>
       <Link href={`/campains/${campain.id}/sessions`} className='mt-5 block'>
-        <CustomButton full>세션 목록</CustomButton>
+        <CustomButton full icon='mingcute:paper-fill'>세션 목록</CustomButton>
       </Link>
     </>
   );

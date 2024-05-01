@@ -35,8 +35,6 @@ export function AddSubMasterButton({ campain, styles, }: Props) {
     isFetching,
   } = useGetUsers();
 
-  console.log(users?.data);
-
   const usersArray = useMemo(
     () => {
       const filteredUsers = users?.data.filter((user) => {

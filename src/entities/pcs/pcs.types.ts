@@ -3,6 +3,7 @@ import {
 } from '@prisma/client';
 
 export interface ExtendedPc extends Pc {
+  totalLevel: number;
   User: User;
   Campain: Campain;
   Class: Class[];

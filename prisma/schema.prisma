@@ -53,8 +53,8 @@ model Campain {
   id        String        @id @default(uuid()) @db.Uuid
   name      String        @unique
   status    CampainStatus @default(ready)
-  startTime DateTime?
-  endTime   DateTime?
+  startTime String?
+  endTime   String?
   url       String
   subMaster String[]
   Master    Master[]

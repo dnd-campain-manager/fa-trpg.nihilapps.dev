@@ -31,6 +31,7 @@ export async function GET(_req: NextRequest, { params, }: Params) {
       },
       Pc: {
         include: {
+          Class: true,
           User: true,
         },
       },
@@ -40,17 +41,27 @@ export async function GET(_req: NextRequest, { params, }: Params) {
     },
   });
 
-  if (!campains) {
-    return NextResponse.json({
-      data: null,
-      message: 'not found campain',
-    }, {
-      status: 400,
+  const newCampains = campains.map((campain) => {
+    const pcs = campain.Pc;
+
+    const newPcs = pcs.map((pc) => {
+      const level1 = pc.Class[0].level;
+      const level2 = pc.Class[1] ? pc.Class[1].level : 0;
+
+      return {
+        ...pc,
+        totalLevel: level1 + level2,
+      };
     });
-  }
+
+    return {
+      ...campain,
+      Pc: newPcs,
+    };
+  });
 
   return NextResponse.json({
-    data: campains,
+    data: newCampains,
     message: 'ok',
   }, {
     status: 200,

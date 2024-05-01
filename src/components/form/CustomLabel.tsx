@@ -26,7 +26,7 @@ export function CustomLabel({
     [ fieldLabel, itemName, name, ]
   );
 
-  const invalidCond = validate
+  const invalidCond = ((mode === 'date' && !validate) || validate)
     && (
       (
         form.formState.isSubmitted
@@ -59,18 +59,34 @@ export function CustomLabel({
 
   return (
     <>
-      <label
-        htmlFor={fName}
-        className={css.default}
-      >
-        {children}
-        {(validate && fieldLabel) && (
-          <span className='text-red-500'>
-            *
-            <span className='a11y-hidden'>필수 입력사항</span>
+      {
+        (mode === 'select') || (mode === 'date') ? (
+          <span
+            className={css.default}
+          >
+            {children}
+            {(validate && fieldLabel) && (
+              <span className='text-red-500'>
+                *
+                <span className='a11y-hidden'>필수 입력사항</span>
+              </span>
+            )}
           </span>
-        )}
-      </label>
+        ) : (
+          <label
+            htmlFor={fName}
+            className={css.default}
+          >
+            {children}
+            {(validate && fieldLabel) && (
+              <span className='text-red-500'>
+                *
+                <span className='a11y-hidden'>필수 입력사항</span>
+              </span>
+            )}
+          </label>
+        )
+      }
     </>
   );
 }

@@ -7,7 +7,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRole, UserType } from '@prisma/client';
 import { useQueryClient } from '@tanstack/react-query';
-import { CustomButton, CustomForm, CustomFormItem } from '@/src/components';
+import Link from 'next/link';
+import {
+  CustomButton, CustomForm, CustomFormItem, WhiteBlock
+} from '@/src/components';
 import { useSignUp } from '@/src/hooks';
 
 interface Props {
@@ -21,7 +24,7 @@ interface Inputs {
   userType: UserType;
 }
 
-export function AddUserButton({ styles, }: Props) {
+export function AddUserForm({ styles, }: Props) {
   const formModel = object({
     name: string(),
     password: string(),
@@ -69,7 +72,13 @@ export function AddUserButton({ styles, }: Props) {
   };
 
   return (
-    <>
+    <WhiteBlock>
+      <Link href='/admin/users' className='block !mb-5'>
+        <CustomButton icon='mdi:user' full>
+          유저 목록
+        </CustomButton>
+      </Link>
+
       <CustomForm form={form} onSubmit={form.handleSubmit(onSubmitForm)}>
         <CustomFormItem
           name='name'
@@ -112,6 +121,6 @@ export function AddUserButton({ styles, }: Props) {
 
         <CustomButton type='submit' full>유저 추가</CustomButton>
       </CustomForm>
-    </>
+    </WhiteBlock>
   );
 }

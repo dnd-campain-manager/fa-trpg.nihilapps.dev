@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db, Nihil } from '@/src/utils';
-import { ExtendedUser, UpdateUserDto } from '@/src/entities';
+import { Db } from '@/src/utils';
+import { UpdateUserDto } from '@/src/entities';
 
 interface Params {
   params: {
@@ -29,8 +29,33 @@ export async function GET(_: NextRequest, { params, }: Params) {
     },
   });
 
+  const newPcs = user.Pc.map((pc) => {
+    const level1 = pc.Class[0].level;
+    const level2 = pc.Class[1] ? pc.Class[1].level : 0;
+
+    return {
+      ...pc,
+      totalLevel: level1 + level2,
+    };
+  });
+
+  const copy = { ...user, };
+  const userKeys = Object.keys(copy);
+
+  userKeys.forEach((key) => {
+    if (copy[key] === undefined) {
+      copy[key] = '';
+    }
+
+    if (copy[key] === null) {
+      copy[key] = '';
+    }
+  });
+
+  copy.Pc = newPcs;
+
   return NextResponse.json({
-    data: Nihil.undefinedToString<ExtendedUser>(user),
+    data: copy,
     message: 'ok',
   }, {
     status: 200,

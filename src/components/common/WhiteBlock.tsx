@@ -11,7 +11,7 @@ interface Props {
 export function WhiteBlock({ children, styles, }: Props) {
   const css = {
     default: twJoin([
-      `p-3 bg-white font-500 rounded-2 text-middle space-y-1`,
+      `p-3 bg-white font-500 rounded-2 text-middle space-y-2`,
       styles,
     ]),
   };

@@ -81,8 +81,6 @@ export function PcUpdate({ pcId, styles, }: Props) {
 
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
-      console.log(data);
-
       updatePc.mutate({
         classId1: pc?.data.Class[0].id,
         classId2: pc?.data.Class[1] ? pc?.data.Class[1].id : undefined,
@@ -98,8 +96,6 @@ export function PcUpdate({ pcId, styles, }: Props) {
         organization: data.organization,
       }, {
         onSuccess(res) {
-          console.log(res.data);
-
           qc.invalidateQueries({
             queryKey: pcsKeys.getById(pc?.data.id),
           });
