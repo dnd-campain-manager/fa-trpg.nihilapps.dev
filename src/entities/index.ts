@@ -50,7 +50,8 @@ export {
 export {
   type CreateMasterDto,
   type UpdateMasterDto,
-  type ExtendedMaster
+  type ExtendedMaster,
+  type MasterPages
 } from './masters/masters.types';
 
 export {

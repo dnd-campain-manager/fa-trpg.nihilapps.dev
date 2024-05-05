@@ -43,6 +43,8 @@ export { CampainSessionList } from './campain/CampainSessionList';
 export { AddPcButton } from './campain/AddPcButton';
 export { UpdateCampainButton } from './campain/UpdateCampainButton';
 export { CampainItemStatus } from './campain/CampainItemStatus';
+export { CampainMasterList } from './campain/CampainMasterList';
+export { MasterListItem } from './campain/MasterListItem';
 
 export { CustomLabel } from './form/CustomLabel';
 export { CustomButton } from './form/CustomButton';

@@ -37,13 +37,14 @@ model Auth {
 }
 
 model Master {
-  id         String     @id @default(uuid()) @db.Uuid
-  userId     String     @db.Uuid
-  campainId  String     @db.Uuid
-  masterType MasterType
-  Campain    Campain    @relation(fields: [campainId], references: [id])
-  User       User       @relation(fields: [userId], references: [id])
-  Session    Session[]
+  id           String       @id @default(uuid()) @db.Uuid
+  userId       String       @db.Uuid
+  campainId    String       @db.Uuid
+  masterType   MasterType
+  masterStatus MasterStatus @default(join)
+  Campain      Campain      @relation(fields: [campainId], references: [id])
+  User         User         @relation(fields: [userId], references: [id])
+  Session      Session[]
 
   @@index([userId, campainId])
   @@map("masters")
@@ -169,6 +170,11 @@ model DocumentSection {
   EditBlock  EditBlock[]
 
   @@map("document_sections")
+}
+
+enum MasterStatus {
+  join
+  leave
 }
 
 enum HeadingLevel {

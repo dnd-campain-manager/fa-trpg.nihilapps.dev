@@ -1,5 +1,5 @@
 import {
-  Campain, CampainStatus, Class, MasterType, Pc, Session,
+  Campain, CampainStatus, Class, Master, MasterType, Pc, Session,
   User
 } from '@prisma/client';
 
@@ -8,8 +8,8 @@ export interface ExtendedCampainPc extends Pc {
   Class: Class;
 }
 
-export interface CustomMaster {
-  masterType: MasterType;
+export interface CustomMaster extends Master {
+  Session: Session[],
   User: User;
 }
 

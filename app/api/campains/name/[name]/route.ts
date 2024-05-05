@@ -16,16 +16,16 @@ export async function GET(_req: NextRequest, { params, }: Params) {
       Session: {
         include: {
           Master: {
-            select: {
-              masterType: true,
+            include: {
+              Session: true,
               User: true,
             },
           },
         },
       },
       Master: {
-        select: {
-          masterType: true,
+        include: {
+          Session: true,
           User: true,
         },
       },

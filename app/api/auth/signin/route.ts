@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
 
   const session: UserSession = {
     userId: findUser.id,
+    userRole: findUser.userRole,
     signInId: userAuth.id,
     accessToken: auth.accessToken,
     refreshToken: auth.refreshToken,

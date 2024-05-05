@@ -6,8 +6,8 @@ export async function GET() {
   const sessions = await Db.sessions().findMany({
     include: {
       Master: {
-        select: {
-          masterType: true,
+        include: {
+          Session: true,
           User: true,
         },
       },

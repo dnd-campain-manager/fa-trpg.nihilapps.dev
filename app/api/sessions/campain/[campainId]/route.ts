@@ -14,8 +14,8 @@ export async function GET(req: NextRequest, { params, }: Params) {
     },
     include: {
       Master: {
-        select: {
-          masterType: true,
+        include: {
+          Session: true,
           User: true,
         },
       },

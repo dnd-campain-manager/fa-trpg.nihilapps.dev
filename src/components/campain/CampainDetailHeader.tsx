@@ -7,7 +7,6 @@ import {
 } from '@/src/components';
 import { Auth } from '@/src/utils';
 import { authStore, ExtendedCampain } from '@/src/entities';
-import { useGetUserById } from '@/src/hooks';
 
 interface Props {
   campain: ExtendedCampain;
@@ -17,14 +16,10 @@ interface Props {
 export function CampainDetailHeader({ campain, styles, }: Props) {
   const session = authStore((state) => state.session);
 
-  const {
-    data: userData,
-  } = useGetUserById(session?.userId);
-
   const isSubMaster = Auth.isSubMaster(campain, session);
 
   const isMainMaster = Auth.isMainMaster(campain, session);
-  const isAdmin = Auth.isAdmin(userData?.data);
+  const isAdmin = Auth.isAdmin(session);
 
   const isEditable = isMainMaster || isAdmin;
   const isSessionCreatable = (isMainMaster || isSubMaster) || isAdmin;

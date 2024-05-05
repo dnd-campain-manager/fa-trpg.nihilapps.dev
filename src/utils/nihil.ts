@@ -35,7 +35,7 @@ export class Nihil {
   }
 
   static dateToFormat(date?: (string | number | Date)) {
-    return this.date(date).format('YYYY.M.D.');
+    return this.date(date).format('YYYY년 MM월 DD일');
   }
 
   static dateToTimeFormat(date?: (string | number | Date)) {

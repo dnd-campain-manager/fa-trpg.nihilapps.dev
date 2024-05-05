@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { object, string } from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -8,10 +8,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRole, UserType } from '@prisma/client';
 import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
+import { AxiosError } from 'axios';
 import {
   CustomButton, CustomForm, CustomFormItem, WhiteBlock
 } from '@/src/components';
 import { useSignUp } from '@/src/hooks';
+import { ApiError } from '@/src/entities';
+import { Message } from '@/src/shadcn';
 
 interface Props {
   styles?: ClassNameValue;
@@ -25,6 +28,8 @@ interface Inputs {
 }
 
 export function AddUserForm({ styles, }: Props) {
+  const [ errorMessage, setErrorMessage, ] = useState('');
+
   const formModel = object({
     name: string(),
     password: string(),
@@ -58,10 +63,14 @@ export function AddUserForm({ styles, }: Props) {
           qc.invalidateQueries();
 
           form.reset();
+          setErrorMessage('');
+        },
+        onError(error: AxiosError<ApiError>) {
+          setErrorMessage(error.response.data.message);
         },
       });
     },
-    []
+    [ qc, ]
   );
 
   const css = {
@@ -118,6 +127,12 @@ export function AddUserForm({ styles, }: Props) {
           validate={false}
           form={form}
         />
+
+        {errorMessage && (
+          <Message color='red'>
+            {errorMessage}
+          </Message>
+        )}
 
         <CustomButton type='submit' full>유저 추가</CustomButton>
       </CustomForm>

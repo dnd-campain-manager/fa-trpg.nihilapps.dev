@@ -45,6 +45,7 @@ export interface ChangePersonalDataDto {
 
 export interface UserSession {
   userId: string;
+  userRole: UserRole;
   signInId: string;
   accessToken: string;
   refreshToken: string;

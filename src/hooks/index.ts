@@ -27,6 +27,10 @@ export { useUpdateSession } from './query/sessions/useUpdateSession';
 export { useDeleteSession } from './query/sessions/useDeleteSession';
 export { useGetSessionByCampainId } from './query/sessions/useGetSessionByCampainId';
 
+export { useGetMasters } from './query/masters/useGetMasters';
+export { useGetMasterById } from './query/masters/useGetMasterById';
+export { useGetMasterByCampainId } from './query/masters/useGetMasterByCampainId';
+export { useIQGetMastersByCampainId } from './query/masters/useIQGetMastersByCampainId';
 export { useCreateMaster } from './query/masters/useCreateMaster';
 export { useUpdateMaster } from './query/masters/useUpdateMaster';
 export { useDeleteMaster } from './query/masters/useDeleteMaster';

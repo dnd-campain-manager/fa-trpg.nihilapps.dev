@@ -11,16 +11,16 @@ export async function GET(req: NextRequest) {
       Session: {
         include: {
           Master: {
-            select: {
-              masterType: true,
+            include: {
+              Session: true,
               User: true,
             },
           },
         },
       },
       Master: {
-        select: {
-          masterType: true,
+        include: {
+          Session: true,
           User: true,
         },
       },

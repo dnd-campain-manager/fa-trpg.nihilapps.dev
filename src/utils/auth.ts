@@ -1,4 +1,4 @@
-import { ExtendedCampain, ExtendedUser, UserSession } from '@/src/entities';
+import { ExtendedCampain, UserSession } from '@/src/entities';
 
 export class Auth {
   static isSignIn(loading: boolean, fetching: boolean) {
@@ -54,12 +54,12 @@ export class Auth {
   }
 
   static isAdmin(
-    user: ExtendedUser
+    session: UserSession
   ) {
-    if (user) {
-      return user.userRole === 'admin';
-    } else {
+    if (!session) {
       return false;
     }
+
+    return session?.userRole === 'admin';
   }
 }

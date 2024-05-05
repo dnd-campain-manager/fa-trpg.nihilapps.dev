@@ -8,7 +8,12 @@ interface Params {
   }
 }
 
-export async function GET(_: NextRequest, { params, }: Params) {
+export async function GET(
+  req: NextRequest,
+  { params, }: Params
+) {
+  const page = req.nextUrl.searchParams.get('page');
+
   const campain = await Db.campains().findFirst({
     where: {
       id: params.id,
@@ -17,16 +22,16 @@ export async function GET(_: NextRequest, { params, }: Params) {
       Session: {
         include: {
           Master: {
-            select: {
-              masterType: true,
+            include: {
+              Session: true,
               User: true,
             },
           },
         },
       },
       Master: {
-        select: {
-          masterType: true,
+        include: {
+          Session: true,
           User: true,
         },
       },

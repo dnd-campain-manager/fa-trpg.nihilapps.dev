@@ -25,7 +25,6 @@ interface Inputs1 {
 
 interface Inputs2 {
   newName: string;
-  newEmail: string;
 }
 
 export function ChangePersonalDataButton({ userData, }: Props) {
@@ -71,7 +70,6 @@ export function ChangePersonalDataButton({ userData, }: Props) {
     resolver: yupResolver(formModel2),
     defaultValues: {
       newName: session ? userData.name : '',
-      newEmail: session ? userData.email : '',
     },
   });
 
@@ -107,7 +105,6 @@ export function ChangePersonalDataButton({ userData, }: Props) {
         userId: session.userId,
         signInId: session.signInId,
         newName: data.newName,
-        newEmail: data.newEmail,
       }, {
         onSuccess(res) {
           if (res.message === 'ok') {
@@ -185,15 +182,6 @@ export function ChangePersonalDataButton({ userData, }: Props) {
                 mode='input'
                 type='text'
                 label='이름'
-                form={form2}
-              />
-
-              <CustomFormItem
-                name='newEmail'
-                itemName='newEmail'
-                mode='input'
-                type='email'
-                label='이메일'
                 form={form2}
               />
 

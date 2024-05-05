@@ -6,7 +6,8 @@ export {
   usersKeys,
   campainsKeys,
   sessionsKeys,
-  pcsKeys
+  pcsKeys,
+  mastersKeys
 } from './keys.data';
 
 export { classObj } from './class.data';

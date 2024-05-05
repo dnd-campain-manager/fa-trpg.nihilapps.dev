@@ -35,7 +35,6 @@ export async function POST(req: NextRequest) {
     },
     data: {
       name: newName,
-      email: newEmail,
     },
   });
 
@@ -58,6 +57,7 @@ export async function POST(req: NextRequest) {
 
   const userSession: UserSession = {
     userId: user.id,
+    userRole: user.userRole,
     signInId,
     accessToken: auth.accessToken,
     accessExp: accessTokenInfo.exp,

@@ -22,3 +22,9 @@ export const pcsKeys = {
   getByName: (name: string) => [ 'getPcByName', name, ],
   getByLevel: (level: number) => [ 'getPcByLevel', level, ],
 };
+
+export const mastersKeys = {
+  getAll: [ 'getMasters', ],
+  getById: (id: string) => [ 'getMasterById', id, ],
+  getByCampainId: (campainId: string) => [ 'getMasterByCampainId', campainId, ],
+};

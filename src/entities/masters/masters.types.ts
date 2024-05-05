@@ -1,8 +1,18 @@
-import { MasterType, Session, User } from '@prisma/client';
+import {
+  Campain,
+  Master,
+  MasterStatus, MasterType, Session, User
+} from '@prisma/client';
 
-export interface ExtendedMaster {
+export interface ExtendedMaster extends Master {
   User: User;
   Session: Session[];
+  Campain: Campain;
+}
+
+export interface MasterPages {
+  masters: ExtendedMaster[];
+  url: string;
 }
 
 export interface CreateMasterDto {
@@ -15,5 +25,6 @@ export interface UpdateMasterDto {
   masterId: string;
   userId: string;
   campainId: string;
-  masterType: MasterType;
+  masterType?: MasterType;
+  masterStatus?: MasterStatus;
 }

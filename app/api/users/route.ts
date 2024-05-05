@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
   if (findUser) {
     return NextResponse.json({
       data: null,
-      message: 'name conflict',
+      message: '이미 존재하는 플레이어입니다.',
     }, {
       status: 409,
     });
