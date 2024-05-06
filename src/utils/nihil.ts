@@ -96,4 +96,37 @@ export class Nihil {
 
     return copy;
   }
+
+  static hasNextPage(
+    items: number,
+    perPage: number,
+    page: number,
+    total: number
+  ) {
+    // perPage 를 꽉 채우는지 아닌지 결정함.
+    let pageItems: number;
+    if (perPage - items === 0) {
+      pageItems = perPage;
+    } else {
+      pageItems = items;
+    }
+
+    let currentItems: number;
+
+    if (page === 1) {
+      // 페이지가 1일 경우 현재 아이템 개수
+      currentItems = pageItems;
+    } else {
+      // 이전 페이지까지의 아이템 개수
+      const prevItems = perPage * (page - 1);
+
+      // 현재 페이지의 아이템 개수와 이전 페이지까지의 아이템 개수를 더함.
+      currentItems = prevItems + pageItems;
+    }
+
+    // 현재 페이지까지의 아이템 개수와 총 아이템 개수를 뺀다.
+    const diff = total - currentItems;
+
+    return diff !== 0;
+  }
 }

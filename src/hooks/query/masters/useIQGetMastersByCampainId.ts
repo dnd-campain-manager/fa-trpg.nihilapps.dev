@@ -9,10 +9,13 @@ export function useIQGetMastersByCampainId(
     queryKey: mastersKeys.getByCampainId(campainId),
     queryFn: ({ pageParam, }) => MastersQuery.getByCampainId(
       campainId,
-      pageParam as string
+      pageParam
     ),
-    getNextPageParam: (lastPage) => lastPage.data.url || null,
-    initialPageParam: null,
+    getNextPageParam: (lastPage) => {
+      return lastPage.data.page;
+    },
+    initialPageParam: 1,
+    enabled: !!campainId,
   });
 
   return query;

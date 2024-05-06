@@ -14,12 +14,10 @@ export class MastersQuery {
 
   static async getByCampainId(
     campainId: string,
-    url: string
+    page: number
   ) {
-    const defaultUrl = url || `/masters/campain/${campainId}?page=1&lastId`;
-
     const { data, } = await Api.get<MasterPages>(
-      defaultUrl
+      `/masters/campain/${campainId}?page=${page}`
     );
 
     return data;

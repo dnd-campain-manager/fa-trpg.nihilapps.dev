@@ -38,7 +38,8 @@ export {
   type UpdateCampainDto,
   type ExtendedCampain,
   type CustomMaster,
-  type ExtendedCampainPc
+  type ExtendedCampainPc,
+  type CampainPages
 } from './campains/campains.types';
 
 export {

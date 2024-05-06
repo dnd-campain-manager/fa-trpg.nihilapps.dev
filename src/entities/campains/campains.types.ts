@@ -23,6 +23,12 @@ export interface ExtendedCampain extends Campain {
   Pc: ExtendedCampainPc[];
 }
 
+export interface CampainPages {
+  campains: ExtendedCampain[];
+  total: number;
+  page: number;
+}
+
 export interface CreateCampainDto {
   userId: string;
   name: string;

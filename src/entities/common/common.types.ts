@@ -37,4 +37,5 @@ export interface IConfigData {
   };
   image: string;
   version: string;
+  perPage: number;
 }

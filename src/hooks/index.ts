@@ -12,7 +12,7 @@ export { useUserCheck } from './query/auth/useUserCheck';
 export { useResetPassword } from './query/auth/useResetPassword';
 export { UseChangePersonalData } from './query/auth/useChangePersonalData';
 
-export { useGetCampains } from './query/campains/useGetCampains';
+export { useIQGetCampains } from './query/campains/useIQGetCampains';
 export { useGetCampainById } from './query/campains/useGetCampainById';
 export { useGetCampainByName } from './query/campains/useGetCampainByName';
 export { useCreateCampain } from './query/campains/useCreateCampain';
@@ -29,7 +29,6 @@ export { useGetSessionByCampainId } from './query/sessions/useGetSessionByCampai
 
 export { useGetMasters } from './query/masters/useGetMasters';
 export { useGetMasterById } from './query/masters/useGetMasterById';
-export { useGetMasterByCampainId } from './query/masters/useGetMasterByCampainId';
 export { useIQGetMastersByCampainId } from './query/masters/useIQGetMastersByCampainId';
 export { useCreateMaster } from './query/masters/useCreateMaster';
 export { useUpdateMaster } from './query/masters/useUpdateMaster';

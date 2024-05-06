@@ -16,8 +16,6 @@ interface Props {
 }
 
 export function CampainMasterList({ campain, styles, }: Props) {
-  const mastersCount = campain.Master.length;
-
   const {
     data: masters,
     isLoading,

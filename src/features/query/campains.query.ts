@@ -1,10 +1,12 @@
 import { Campain } from '@prisma/client';
 import { Api } from '@/src/utils';
-import { CreateCampainDto, ExtendedCampain, UpdateCampainDto } from '@/src/entities';
+import {
+  CampainPages, CreateCampainDto, ExtendedCampain, UpdateCampainDto
+} from '@/src/entities';
 
 export class CampainsQuery {
-  static async getAll(page?: number) {
-    const { data, } = await Api.get<ExtendedCampain[]>(
+  static async getAll(page: number) {
+    const { data, } = await Api.get<CampainPages>(
       `/campains?page=${page || 1}`
     );
 

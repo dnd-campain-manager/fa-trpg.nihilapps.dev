@@ -30,8 +30,6 @@ export { MyPcList } from './mypage/MyPcList';
 export { MasterItem } from './mypage/MasterItem';
 export { MyPageCountBlock } from './mypage/MyPageCountBlock';
 
-export { SessionCalendar } from './calendar/SessionCalendar';
-
 export { CampainList } from './campain/CampainList';
 export { CampainDetail } from './campain/CampainDetail';
 export { CampainSearch } from './campain/CampainSearch';
@@ -45,6 +43,7 @@ export { UpdateCampainButton } from './campain/UpdateCampainButton';
 export { CampainItemStatus } from './campain/CampainItemStatus';
 export { CampainMasterList } from './campain/CampainMasterList';
 export { MasterListItem } from './campain/MasterListItem';
+export { AddCampainButton } from './campain/AddCampainButton';
 
 export { CustomLabel } from './form/CustomLabel';
 export { CustomButton } from './form/CustomButton';

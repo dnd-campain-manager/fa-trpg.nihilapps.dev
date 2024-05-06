@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db } from '@/src/utils';
+import { Db, Nihil } from '@/src/utils';
+import { configData } from '@/src/data';
 
 interface Params {
   params: {
@@ -9,7 +10,6 @@ interface Params {
 
 export async function GET(req: NextRequest, { params, }: Params) {
   const page = req.nextUrl.searchParams.get('page');
-  const startId = req.nextUrl.searchParams.get('lastId');
 
   const masters = await Db.masters().findMany({
     where: {
@@ -21,19 +21,29 @@ export async function GET(req: NextRequest, { params, }: Params) {
       User: true,
       Campain: true,
     },
-    skip: +page < 1 ? 0 : 1,
-    take: 5,
-    cursor: {
-      id: startId || null,
+    skip: +page ? ((+page - 1) * configData.perPage) : 0,
+    take: configData.perPage,
+  });
+
+  const totalCounts = await Db.masters().count({
+    where: {
+      campainId: params.campainId,
+      masterType: 'subMaster',
     },
   });
 
-  const lastId = masters.at(-1).id;
+  const hasNextPage = Nihil.hasNextPage(
+    masters.length,
+    configData.perPage,
+    +page,
+    totalCounts
+  );
 
   return NextResponse.json({
     data: {
       masters,
-      url: `/masters/campain/${params.campainId}?page=${+page + 1}&lastId=${lastId}`,
+      total: totalCounts,
+      page: hasNextPage ? (+page + 1) : null,
     },
     message: 'ok',
   }, {

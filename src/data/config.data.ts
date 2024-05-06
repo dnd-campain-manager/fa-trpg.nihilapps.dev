@@ -14,4 +14,5 @@ export const configData: IConfigData = {
     ? 'http://localhost:3000'
     : 'https://fa-manager.nihilapps.dev',
   version: 'v0.0.1',
+  perPage: 5,
 };

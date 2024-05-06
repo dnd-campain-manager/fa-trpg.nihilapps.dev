@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db } from '@/src/utils';
+import { Db, Nihil } from '@/src/utils';
 import { CreateCampainDto } from '@/src/entities';
+import { configData } from '@/src/data';
 
 export async function GET(req: NextRequest) {
-  const { nextUrl, } = req;
-  const page = nextUrl.searchParams.get('page');
+  const page = req.nextUrl.searchParams.get('page');
 
   const campains = await Db.campains().findMany({
     include: {
@@ -31,8 +31,8 @@ export async function GET(req: NextRequest) {
         },
       },
     },
-    skip: page ? (+page - 1) * +page : 0,
-    take: 5,
+    skip: +page ? ((+page - 1) * configData.perPage) : 0,
+    take: configData.perPage,
     orderBy: {
       startTime: 'desc',
     },
@@ -57,8 +57,21 @@ export async function GET(req: NextRequest) {
     };
   });
 
+  const totalCounts = await Db.campains().count();
+
+  const hasNextPage = Nihil.hasNextPage(
+    newCampains.length,
+    configData.perPage,
+    +page,
+    totalCounts
+  );
+
   return NextResponse.json({
-    data: newCampains,
+    data: {
+      campains: newCampains,
+      total: totalCounts,
+      page: hasNextPage ? (+page + 1) : null,
+    },
     message: 'ok',
   }, {
     status: 200,

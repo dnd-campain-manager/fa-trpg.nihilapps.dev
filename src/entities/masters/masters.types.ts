@@ -12,7 +12,8 @@ export interface ExtendedMaster extends Master {
 
 export interface MasterPages {
   masters: ExtendedMaster[];
-  url: string;
+  total: number;
+  page: number;
 }
 
 export interface CreateMasterDto {
