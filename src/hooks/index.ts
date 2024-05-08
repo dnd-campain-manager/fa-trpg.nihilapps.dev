@@ -18,6 +18,7 @@ export { useGetCampainByName } from './query/campains/useGetCampainByName';
 export { useCreateCampain } from './query/campains/useCreateCampain';
 export { useUpdateCampain } from './query/campains/useUpdateCampain';
 export { useDeleteCampain } from './query/campains/useDeleteCampain';
+export { useSearchCampain } from './query/campains/useSearchCampain';
 
 export { useGetSessions } from './query/sessions/useGetSessions';
 export { useGetSessionById } from './query/sessions/useGetSessionById';

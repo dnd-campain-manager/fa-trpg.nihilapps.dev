@@ -8,16 +8,18 @@ import { Form } from '@/src/shadcn';
 interface Props {
   form: UseFormReturn;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
+  flexRow?: boolean;
   children: React.ReactNode;
   styles?: ClassNameValue;
 }
 
 export function CustomForm({
-  form, onSubmit, children, styles,
+  form, onSubmit, flexRow, children, styles,
 }: Props) {
   const css = {
     default: twJoin([
       `flex flex-col gap-3`,
+      flexRow && `!flex-row`,
       styles,
     ]),
   };

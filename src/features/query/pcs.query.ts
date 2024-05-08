@@ -1,5 +1,7 @@
 import { Api } from '@/src/utils';
-import { CreatePcDto, ExtendedPc, UpdatePcDto } from '@/src/entities';
+import {
+  CreatePcDto, ExtendedPc, PcPages, UpdatePcDto
+} from '@/src/entities';
 
 export class PcsQuery {
   static async getAll() {
@@ -18,17 +20,28 @@ export class PcsQuery {
     return data;
   }
 
-  static async getByName(name: string) {
-    const { data, } = await Api.get<ExtendedPc>(
-      `/pcs/name/${name}`
+  static async getByName(name: string, page: number) {
+    const { data, } = await Api.get<PcPages>(
+      `/pcs/name/${name}?page=${page}`
     );
 
     return data;
   }
 
-  static async getByLevel(level: number) {
-    const { data, } = await Api.get<ExtendedPc>(
-      `/pcs/level/${level}`
+  static async getByLevel(level: number, page: number) {
+    const { data, } = await Api.get<PcPages>(
+      `/pcs/level/${level}?page=${page}`
+    );
+
+    return data;
+  }
+
+  static async getByUserName(
+    username: string,
+    page: number
+  ) {
+    const { data, } = await Api.get<PcPages>(
+      `/pcs/username/${username}?page=${page}`
     );
 
     return data;

@@ -4,7 +4,7 @@ import { configData } from '@/src/data';
 
 interface Params {
   params: {
-    level: string;
+    username: string;
   }
 }
 
@@ -13,10 +13,8 @@ export async function GET(req: NextRequest, { params, }: Params) {
 
   const pcs = await Db.pcs().findMany({
     where: {
-      Class: {
-        some: {
-          level: +params.level,
-        },
+      User: {
+        name: params.username,
       },
     },
     include: {

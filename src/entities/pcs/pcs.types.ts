@@ -9,6 +9,12 @@ export interface ExtendedPc extends Pc {
   Class: Class[];
 }
 
+export interface PcPages {
+  pcs: ExtendedPc[];
+  total: number,
+  page: number,
+}
+
 export interface CreatePcDto {
   userId: string;
   campainId: string;

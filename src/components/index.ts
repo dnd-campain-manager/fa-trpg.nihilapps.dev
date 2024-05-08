@@ -44,6 +44,7 @@ export { CampainItemStatus } from './campain/CampainItemStatus';
 export { CampainMasterList } from './campain/CampainMasterList';
 export { MasterListItem } from './campain/MasterListItem';
 export { AddCampainButton } from './campain/AddCampainButton';
+export { SearchCampainList } from './campain/SearchCampainList';
 
 export { CustomLabel } from './form/CustomLabel';
 export { CustomButton } from './form/CustomButton';

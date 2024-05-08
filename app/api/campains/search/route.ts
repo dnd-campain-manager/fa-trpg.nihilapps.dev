@@ -2,22 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Db, Nihil } from '@/src/utils';
 import { configData } from '@/src/data';
 
-interface Params {
-  params: {
-    name: string;
-  }
-}
-
 export async function GET(
-  req: NextRequest,
-  { params, }: Params
+  req: NextRequest
 ) {
+  const keyword = req.nextUrl.searchParams.get('keyword') || '';
   const page = req.nextUrl.searchParams.get('page');
 
   const campains = await Db.campains().findMany({
     where: {
       name: {
-        contains: params.name,
+        contains: keyword,
       },
     },
     include: {
@@ -79,9 +73,12 @@ export async function GET(
     totalCounts
   );
 
+  console.log(hasNextPage);
+
   return NextResponse.json({
     data: {
       campains: newCampains,
+      keyword,
       total: totalCounts,
       page: hasNextPage ? (+page + 1) : null,
     },

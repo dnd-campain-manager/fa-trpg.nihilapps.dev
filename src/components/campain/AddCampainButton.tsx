@@ -15,9 +15,9 @@ import { userData } from '@/src/data';
 import { authStore } from '@/src/entities';
 import { useCreateCampain } from '@/src/hooks';
 
-interface Props {
-  //
-}
+// interface Props {
+//
+// }
 
 interface Inputs {
   userId: string;

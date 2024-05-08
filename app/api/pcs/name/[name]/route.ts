@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db } from '@/src/utils';
+import { Db, Nihil } from '@/src/utils';
+import { configData } from '@/src/data';
 
 interface Params {
   params: {
@@ -7,10 +8,14 @@ interface Params {
   }
 }
 
-export async function GET(_req: NextRequest, { params, }: Params) {
+export async function GET(req: NextRequest, { params, }: Params) {
+  const page = req.nextUrl.searchParams.get('page');
+
   const pcs = await Db.pcs().findMany({
     where: {
-      name: params.name,
+      name: {
+        contains: params.name,
+      },
     },
     include: {
       User: true,
@@ -21,6 +26,8 @@ export async function GET(_req: NextRequest, { params, }: Params) {
         },
       },
     },
+    skip: +page ? ((+page - 1) * configData.perPage) : 0,
+    take: configData.perPage,
   });
 
   const newPcs = pcs.map((pc) => {
@@ -33,8 +40,21 @@ export async function GET(_req: NextRequest, { params, }: Params) {
     };
   });
 
+  const totalCounts = await Db.pcs().count();
+
+  const hasNextPage = Nihil.hasNextPage(
+    newPcs.length,
+    configData.perPage,
+    +page,
+    totalCounts
+  );
+
   return NextResponse.json({
-    data: newPcs,
+    data: {
+      pcs: newPcs,
+      total: totalCounts,
+      page: hasNextPage ? (+page + 1) : null,
+    },
     message: 'ok',
   }, {
     status: 200,

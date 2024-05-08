@@ -7,6 +7,7 @@ export const campainsKeys = {
   getAll: [ 'getCampains', ],
   getById: (id: string) => [ 'getCampainById', id, ],
   getByName: (name: string) => [ 'getCampainById', name, ],
+  search: (keyword: string) => [ 'searchCampain', keyword, ],
 };
 
 export const sessionsKeys = {

@@ -9,9 +9,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useRouter } from 'next/navigation';
 import {
-  Card, CardContent, Form, FormField, FormItem
+  Card, CardContent
 } from '@/src/shadcn';
-import { CustomButton, CustomFormItem, CustomInput } from '@/src/components';
+import {
+  CustomButton, CustomForm, CustomFormItem
+} from '@/src/components';
+import { Nihil } from '@/src/utils';
 
 interface Props {
   styles?: ClassNameValue;
@@ -39,10 +42,15 @@ export function CampainSearch({ styles, }: Props) {
   const onClickSearch: SubmitHandler<Inputs> = useCallback(
     (data) => {
       if (!data.search) {
+        Nihil.toast({
+          type: 'error',
+          text: '검색어를 입력해주세요.',
+        });
+
         return;
       }
 
-      router.push(`/campains?search=${data.search}`);
+      router.push(`/search/campain?keyword=${data.search}`);
     },
     []
   );
@@ -59,25 +67,25 @@ export function CampainSearch({ styles, }: Props) {
       <div className={css.default}>
         <Card className=''>
           <CardContent className='!p-2'>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onClickSearch)}>
-                <div className='flex flex-row gap-2'>
-                  <CustomFormItem
-                    name='search'
-                    itemName='search'
-                    type='text'
-                    placeholder='캠페인 이름을 입력하세요.'
-                    form={form}
-                    validate={false}
-                    singleInput
-                    styles='flex-1 shrink-0'
-                  />
-                  <CustomButton type='submit' styles='!mt-0'>
-                    <Icon icon='ph:magnifying-glass-bold' className='text-[140%]' />
-                  </CustomButton>
-                </div>
-              </form>
-            </Form>
+            <CustomForm
+              form={form}
+              onSubmit={form.handleSubmit(onClickSearch)}
+              flexRow
+            >
+              <CustomFormItem
+                name='search'
+                itemName='search'
+                type='text'
+                placeholder='캠페인 이름을 입력하세요.'
+                form={form}
+                validate={false}
+                singleInput
+                styles='flex-1 shrink-0'
+              />
+              <CustomButton type='submit' styles='!mt-0'>
+                <Icon icon='ph:magnifying-glass-bold' className='text-[140%]' />
+              </CustomButton>
+            </CustomForm>
           </CardContent>
         </Card>
       </div>

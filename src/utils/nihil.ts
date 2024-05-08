@@ -103,6 +103,10 @@ export class Nihil {
     page: number,
     total: number
   ) {
+    if (items === 0) {
+      return false;
+    }
+
     // perPage 를 꽉 채우는지 아닌지 결정함.
     let pageItems: number;
     if (perPage - items === 0) {
@@ -110,6 +114,8 @@ export class Nihil {
     } else {
       pageItems = items;
     }
+
+    console.log('pageItems >> ', pageItems);
 
     let currentItems: number;
 
@@ -127,6 +133,6 @@ export class Nihil {
     // 현재 페이지까지의 아이템 개수와 총 아이템 개수를 뺀다.
     const diff = total - currentItems;
 
-    return diff !== 0;
+    return diff > 0;
   }
 }

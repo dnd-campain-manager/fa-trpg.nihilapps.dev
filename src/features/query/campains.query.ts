@@ -1,13 +1,13 @@
 import { Campain } from '@prisma/client';
 import { Api } from '@/src/utils';
 import {
-  CampainPages, CreateCampainDto, ExtendedCampain, UpdateCampainDto
+  CampainPages, CampainSearchPages, CreateCampainDto, ExtendedCampain, UpdateCampainDto
 } from '@/src/entities';
 
 export class CampainsQuery {
   static async getAll(page: number) {
     const { data, } = await Api.get<CampainPages>(
-      `/campains?page=${page || 1}`
+      `/campains?page=${page}`
     );
 
     return data;
@@ -24,6 +24,17 @@ export class CampainsQuery {
   static async getByName(name: string) {
     const { data, } = await Api.get<ExtendedCampain[]>(
       `/campains/name/${name}`
+    );
+
+    return data;
+  }
+
+  static async search(
+    keyword: string,
+    page: number
+  ) {
+    const { data, } = await Api.get<CampainSearchPages>(
+      `/campains/search?keyword=${keyword}&page=${page}`
     );
 
     return data;

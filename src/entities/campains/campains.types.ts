@@ -29,6 +29,10 @@ export interface CampainPages {
   page: number;
 }
 
+export interface CampainSearchPages extends CampainPages {
+  keyword: string;
+}
+
 export interface CreateCampainDto {
   userId: string;
   name: string;
