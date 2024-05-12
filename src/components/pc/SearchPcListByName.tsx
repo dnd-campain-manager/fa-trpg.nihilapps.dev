@@ -2,19 +2,17 @@
 
 import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { authStore } from '@/src/entities';
+import { useIQGetPcByName } from '@/src/hooks';
 import {
   EmptyContent, LoadingCircle, MoreDataButton, PcListItem
 } from '@/src/components';
-import { useIQGetPcByUserId } from '@/src/hooks';
 
 interface Props {
+  keyword: string;
   styles?: ClassNameValue;
 }
 
-export function MyPcList({ styles, }: Props) {
-  const { session, } = authStore();
-
+export function SearchPcListByName({ keyword, styles, }: Props) {
   const {
     data: pcs,
     isLoading,
@@ -22,7 +20,7 @@ export function MyPcList({ styles, }: Props) {
     isSuccess,
     hasNextPage,
     fetchNextPage,
-  } = useIQGetPcByUserId(session?.userId);
+  } = useIQGetPcByName(keyword);
 
   const onClickNextData = useCallback(
     () => {
@@ -33,7 +31,7 @@ export function MyPcList({ styles, }: Props) {
 
   const css = {
     default: twJoin([
-      `flex flex-col gap-3 text-middle font-500 mb-5`,
+      `flex flex-col gap-5`,
       styles,
     ]),
   };
@@ -50,7 +48,7 @@ export function MyPcList({ styles, }: Props) {
         <div className={css.default}>
           {pcs.pages[0].data.pcs.length === 0 && (
             <EmptyContent>
-              생성한 PC가 없습니다.
+              {`"${keyword}"`} 관련 PC가 없습니다.
             </EmptyContent>
           )}
 

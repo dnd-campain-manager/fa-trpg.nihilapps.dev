@@ -20,6 +20,14 @@ export class PcsQuery {
     return data;
   }
 
+  static async getByUserId(userId: string, page: number) {
+    const { data, } = await Api.get<PcPages>(
+      `/pcs/userId/${userId}?page=${page}`
+    );
+
+    return data;
+  }
+
   static async getByName(name: string, page: number) {
     const { data, } = await Api.get<PcPages>(
       `/pcs/name/${name}?page=${page}`

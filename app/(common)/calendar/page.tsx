@@ -10,7 +10,7 @@ export const metadata = setMeta({
   url: '/calendar',
 });
 
-export default function page() {
+export default function SessionCalendarPage() {
   return (
     <>
       <div>content</div>

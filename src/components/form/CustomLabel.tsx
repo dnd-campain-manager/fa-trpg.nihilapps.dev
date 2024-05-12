@@ -8,7 +8,7 @@ interface Props {
   name: string;
   children: React.ReactNode;
   form?: UseFormReturn;
-  mode?: 'input' | 'radio' | 'checkbox' | 'select' | 'textarea' | 'date';
+  mode?: 'input' | 'radio' | 'checkbox' | 'select' | 'textarea' | 'date' | 'dropdown';
   disabled?: boolean;
   validate?: boolean;
   fieldLabel?: boolean;
@@ -26,31 +26,9 @@ export function CustomLabel({
     [ fieldLabel, itemName, name, ]
   );
 
-  const invalidCond = ((mode === 'date' && !validate) || validate)
-    && (
-      (
-        form.formState.isSubmitted
-        || form.formState.touchedFields[itemName]
-      )
-      || form.formState.dirtyFields[itemName]
-    )
-    && form.formState.errors[itemName] !== undefined;
-
-  const validCond = validate
-    && (
-      (
-        form.formState.isSubmitted
-        || form.formState.touchedFields[itemName]
-      )
-      || form.formState.dirtyFields[itemName]
-    )
-    && form.formState.errors[itemName] === undefined;
-
   const css = {
     default: twJoin([
       `block text-normal text-black-base font-700 cursor-pointer`,
-      invalidCond && `!text-red-500`,
-      validCond && `!text-blue-500`,
       disabled && `!text-black-200`,
       (!fieldLabel && mode !== 'input') && `!text-middle !ml-2 !mt-0`,
       styles,

@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id          String     @id @default(uuid()) @db.Uuid
-  name        String     @unique
-  userType    UserType   @default(player)
-  userRole    UserRole   @default(normal)
-  playToken   Int        @default(0)
-  playCount   Int        @default(0)
-  masterPoint Int        @default(0)
-  masterCount Int        @default(0)
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String        @unique
+  userType    UserType      @default(player)
+  userRole    UserRole      @default(normal)
+  playToken   Int           @default(0)
+  playCount   Int           @default(0)
+  masterPoint Int           @default(0)
+  masterCount Int           @default(0)
   Auth        Auth[]
   Document    Document[]
   Master      Master[]
   Pc          Pc[]
+  SessionJoin SessionJoin[]
 
   @@map("users")
 }
@@ -66,23 +67,37 @@ model Campain {
 }
 
 model Session {
-  id            String   @id @default(uuid()) @db.Uuid
-  campainId     String   @db.Uuid
-  masterId      String   @db.Uuid
-  number        Int
-  name          String   @unique
-  startTime     DateTime
-  endTime       DateTime
-  content       String
+  id            String        @id @default(uuid()) @db.Uuid
+  campainId     String        @db.Uuid
+  masterId      String        @db.Uuid
+  status        SessionStatus @default(normal)
+  number        Int           @default(0)
+  name          String        @unique
+  startTime     String?
+  endTime       String?
+  content       String?
+  note          String?
   playersNumber Int
-  players       String[]
-  exp           Int      @default(0)
+  exp           Int           @default(0)
   rewardUrl     String?
-  gameTime      String
-  Campain       Campain  @relation(fields: [campainId], references: [id])
-  Master        Master   @relation(fields: [masterId], references: [id])
+  gameTime      String?
+  Campain       Campain       @relation(fields: [campainId], references: [id])
+  Master        Master        @relation(fields: [masterId], references: [id])
+  SessionJoin   SessionJoin[]
 
   @@map("sessions")
+}
+
+model SessionJoin {
+  id        String  @id @default(uuid()) @db.Uuid
+  Session   Session @relation(fields: [sessionId], references: [id])
+  sessionId String  @db.Uuid
+  User      User    @relation(fields: [userId], references: [id])
+  userId    String  @db.Uuid
+  Pc        Pc      @relation(fields: [pcId], references: [id])
+  pcId      String  @db.Uuid
+
+  @@map("session_joins")
 }
 
 model Document {
@@ -100,23 +115,24 @@ model Document {
 }
 
 model Pc {
-  id           String  @id @default(uuid()) @db.Uuid
-  campainId    String  @db.Uuid
-  userId       String  @db.Uuid
+  id           String        @id @default(uuid()) @db.Uuid
+  campainId    String        @db.Uuid
+  userId       String        @db.Uuid
   name         String
-  age          Int     @default(0)
+  age          Int           @default(0)
   organization String?
   story        String?
-  exp          Int     @default(0)
-  pp           Int     @default(0)
-  gp           Int     @default(0)
-  ep           Int     @default(0)
-  sp           Int     @default(0)
-  cp           Int     @default(0)
+  exp          Int           @default(0)
+  pp           Int           @default(0)
+  gp           Int           @default(0)
+  ep           Int           @default(0)
+  sp           Int           @default(0)
+  cp           Int           @default(0)
   url          String
   Class        Class[]
-  Campain      Campain @relation(fields: [campainId], references: [id])
-  User         User    @relation(fields: [userId], references: [id])
+  Campain      Campain       @relation(fields: [campainId], references: [id])
+  User         User          @relation(fields: [userId], references: [id])
+  SessionJoin  SessionJoin[]
 
   @@index([userId, name])
   @@map("pcs")
@@ -170,6 +186,12 @@ model DocumentSection {
   EditBlock  EditBlock[]
 
   @@map("document_sections")
+}
+
+enum SessionStatus {
+  normal
+  half
+  mini
 }
 
 enum MasterStatus {

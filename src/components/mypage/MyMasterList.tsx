@@ -30,10 +30,6 @@ export function MyMasterList({ userData, styles, }: Props) {
 
   return (
     <>
-      <PageTitle styles='mt-5' level='h3' icon='iconoir:hexagon-dice'>
-        마스터링 중 캠페인
-      </PageTitle>
-
       <div className={css.default}>
         {masterings.length === 0 && (
           <EmptyContent>
@@ -45,10 +41,6 @@ export function MyMasterList({ userData, styles, }: Props) {
           <MasterItem key={master.id} master={master} />
         ))}
       </div>
-
-      <PageTitle styles='mt-5' level='h3' icon='iconoir:hexagon-dice'>
-        마스터링 종료 캠페인
-      </PageTitle>
 
       <div className={css.default}>
         {closeMastering.length === 0 && (

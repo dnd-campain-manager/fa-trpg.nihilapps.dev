@@ -30,6 +30,8 @@ export { useGetSessionByCampainId } from './query/sessions/useGetSessionByCampai
 
 export { useGetMasters } from './query/masters/useGetMasters';
 export { useGetMasterById } from './query/masters/useGetMasterById';
+export { UseIQGetMasterByUserId } from './query/masters/useIQGetMasterByUserId';
+export { useGetMasterByCampainId } from './query/masters/useGetMasterByCampainId';
 export { useIQGetMastersByCampainId } from './query/masters/useIQGetMastersByCampainId';
 export { useCreateMaster } from './query/masters/useCreateMaster';
 export { useUpdateMaster } from './query/masters/useUpdateMaster';
@@ -37,6 +39,9 @@ export { useDeleteMaster } from './query/masters/useDeleteMaster';
 
 export { useGetPcs } from './query/pcs/useGetPcs';
 export { useGetPcById } from './query/pcs/useGetPcById';
+export { useIQGetPcByUserId } from './query/pcs/useIQGetPcByUserId';
+export { useIQGetPcByName } from './query/pcs/useIQGetPcByName';
+export { useIQGetPcByLevel } from './query/pcs/useIQGetPcByLevel';
 export { useGetPcByName } from './query/pcs/useGetPcByName';
 export { useGetPcByLevel } from './query/pcs/useGetPcByLevel';
 export { useCreatePc } from './query/pcs/useCreatePc';

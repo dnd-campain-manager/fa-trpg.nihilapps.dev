@@ -13,11 +13,39 @@ export class MastersQuery {
   }
 
   static async getByCampainId(
-    campainId: string,
-    page: number
+    campainId: string
   ) {
+    const { data, } = await Api.get<ExtendedMaster[]>(
+      `/masters/campain/${campainId}`
+    );
+
+    return data;
+  }
+
+  static async getByCampainIdIQ(
+    campainId: string,
+    page?: number
+  ) {
+    let url: string;
+    url = `/masters/campain/${campainId}?page=${page}`;
+    if (page) {
+      url = `/masters/campain/${campainId}`;
+    }
+
     const { data, } = await Api.get<MasterPages>(
       `/masters/campain/${campainId}?page=${page}`
+    );
+
+    return data;
+  }
+
+  static async getByUserId(
+    userId: string,
+    page: number,
+    status: string
+  ) {
+    const { data, } = await Api.get<MasterPages>(
+      `/masters/userId/${userId}?status=${status}&page=${page}`
     );
 
     return data;

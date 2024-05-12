@@ -115,8 +115,6 @@ export class Nihil {
       pageItems = items;
     }
 
-    console.log('pageItems >> ', pageItems);
-
     let currentItems: number;
 
     if (page === 1) {

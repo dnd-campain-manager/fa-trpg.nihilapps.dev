@@ -8,6 +8,11 @@ export type ApiError = {
   message: string;
 }
 
+export interface DropDownData {
+  code: string;
+  label: string;
+}
+
 export interface ISiteMeta {
   title: string;
   url?: string;

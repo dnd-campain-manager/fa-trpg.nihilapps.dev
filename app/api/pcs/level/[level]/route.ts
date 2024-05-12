@@ -42,7 +42,15 @@ export async function GET(req: NextRequest, { params, }: Params) {
     };
   });
 
-  const totalCounts = await Db.pcs().count();
+  const totalCounts = await Db.pcs().count({
+    where: {
+      Class: {
+        some: {
+          level: +params.level,
+        },
+      },
+    },
+  });
 
   const hasNextPage = Nihil.hasNextPage(
     newPcs.length,

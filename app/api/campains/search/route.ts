@@ -73,8 +73,6 @@ export async function GET(
     totalCounts
   );
 
-  console.log(hasNextPage);
-
   return NextResponse.json({
     data: {
       campains: newCampains,

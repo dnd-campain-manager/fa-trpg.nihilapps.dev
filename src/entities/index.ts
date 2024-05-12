@@ -4,7 +4,8 @@ export {
   type ApiResponse,
   type IConfigData,
   type ISiteMeta,
-  type ApiError
+  type ApiError,
+  type DropDownData
 } from './common/common.types';
 
 export {

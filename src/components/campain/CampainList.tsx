@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useIQGetCampains } from '@/src/hooks';
 import {
   AddCampainButton,
   CampainItem,
-  CampainSearch, CustomButton, EmptyContent, LoadingCircle, PageTitle
+  CampainSearch, EmptyContent, LoadingCircle, MoreDataButton, PageTitle
 } from '@/src/components';
 
 export function CampainList() {
@@ -17,8 +17,6 @@ export function CampainList() {
     fetchNextPage,
     isSuccess,
   } = useIQGetCampains();
-
-  console.log(campains);
 
   const onClickNextData = useCallback(
     () => {
@@ -45,9 +43,12 @@ export function CampainList() {
         <AddCampainButton />
 
         <div className='mt-5 flex flex-col gap-5'>
-          {campains?.pages.length === 0 && (
-            <EmptyContent>캠페인이 없습니다.</EmptyContent>
+          {campains.pages[0].data.campains.length === 0 && (
+            <EmptyContent>
+              캠페인이 없습니다.
+            </EmptyContent>
           )}
+
           {campains?.pages.map((page) => {
             return page.data.campains.map((item) => (
               <CampainItem key={item.id} campain={item} />
@@ -56,9 +57,7 @@ export function CampainList() {
         </div>
 
         {hasNextPage && (
-          <CustomButton full icon='ic:baseline-plus' actions={onClickNextData}>
-            더 보기
-          </CustomButton>
+          <MoreDataButton moreData={onClickNextData} />
         )}
       </>
     )

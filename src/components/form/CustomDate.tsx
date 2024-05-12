@@ -9,6 +9,7 @@ import {
 } from 'react-hook-form';
 import { CustomDropDown } from '@/src/components';
 import { Calendar, Nihil } from '@/src/utils';
+import { DropDownData } from '@/src/entities';
 
 interface Props {
   name: string;
@@ -28,24 +29,37 @@ export function CustomDate({
 
   const nowDate = Nihil.getDateInfo(initDate || '');
 
-  const years = new Array(5)
+  const years: DropDownData[] = new Array(5)
     .fill('2024')
-    .map((item: string, index) => `${+item + index}`);
+    .map((item: string, index) => ({
+      code: `${+item + index}`,
+      label: `${+item + index}년`,
+    }));
 
-  const months = new Array(12)
+  const months: DropDownData[] = new Array(12)
     .fill('1')
-    .map((item: string, index) => (
-      (+item + index) < 10 ? `0${+item + index}` : `${+item + index}`
-    ));
+    .map((item: string, index) => {
+      const month = (+item + index) < 10 ? `0${+item + index}` : `${+item + index}`;
 
-  const days = useMemo(
+      return {
+        code: month,
+        label: `${month}월`,
+      };
+    });
+
+  const days: DropDownData[] = useMemo(
     () => {
-      return Calendar.getDateArray(
+      const daysInfo = Calendar.getDateArray(
         +year || +nowDate.year,
         +month || +nowDate.month
       ).map((item) => ({
         day: item.day,
         date: item.date < 10 ? `0${item.date}` : `${item.date}`,
+      }));
+
+      return daysInfo.map((item) => ({
+        code: item.date,
+        label: `${item.date}일`,
       }));
     },
     [ year, month, nowDate, ]
@@ -111,32 +125,30 @@ export function CustomDate({
   return (
     <div className={css.default}>
       <CustomDropDown
-        data={[ 'none', ...years, ]}
+        data={years}
         value={year}
         disabled={disabled}
         validate={validate}
         isValidCond={isValidCond}
+        isDate
         setValue={setYear}
       />
       <CustomDropDown
-        data={[ 'none', ...months, ]}
+        data={months}
         value={month}
         disabled={disabled}
         validate={validate}
         isValidCond={isValidCond}
+        isDate
         setValue={setMonth}
       />
       <CustomDropDown
-        data={[
-          'none',
-          ...days.map((item) => (
-            item.date.toString()
-          )),
-        ]}
+        data={days}
         value={day}
         disabled={disabled}
         validate={validate}
         isValidCond={isValidCond}
+        isDate
         setValue={setDay}
       />
     </div>

@@ -1,18 +1,16 @@
 'use client';
 
-import React, { useCallback, useMemo } from 'react';
-import { ClassNameValue, twJoin } from 'tailwind-merge';
+import React, { useCallback } from 'react';
 import { useSearchCampain } from '@/src/hooks';
 import {
-  CampainItem, CampainSearch, CustomButton, EmptyContent, LoadingCircle, PageTitle
+  CampainItem, EmptyContent, LoadingCircle, MoreDataButton
 } from '@/src/components';
 
 interface Props {
   keyword: string;
-  styles?: ClassNameValue;
 }
 
-export function SearchCampainList({ keyword, styles, }: Props) {
+export function SearchCampainList({ keyword, }: Props) {
   const {
     data: campains,
     isLoading,
@@ -22,32 +20,12 @@ export function SearchCampainList({ keyword, styles, }: Props) {
     fetchNextPage,
   } = useSearchCampain(keyword);
 
-  const newCampains = useMemo(
-    () => {
-      return campains?.pages.map((page) => {
-        return page.data.campains;
-      });
-    },
-    [ campains, ]
-  );
-
-  console.log(newCampains);
-
-  console.log(campains);
-
   const onClickNextData = useCallback(
     () => {
       fetchNextPage();
     },
     []
   );
-
-  const css = {
-    default: twJoin([
-      ``,
-      styles,
-    ]),
-  };
 
   if (isLoading || isFetching) {
     return <LoadingCircle />;
@@ -56,18 +34,12 @@ export function SearchCampainList({ keyword, styles, }: Props) {
   return (
     isSuccess && (
       <>
-        <PageTitle level='h2' icon='mdi:archive'>
-          {`"${keyword}"`} 관련 캠페인
-        </PageTitle>
-
-        <CampainSearch styles='mt-5 mb-2' />
-
         <div className='mt-5 flex flex-col gap-5'>
-          {/*{campains.pages.map((page) => {*/}
-          {/*  return page.data.campains.length === 0 && (*/}
-
-          {/*  )*/}
-          {/*})}*/}
+          {campains.pages[0].data.campains.length === 0 && (
+            <EmptyContent>
+              {`"${keyword}"`} 관련 캠페인이 없습니다.
+            </EmptyContent>
+          )}
 
           {campains.pages.map((page) => {
             return page.data.campains.map((item) => (
@@ -77,9 +49,7 @@ export function SearchCampainList({ keyword, styles, }: Props) {
         </div>
 
         {hasNextPage && (
-          <CustomButton full icon='ic:baseline-plus' actions={onClickNextData}>
-            더 보기
-          </CustomButton>
+          <MoreDataButton moreData={onClickNextData} />
         )}
       </>
     )

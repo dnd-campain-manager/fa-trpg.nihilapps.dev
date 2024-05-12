@@ -20,6 +20,7 @@ export const sessionsKeys = {
 export const pcsKeys = {
   getAll: [ 'getPcs', ],
   getById: (id: string) => [ 'getPcById', id, ],
+  getByUserId: (userId: string) => [ 'getPcByUserId', userId, ],
   getByName: (name: string) => [ 'getPcByName', name, ],
   getByLevel: (level: number) => [ 'getPcByLevel', level, ],
 };
@@ -27,5 +28,7 @@ export const pcsKeys = {
 export const mastersKeys = {
   getAll: [ 'getMasters', ],
   getById: (id: string) => [ 'getMasterById', id, ],
+  getByUserId: (userId: string, status: string) => [ 'getMasterByUserId', userId, status, ],
   getByCampainId: (campainId: string) => [ 'getMasterByCampainId', campainId, ],
+  getByCampainIdIQ: (campainId: string) => [ 'getMasterByCampainIdIQ', campainId, ],
 };

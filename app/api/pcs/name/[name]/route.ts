@@ -40,7 +40,13 @@ export async function GET(req: NextRequest, { params, }: Params) {
     };
   });
 
-  const totalCounts = await Db.pcs().count();
+  const totalCounts = await Db.pcs().count({
+    where: {
+      name: {
+        contains: params.name,
+      },
+    },
+  });
 
   const hasNextPage = Nihil.hasNextPage(
     newPcs.length,

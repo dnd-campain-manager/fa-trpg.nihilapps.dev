@@ -1,6 +1,6 @@
 import React from 'react';
 import { setMeta } from '@/src/utils';
-import { SearchCampainList } from '@/src/components';
+import { CampainSearch, PageTitle, SearchCampainList } from '@/src/components';
 
 interface Props {
   searchParams: {
@@ -23,8 +23,16 @@ export async function generateMetadata({ searchParams, }: Params) {
   });
 }
 
-export default function page({ searchParams, }: Props) {
+export default function CampainSearchPage({ searchParams, }: Props) {
   return (
-    <SearchCampainList keyword={searchParams.keyword} />
+    <>
+      <PageTitle level='h2' icon='mdi:archive'>
+        {`"${searchParams.keyword}"`} 관련 캠페인
+      </PageTitle>
+
+      <CampainSearch styles='mt-5 mb-2' />
+
+      <SearchCampainList keyword={searchParams.keyword} />
+    </>
   );
 }

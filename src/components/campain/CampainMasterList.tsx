@@ -3,9 +3,9 @@
 import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
-  CustomButton,
+  EmptyContent,
   LoadingCircle,
-  MasterListItem, PageTitle
+  MasterListItem, MoreDataButton
 } from '@/src/components';
 import { ExtendedCampain } from '@/src/entities';
 import { useIQGetMastersByCampainId } from '@/src/hooks';
@@ -24,8 +24,6 @@ export function CampainMasterList({ campain, styles, }: Props) {
     fetchNextPage,
     isSuccess,
   } = useIQGetMastersByCampainId(campain.id);
-
-  console.log(masters?.pages);
 
   const onClickNextData = useCallback(
     () => {
@@ -50,11 +48,13 @@ export function CampainMasterList({ campain, styles, }: Props) {
   return (
     isSuccess && (
       <>
-        <PageTitle level='h3' icon='mdi:alpha-m-circle' styles='mt-5'>
-          마스터 목록
-        </PageTitle>
-
         <div className={css.default}>
+          {masters.pages[0].data.masters.length === 0 && (
+            <EmptyContent>
+              서브 마스터가 없습니다.
+            </EmptyContent>
+          )}
+
           {masters.pages.map((page) => {
             return page.data.masters
               .map((master) => (
@@ -68,9 +68,7 @@ export function CampainMasterList({ campain, styles, }: Props) {
         </div>
 
         {hasNextPage && (
-          <CustomButton full icon='ic:baseline-plus' actions={onClickNextData}>
-            더 보기
-          </CustomButton>
+          <MoreDataButton moreData={onClickNextData} />
         )}
       </>
     )

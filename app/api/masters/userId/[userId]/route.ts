@@ -1,23 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { CampainStatus } from '@prisma/client';
 import { Db, Nihil } from '@/src/utils';
 import { configData } from '@/src/data';
 
 interface Params {
   params: {
-    campainId: string;
+    userId: string;
   }
 }
 
 export async function GET(req: NextRequest, { params, }: Params) {
   const page = req.nextUrl.searchParams.get('page');
-
-  console.log('page >> ', page);
+  const status = req.nextUrl.searchParams.get('status') as CampainStatus;
 
   if (page) {
     const masters = await Db.masters().findMany({
       where: {
-        campainId: params.campainId,
-        masterType: 'subMaster',
+        userId: params.userId,
+        Campain: {
+          status,
+        },
       },
       include: {
         Session: true,
@@ -30,8 +32,10 @@ export async function GET(req: NextRequest, { params, }: Params) {
 
     const totalCounts = await Db.masters().count({
       where: {
-        campainId: params.campainId,
-        masterType: 'subMaster',
+        userId: params.userId,
+        Campain: {
+          status,
+        },
       },
     });
 
@@ -55,7 +59,7 @@ export async function GET(req: NextRequest, { params, }: Params) {
   } else {
     const masters = await Db.masters().findMany({
       where: {
-        campainId: params.campainId,
+        userId: params.userId,
       },
       include: {
         Session: true,

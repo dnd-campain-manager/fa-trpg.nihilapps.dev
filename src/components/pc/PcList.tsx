@@ -3,7 +3,10 @@
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { useGetPcs } from '@/src/hooks';
-import { LoadingCircle, PageTitle, PcListItem } from '@/src/components';
+import {
+  CampainSearch,
+  LoadingCircle, PageTitle, PcListItem, PcSearch
+} from '@/src/components';
 
 interface Props {
   styles?: ClassNameValue;
@@ -34,6 +37,8 @@ export function PcList({ styles, }: Props) {
         <PageTitle level='h2' icon='fluent:people-community-24-filled'>
           PC 목록
         </PageTitle>
+
+        <PcSearch />
 
         <div className={css.default}>
           {pcs.data.map((pc) => (

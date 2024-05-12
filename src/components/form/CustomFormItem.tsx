@@ -1,14 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
-  CustomCheck, CustomDate,
+  CustomCheck, CustomDate, CustomDropDown,
   CustomInput, CustomLabel, CustomRadio, CustomSelect,
   CustomTextArea
 } from '@/src/components';
 import { FormField, FormItem, Message } from '@/src/shadcn';
+import { DropDownData } from '@/src/entities';
 
 interface Props {
   name: string;
@@ -19,19 +20,34 @@ interface Props {
   disabled?: boolean;
   showMessage?: boolean;
   code?: string;
-  mode?: 'input' | 'radio' | 'select' | 'checkbox' | 'textarea' | 'date';
+  dropDownCode?: DropDownData[];
+  mode?: 'input' | 'radio' | 'select' | 'checkbox' | 'textarea' | 'date' | 'dropdown';
   form: UseFormReturn;
   itemName?: string;
   validate?: boolean;
   singleInput?: boolean;
   longText?: boolean;
   initDate?: string;
+  showItems?: number;
+  initValue?: string;
   styles?: ClassNameValue;
 }
 
 export function CustomFormItem({
-  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate,
+  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate, showItems, dropDownCode, initValue,
 }: Props) {
+  const [ dropValue, setDropValue, ] = useState(initValue || 'none');
+
+  useEffect(() => {
+    if (mode === 'dropdown') {
+      form.setValue(name, dropValue, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: !!validate,
+      });
+    }
+  }, [ mode, name, dropValue, ]);
+
   const css = {
     default: twJoin([
       `!space-y-0 !mb-0`,
@@ -126,6 +142,17 @@ export function CustomFormItem({
                 initDate={initDate}
                 disabled={disabled}
                 validate={validate}
+              />
+            )}
+            {mode === 'dropdown' && (
+              <CustomDropDown
+                data={dropDownCode}
+                value={dropValue}
+                setValue={setDropValue}
+                disabled={disabled}
+                validate={validate}
+                isValidCond={dropValue !== 'none'}
+                showItems={showItems}
               />
             )}
             {(showMessage && form.formState.errors[name]) && (

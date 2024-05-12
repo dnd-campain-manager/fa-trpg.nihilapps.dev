@@ -13,11 +13,11 @@ interface Props {
 export function MyPageCountBlock({ userData, styles, }: Props) {
   const css = {
     default: twJoin([
-      `flex flex-row gap-2`,
+      `bg-white p-2 rounded-2 flex flex-row justify-between divide-x-2 divide-black-300 text-middle`,
       styles,
     ]),
     card: twJoin([
-      `flex-1 shrink-0 text-center font-500 text-black-base text-middle rounded-2 bg-white py-2`,
+      `flex-1 shrink-0 text-center`,
     ]),
     title: twJoin([
       `font-900 text-normal`,

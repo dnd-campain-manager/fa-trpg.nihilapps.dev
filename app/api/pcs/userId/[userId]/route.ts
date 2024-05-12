@@ -4,7 +4,7 @@ import { configData } from '@/src/data';
 
 interface Params {
   params: {
-    username: string;
+    userId: string;
   }
 }
 
@@ -13,9 +13,7 @@ export async function GET(req: NextRequest, { params, }: Params) {
 
   const pcs = await Db.pcs().findMany({
     where: {
-      User: {
-        name: params.username,
-      },
+      userId: params.userId,
     },
     include: {
       User: true,
@@ -40,7 +38,11 @@ export async function GET(req: NextRequest, { params, }: Params) {
     };
   });
 
-  const totalCounts = await Db.pcs().count();
+  const totalCounts = await Db.pcs().count({
+    where: {
+      userId: params.userId,
+    },
+  });
 
   const hasNextPage = Nihil.hasNextPage(
     newPcs.length,

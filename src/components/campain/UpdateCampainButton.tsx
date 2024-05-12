@@ -80,7 +80,6 @@ export function UpdateCampainButton({ campain, }: Props) {
 
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
-      console.log(data);
       updateCampain.mutate({
         url: data.url,
         startTime: Nihil.UTCString(data.startTime),

@@ -3,7 +3,13 @@
 import React, { useMemo } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
-  AddPcButton, AddSubMasterButton, CampainItemStatus, CustomButton, PageTitle, UpdateCampainButton, WhiteBlock
+  AddPcButton,
+  AddSessionButton,
+  AddSubMasterButton,
+  CampainItemStatus,
+  PageTitle,
+  UpdateCampainButton,
+  WhiteBlock
 } from '@/src/components';
 import { Auth } from '@/src/utils';
 import { authStore, ExtendedCampain } from '@/src/entities';
@@ -73,9 +79,8 @@ export function CampainDetailHeader({ campain, styles, }: Props) {
             </>
           )}
           <AddPcButton campain={campain} />
-          {/*<CustomButton h36>캐릭터 등록</CustomButton>*/}
           {isSessionCreatable && (
-            <CustomButton h36>세션 생성</CustomButton>
+            <AddSessionButton campain={campain} />
           )}
         </div>
       )}
