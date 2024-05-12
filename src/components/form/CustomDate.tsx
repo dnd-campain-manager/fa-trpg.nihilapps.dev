@@ -3,7 +3,7 @@
 import React, {
   useEffect, useMemo, useState
 } from 'react';
-import { ClassNameValue, twJoin } from 'tailwind-merge';
+import { twJoin } from 'tailwind-merge';
 import {
   UseFormReturn
 } from 'react-hook-form';
@@ -16,16 +16,18 @@ interface Props {
   form?: UseFormReturn;
   disabled?: boolean;
   initDate?: string;
-  styles?: ClassNameValue;
+  time?: boolean;
   validate?: boolean;
 }
 
 export function CustomDate({
-  name, disabled, validate, form, styles, initDate,
+  name, disabled, validate, form, initDate, time,
 }: Props) {
   const [ year, setYear, ] = useState('none');
   const [ month, setMonth, ] = useState('none');
   const [ day, setDay, ] = useState('none');
+  const [ hour, setHour, ] = useState('none');
+  const [ minute, setMinute, ] = useState('none');
 
   const nowDate = Nihil.getDateInfo(initDate || '');
 
@@ -65,8 +67,24 @@ export function CustomDate({
     [ year, month, nowDate, ]
   );
 
+  const hours = new Array(24)
+    .fill(0)
+    .map((item, index) => ({
+      code: `${(+item + index) < 10 ? `0${+item + index}` : (+item + index)}`,
+      label: `${(+item + index) < 10 ? `0${+item + index}` : (+item + index)}시`,
+    }));
+
+  const minutes = new Array(61)
+    .fill(0)
+    .map((item, index) => ({
+      code: `${(+item + index) < 10 ? `0${+item + index}` : (+item + index)}`,
+      label: `${(+item + index) < 10 ? `0${+item + index}` : (+item + index)}분`,
+    }));
+
   const validateWithValid = validate
     && ((year !== 'none') && (month !== 'none') && (day !== 'none'));
+
+  const validTimeWithValid = time && validate && ((hour !== 'none') && (minute !== 'none'));
 
   const validateWithOutValid = !validate
    && (
@@ -74,23 +92,66 @@ export function CustomDate({
       || ((year === 'none') && (month === 'none') && (day === 'none'))
    );
 
-  const isValidCond = validate
-    ? validateWithValid
-    : validateWithOutValid;
+  const validTimeWithOutValid = time && !validate && (
+    ((hour !== 'none') && (minute !== 'none'))
+    || ((hour === 'none') && (minute === 'none'))
+  );
+
+  const isValidCond = time ? (
+    validate
+      ? validateWithValid && validTimeWithValid
+      : validateWithOutValid && validTimeWithOutValid
+  ) : (
+    validate
+      ? validateWithValid
+      : validateWithOutValid
+  );
+
+  useEffect(() => {
+    let value: string;
+
+    if (time) {
+      value = `${year}-${month}-${day} ${hour}:${minute}`;
+    } else {
+      value = `${year}-${month}-${day}`;
+    }
+
+    console.log('value >> ', value);
+
+    if (value.includes('none')) {
+      value = '';
+    }
+
+    form.setValue(name, value, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: !!validate,
+    });
+  }, [ year, month, day, time, hour, minute, ]);
 
   useEffect(() => {
     if (!initDate) {
       setYear('none');
       setMonth('none');
       setDay('none');
+      setHour('none');
+      setMinute('none');
     }
 
     if (initDate) {
       setYear(nowDate.year);
       setMonth(nowDate.month);
       setDay(nowDate.date);
+      setHour(nowDate.hour);
+      setMinute(nowDate.minute);
 
-      const value = `${nowDate.year}-${nowDate.month}-${nowDate.date}`;
+      let value: string;
+
+      if (time) {
+        value = `${nowDate.year}-${nowDate.month}-${nowDate.date} ${nowDate.hour}:${nowDate.minute}`;
+      } else {
+        value = `${nowDate.year}-${nowDate.month}-${nowDate.date}`;
+      }
 
       form.setValue(name, value, {
         shouldDirty: true,
@@ -98,8 +159,6 @@ export function CustomDate({
         shouldValidate: !!validate,
       });
     }
-
-    console.log(`${name} >> `, form.getValues(name));
   }, [ initDate, validate, ]);
 
   useEffect(() => {
@@ -110,47 +169,72 @@ export function CustomDate({
     } else {
       form.setError(name, {
         type: 'validate',
-        message: '년월일을 모두 선택해주세요.',
+        message: time
+          ? '년월일, 시간을 모두 선택해주세요.'
+          : '년월일을 모두 선택해주세요.',
       });
     }
-  }, [ year, month, day, validate, ]);
+  }, [ year, month, day, hour, minute, validate, ]);
 
   const css = {
-    default: twJoin([
+    flexRow: twJoin([
       `flex flex-row items-center gap-1`,
-      styles,
     ]),
   };
 
   return (
-    <div className={css.default}>
-      <CustomDropDown
-        data={years}
-        value={year}
-        disabled={disabled}
-        validate={validate}
-        isValidCond={isValidCond}
-        isDate
-        setValue={setYear}
-      />
-      <CustomDropDown
-        data={months}
-        value={month}
-        disabled={disabled}
-        validate={validate}
-        isValidCond={isValidCond}
-        isDate
-        setValue={setMonth}
-      />
-      <CustomDropDown
-        data={days}
-        value={day}
-        disabled={disabled}
-        validate={validate}
-        isValidCond={isValidCond}
-        isDate
-        setValue={setDay}
-      />
+    <div className='flex flex-col gap-1'>
+      <div className={css.flexRow}>
+        <CustomDropDown
+          data={years}
+          value={year}
+          disabled={disabled}
+          validate={validate}
+          isValidCond={isValidCond}
+          isDate
+          setValue={setYear}
+        />
+        <CustomDropDown
+          data={months}
+          value={month}
+          disabled={disabled}
+          validate={validate}
+          isValidCond={isValidCond}
+          isDate
+          setValue={setMonth}
+        />
+        <CustomDropDown
+          data={days}
+          value={day}
+          disabled={disabled}
+          validate={validate}
+          isValidCond={isValidCond}
+          isDate
+          setValue={setDay}
+        />
+      </div>
+      {time && (
+        <div className={css.flexRow}>
+          <CustomDropDown
+            data={hours}
+            value={hour}
+            disabled={disabled}
+            validate={validate}
+            isValidCond={isValidCond}
+            isDate
+            setValue={setHour}
+          />
+          <CustomDropDown
+            data={minutes}
+            value={minute}
+            disabled={disabled}
+            validate={validate}
+            isValidCond={isValidCond}
+            isDate
+            setValue={setMinute}
+          />
+        </div>
+      )}
     </div>
   );
 }

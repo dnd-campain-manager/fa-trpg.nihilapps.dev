@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Db } from '@/src/utils';
+import { Db, Nihil } from '@/src/utils';
 import { CreateSessionsDto } from '@/src/entities';
+import { configData } from '@/src/data';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const page = req.nextUrl.searchParams.get('page');
+
   const sessions = await Db.sessions().findMany({
     include: {
       Master: {
@@ -12,14 +15,34 @@ export async function GET() {
         },
       },
       Campain: true,
+      SessionJoin: {
+        include: {
+          Pc: true,
+        },
+      },
     },
     orderBy: {
       number: 'desc',
     },
+    skip: +page ? ((+page - 1) * configData.perPage) : 0,
+    take: configData.perPage,
   });
 
+  const totalCounts = await Db.sessions().count();
+
+  const hasNextPage = Nihil.hasNextPage(
+    sessions.length,
+    configData.perPage,
+    +page,
+    totalCounts
+  );
+
   return NextResponse.json({
-    data: sessions,
+    data: {
+      sessions,
+      total: totalCounts,
+      page: hasNextPage ? (+page + 1) : null,
+    },
     message: 'ok',
   }, {
     status: 200,
@@ -28,7 +51,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const {
-    campainId, masterId, number, name, startTime, endTime, playersNumber, players, content, gameTime,
+    campainId, masterId, number, name, startTime, endTime, playersNumber, content, gameTime,
   }: CreateSessionsDto = await req.json();
 
   const newSession = await Db.sessions().create({
@@ -41,7 +64,6 @@ export async function POST(req: NextRequest) {
       endTime,
       playersNumber,
       content,
-      players,
       gameTime,
     },
   });

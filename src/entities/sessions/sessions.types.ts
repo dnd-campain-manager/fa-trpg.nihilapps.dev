@@ -11,12 +11,12 @@ export interface CreateSessionsDto {
   masterId: string;
   number: number;
   name: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   gameTime: string;
   playersNumber: number;
   content: string;
-  players: string[];
+  note: string;
 }
 
 export type UpdateSessionDto = Partial<Session>;

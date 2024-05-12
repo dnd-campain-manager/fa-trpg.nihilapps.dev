@@ -30,11 +30,12 @@ interface Props {
   initDate?: string;
   showItems?: number;
   initValue?: string;
+  time?: boolean;
   styles?: ClassNameValue;
 }
 
 export function CustomFormItem({
-  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate, showItems, dropDownCode, initValue,
+  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate, showItems, dropDownCode, initValue, time,
 }: Props) {
   const [ dropValue, setDropValue, ] = useState(initValue || 'none');
 
@@ -46,7 +47,7 @@ export function CustomFormItem({
         shouldValidate: !!validate,
       });
     }
-  }, [ mode, name, dropValue, ]);
+  }, [ mode, name, validate, dropValue, ]);
 
   const css = {
     default: twJoin([
@@ -142,6 +143,7 @@ export function CustomFormItem({
                 initDate={initDate}
                 disabled={disabled}
                 validate={validate}
+                time={time}
               />
             )}
             {mode === 'dropdown' && (

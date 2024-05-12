@@ -8,13 +8,15 @@ import { number, object, string } from 'yup';
 import { SessionStatus } from '@prisma/client';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   CustomButton, CustomForm, CustomFormItem, CustomSheetHeader, LoadingCircle
 } from '@/src/components';
 import { Sheet, SheetContent } from '@/src/shadcn';
 import { authStore, ExtendedCampain } from '@/src/entities';
-import { useGetMasterByCampainId } from '@/src/hooks';
-import { Auth } from '@/src/utils';
+import { useCreateSession, useGetMasterByCampainId } from '@/src/hooks';
+import { Auth, Nihil } from '@/src/utils';
+import { sessionsKeys } from '@/src/data';
 
 interface Props {
   campain: ExtendedCampain;
@@ -52,10 +54,8 @@ export function AddSessionButton({ campain, styles, }: Props) {
     () => {
       return masters?.data.find((master) => master.User.id === session?.userId);
     },
-    [ masters, ]
+    [ masters, session, ]
   );
-
-  console.log(findMaster);
 
   const masterDropdownData = useMemo(
     () => {
@@ -103,16 +103,36 @@ export function AddSessionButton({ campain, styles, }: Props) {
     []
   );
 
+  const qc = useQueryClient();
+  const createSession = useCreateSession();
+
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
       console.log(data);
+
+      createSession.mutate({
+        ...data,
+        campainId: campain.id,
+        masterId: data.masterId,
+      }, {
+        onSuccess() {
+          qc.invalidateQueries({
+            queryKey: sessionsKeys.getAll,
+          });
+
+          Nihil.toast({
+            type: 'success',
+            text: '세션이 생성되었습니다.',
+          });
+        },
+      });
     },
-    []
+    [ qc, ]
   );
 
   useEffect(() => {
     form.setValue('status', 'normal');
-  }, [ findMaster, ]);
+  }, []);
 
   const css = {
     default: twJoin([
@@ -183,6 +203,7 @@ export function AddSessionButton({ campain, styles, }: Props) {
               itemName='startTime'
               label='시작 시간'
               mode='date'
+              time
               form={form}
             />
 
@@ -191,6 +212,7 @@ export function AddSessionButton({ campain, styles, }: Props) {
               itemName='endTime'
               label='종료 시간'
               mode='date'
+              time
               form={form}
             />
 

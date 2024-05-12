@@ -66,11 +66,19 @@ export class Nihil {
       6: '토요일',
     };
 
+    let hour = this.date(date).get('hour').toString();
+    hour = +hour < 10 ? `0${hour}` : hour;
+
+    let minute = this.date(date).get('minute').toString();
+    minute = +minute < 10 ? `0${minute}` : minute;
+
     return {
       year,
       month,
       date: nowDate,
       day: dayToString[day],
+      hour,
+      minute,
     };
   }
 
