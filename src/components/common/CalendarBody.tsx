@@ -2,21 +2,18 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import {
-  CalendarDate, CalendarRow, CalendarTopRow, CalendarYearSelector
-} from '@/src/components';
-import { Nihil } from '@/src/utils';
 
 interface Props {
+  children: React.ReactNode;
+  open: boolean;
   styles?: ClassNameValue;
 }
 
-export function CalendarBody({ styles, }: Props) {
-  const data = [];
-
+export function CalendarBody({ children, open, styles, }: Props) {
   const css = {
     default: twJoin([
-      ``,
+      `bg-white rounded-2 text-middle text-black-base transition-[opacity_height] duration-200 h-0 opacity-0`,
+      open && `opacity-100 h-[320px] mt-2`,
       styles,
     ]),
   };
@@ -24,15 +21,11 @@ export function CalendarBody({ styles, }: Props) {
   return (
     <>
       <div className={css.default}>
-        <CalendarYearSelector />
-        <CalendarTopRow />
-        {data.map((item) => (
-          <CalendarDate
-            key={Nihil.uuid()}
-            dateData={item}
-          />
-        ))}
+        {children}
       </div>
     </>
   );
 }
+
+export const MemoCalendarBody = React
+  .memo(CalendarBody);

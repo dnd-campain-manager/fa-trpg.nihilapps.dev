@@ -108,8 +108,6 @@ export function AddSessionButton({ campain, styles, }: Props) {
 
   const onSubmitForm: SubmitHandler<Inputs> = useCallback(
     (data) => {
-      console.log(data);
-
       createSession.mutate({
         ...data,
         campainId: campain.id,

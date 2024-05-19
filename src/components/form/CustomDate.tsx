@@ -116,8 +116,6 @@ export function CustomDate({
       value = `${year}-${month}-${day}`;
     }
 
-    console.log('value >> ', value);
-
     if (value.includes('none')) {
       value = '';
     }

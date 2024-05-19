@@ -11,8 +11,6 @@ interface Params {
 export async function GET(req: NextRequest, { params, }: Params) {
   const page = req.nextUrl.searchParams.get('page');
 
-  console.log('page >> ', page);
-
   if (page) {
     const masters = await Db.masters().findMany({
       where: {
