@@ -12,8 +12,9 @@ interface Props {
 export function CalendarBody({ children, open, styles, }: Props) {
   const css = {
     default: twJoin([
-      `bg-white rounded-2 text-middle text-black-base transition-[opacity_height] duration-200 h-0 opacity-0`,
+      `bg-white rounded-2 text-middle text-black-base transition-[opacity,height] duration-200 h-0 opacity-0`,
       open && `opacity-100 h-[320px] mt-2`,
+      !open && `overflow-y-hidden`,
       styles,
     ]),
   };

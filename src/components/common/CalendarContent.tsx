@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
+import { UseFormReturn } from 'react-hook-form';
 import { CalendarItem, CalendarTopRow } from '@/src/components';
 import { CalendarMonthData } from '@/src/entities';
 import { Nihil } from '@/src/utils';
@@ -10,11 +11,13 @@ interface Props {
   data: CalendarMonthData[][];
   date: string;
   setDate: any;
+  form: UseFormReturn;
+  name: string;
   styles?: ClassNameValue;
 }
 
 export function CalendarContent({
-  data, date, setDate, styles,
+  data, date, setDate, form, name, styles,
 }: Props) {
   const css = {
     default: twJoin([
@@ -38,6 +41,8 @@ export function CalendarContent({
                 item={item}
                 setDate={setDate}
                 date={date}
+                form={form}
+                name={name}
               />
             ))}
           </div>

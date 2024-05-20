@@ -23,7 +23,7 @@ export function TestCalendar({ styles, }: Props) {
 
   return (
     <>
-      <DatePicker date={date} setDate={setDate} />
+      <DatePicker date={date} setDate={setDate} disabled />
     </>
   );
 }

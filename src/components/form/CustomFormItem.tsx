@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
-  CustomCheck, CustomDate, CustomDropDown,
+  CustomCheck, CustomDropDown,
   CustomInput, CustomLabel, CustomRadio, CustomSelect,
-  CustomTextArea
+  CustomTextArea, DatePicker
 } from '@/src/components';
 import { FormField, FormItem, Message } from '@/src/shadcn';
 import { DropDownData } from '@/src/entities';
@@ -30,12 +30,13 @@ interface Props {
   initDate?: string;
   showItems?: number;
   initValue?: string;
-  time?: boolean;
+  date?: string;
+  setDate?: any;
   styles?: ClassNameValue;
 }
 
 export function CustomFormItem({
-  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate, showItems, dropDownCode, initValue, time,
+  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate, showItems, dropDownCode, initValue, date, setDate,
 }: Props) {
   const [ dropValue, setDropValue, ] = useState(initValue || 'none');
 
@@ -137,14 +138,23 @@ export function CustomFormItem({
               />
             )}
             {mode === 'date' && (
-              <CustomDate
+              <DatePicker
+                date={date}
+                setDate={setDate}
+                required={validate}
+                disabled={disabled}
+                initDate={initDate}
                 name={name}
                 form={form}
-                initDate={initDate}
-                disabled={disabled}
-                validate={validate}
-                time={time}
               />
+              // <CustomDate
+              //   name={name}
+              //   form={form}
+              //   initDate={initDate}
+              //   disabled={disabled}
+              //   validate={validate}
+              //   time={time}
+              // />
             )}
             {mode === 'dropdown' && (
               <CustomDropDown

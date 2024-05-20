@@ -30,6 +30,8 @@ interface Inputs {
 
 export function UpdateCampainButton({ campain, }: Props) {
   const [ open, setOpen, ] = useState(false);
+  const [ startTimeDate, setStartTimeDate, ] = useState('');
+  const [ endTimeDate, setEndTimeDate, ] = useState('');
 
   const formModel = object({
     name: string().required('이름을 입력해주세요.'),
@@ -140,6 +142,8 @@ export function UpdateCampainButton({ campain, }: Props) {
               form={form}
               initDate={campain.startTime}
               validate={false}
+              date={startTimeDate}
+              setDate={setStartTimeDate}
             />
 
             <CustomFormItem
@@ -151,6 +155,8 @@ export function UpdateCampainButton({ campain, }: Props) {
               initDate={campain.endTime}
               disabled={campain.status !== 'close'}
               validate={campain.status === 'close'}
+              date={endTimeDate}
+              setDate={setEndTimeDate}
             />
 
             <CustomFormItem

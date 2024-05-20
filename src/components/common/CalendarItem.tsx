@@ -2,17 +2,20 @@
 
 import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
+import { UseFormReturn } from 'react-hook-form';
 import { CalendarMonthData } from '@/src/entities';
 
 interface Props {
   item: CalendarMonthData;
   setDate: any;
   date: string;
+  form: UseFormReturn;
+  name: string;
   styles?: ClassNameValue;
 }
 
 export function CalendarItem({
-  item, setDate, date, styles,
+  item, setDate, date, form, name, styles,
 }: Props) {
   const onClickSelectDate = useCallback(
     () => {
@@ -21,8 +24,14 @@ export function CalendarItem({
       }
 
       setDate(item.fullDate);
+
+      form.setValue(name, item.fullDate, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
     },
-    []
+    [ name, ]
   );
 
   const css = {
@@ -43,7 +52,7 @@ export function CalendarItem({
 
   return (
     <>
-      <button className={css.default} onClick={onClickSelectDate}>
+      <button className={css.default} type='button' onClick={onClickSelectDate}>
         {item.date}
       </button>
     </>

@@ -2,24 +2,25 @@
 
 import React, { useCallback } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
-import { Calendar } from '@/src/utils';
+import { Icon } from '@iconify/react';
+import { UseFormReturn } from 'react-hook-form';
+import { Calendar, Nihil } from '@/src/utils';
 import { MonthData } from '@/src/entities';
 
 interface Props {
   monthData: MonthData;
   setMonthData: any;
   setMonthArray: any;
+  setDate: any;
+  form: UseFormReturn;
+  name: string;
   styles?: ClassNameValue;
 }
 
 export function CalendarHeader({
-  monthData, setMonthData, setMonthArray, styles,
+  monthData, setMonthData, setMonthArray, setDate, form, name, styles,
 }: Props) {
-  console.log({
-    now: monthData.now,
-    prev: monthData.prev,
-    next: monthData.next,
-  });
+  const now = Nihil.getDateInfo();
 
   const onClickNext = useCallback(
     () => {
@@ -35,6 +36,17 @@ export function CalendarHeader({
       setMonthArray(Calendar.monthArray(monthData.prev));
     },
     [ monthData, ]
+  );
+
+  const onClickNow = useCallback(
+    () => {
+      setMonthData(Calendar.monthData(`${now.year}-${now.month}`));
+      setMonthArray(Calendar.monthArray(`${now.year}-${now.month}`));
+      setDate(`${now.year}-${now.month}-${now.date}`);
+
+      form.setValue(name, `${now.year}-${now.month}-${now.date}`);
+    },
+    [ name, now, ]
   );
 
   const css = {
@@ -55,8 +67,15 @@ export function CalendarHeader({
       <div className={css.default}>
         <div className='pl-2 font-900 text-[120%]'>{monthData.now}</div>
         <div className={css.buttons}>
-          <button onClick={onClickPrev} className={css.button}>이전</button>
-          <button onClick={onClickNext} className={css.button}>다음</button>
+          <button onClick={onClickNow} type='button' className={css.button}>
+            오늘
+          </button>
+          <button onClick={onClickPrev} type='button' className={css.button} aria-label='prev-month'>
+            <Icon icon='raphael:arrowleft' />
+          </button>
+          <button onClick={onClickNext} type='button' className={css.button} aria-label='next-month'>
+            <Icon icon='raphael:arrowright' />
+          </button>
         </div>
       </div>
     </>

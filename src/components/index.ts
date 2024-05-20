@@ -17,7 +17,7 @@ export { InfoItem } from './common/InfoItem';
 export { WhiteBlock } from './common/WhiteBlock';
 export { MoreDataButton } from './common/MoreDataButton';
 
-export { DatePicker } from './common/DatePicker';
+export { MemoDatePicker as DatePicker } from './common/DatePicker';
 export { MemoCalendarBody as CalendarBody } from './common/CalendarBody';
 export { CalendarHeader } from './common/CalendarHeader';
 export { CalendarRow } from './common/CalendarRow';
