@@ -36,13 +36,7 @@ export function UpdateCampainButton({ campain, }: Props) {
   const formModel = object({
     name: string().required('이름을 입력해주세요.'),
     url: string().required('캠페인 소개 카페글 주소를 입력해주세요.'),
-    startTime: string()
-      .matches(
-        /^\d{4}-\d{1,2}-\d{1,2}$/,
-        {
-          message: '년월일을 전부 선택해주세요.',
-        }
-      ),
+    startTime: string().required('날짜를 선택해주세요.'),
     endTime: string()
       .nullable()
       .notRequired(),
@@ -141,7 +135,6 @@ export function UpdateCampainButton({ campain, }: Props) {
               mode='date'
               form={form}
               initDate={campain.startTime}
-              validate={false}
               date={startTimeDate}
               setDate={setStartTimeDate}
             />

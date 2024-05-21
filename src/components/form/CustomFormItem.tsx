@@ -6,10 +6,10 @@ import { ClassNameValue, twJoin } from 'tailwind-merge';
 import {
   CustomCheck, CustomDropDown,
   CustomInput, CustomLabel, CustomRadio, CustomSelect,
-  CustomTextArea, DatePicker
+  CustomTextArea, DatePicker, DateTimePicker
 } from '@/src/components';
 import { FormField, FormItem, Message } from '@/src/shadcn';
-import { DropDownData } from '@/src/entities';
+import { DropDownData, FormItemMode } from '@/src/entities';
 
 interface Props {
   name: string;
@@ -21,7 +21,7 @@ interface Props {
   showMessage?: boolean;
   code?: string;
   dropDownCode?: DropDownData[];
-  mode?: 'input' | 'radio' | 'select' | 'checkbox' | 'textarea' | 'date' | 'dropdown';
+  mode?: FormItemMode;
   form: UseFormReturn;
   itemName?: string;
   validate?: boolean;
@@ -32,11 +32,12 @@ interface Props {
   initValue?: string;
   date?: string;
   setDate?: any;
+  withTime?: boolean;
   styles?: ClassNameValue;
 }
 
 export function CustomFormItem({
-  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate, showItems, dropDownCode, initValue, date, setDate,
+  name, label, codeLabel, type = 'text', placeholder, disabled = false, showMessage = true, code, mode = 'input', form, validate = true, itemName, styles, singleInput, longText = false, initDate, showItems, dropDownCode, initValue, date, setDate, withTime,
 }: Props) {
   const [ dropValue, setDropValue, ] = useState(initValue || 'none');
 
@@ -146,15 +147,11 @@ export function CustomFormItem({
                 initDate={initDate}
                 name={name}
                 form={form}
+                withTime={withTime}
               />
-              // <CustomDate
-              //   name={name}
-              //   form={form}
-              //   initDate={initDate}
-              //   disabled={disabled}
-              //   validate={validate}
-              //   time={time}
-              // />
+            )}
+            {mode === 'datetime' && (
+              <DateTimePicker />
             )}
             {mode === 'dropdown' && (
               <CustomDropDown

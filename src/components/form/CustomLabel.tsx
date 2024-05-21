@@ -3,12 +3,13 @@
 import React, { useMemo } from 'react';
 import { ClassNameValue, twJoin } from 'tailwind-merge';
 import { UseFormReturn } from 'react-hook-form';
+import { FormItemMode } from '@/src/entities';
 
 interface Props {
   name: string;
   children: React.ReactNode;
   form?: UseFormReturn;
-  mode?: 'input' | 'radio' | 'checkbox' | 'select' | 'textarea' | 'date' | 'dropdown';
+  mode?: FormItemMode;
   disabled?: boolean;
   validate?: boolean;
   fieldLabel?: boolean;

@@ -38,6 +38,8 @@ interface Inputs {
 
 export function AddSessionButton({ campain, styles, }: Props) {
   const [ open, setOpen, ] = useState(false);
+  const [ startTime, setStartTime, ] = useState('');
+  const [ endTime, setEndTime, ] = useState('');
 
   const { session, } = authStore();
 
@@ -201,7 +203,6 @@ export function AddSessionButton({ campain, styles, }: Props) {
               itemName='startTime'
               label='시작 시간'
               mode='date'
-              time
               form={form}
             />
 
@@ -210,7 +211,6 @@ export function AddSessionButton({ campain, styles, }: Props) {
               itemName='endTime'
               label='종료 시간'
               mode='date'
-              time
               form={form}
             />
 

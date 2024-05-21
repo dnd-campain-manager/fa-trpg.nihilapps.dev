@@ -11,7 +11,7 @@ export {
   type CalendarTimeData,
   type CalendarTime,
   type MonthData,
-  type MonthArray
+  type FormItemMode
 } from './common/common.types';
 
 export {

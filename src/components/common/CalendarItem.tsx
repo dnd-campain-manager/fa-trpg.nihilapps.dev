@@ -41,11 +41,6 @@ export function CalendarItem({
       !item.isActive && `bg-black-100 hover:bg-black-100 text-black-200 hover:text-black-200 !cursor-default`,
       (item.isActive && date === item.fullDate) && `bg-blue-500 hover:!bg-blue-500 text-white hover:text-white`,
       (!item.isActive && date === item.fullDate) && `!bg-black-500 text-white hover:!text-white hover:bg-black-500`,
-      // `p-1 text-center rounded-1 hover:bg-blue-200 cursor-pointer`,
-      // item.isActive && `bg-blue-100`,
-      // !item.isActive && `bg-black-100 hover:bg-black-100 text-black-200 !cursor-default`,
-      // date === item.fullDate && `bg-blue-500 text-white`,
-      // (!item.isActive && date === item.fullDate) && `!bg-black-500 text-white`,
       styles,
     ]),
   };

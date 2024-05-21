@@ -15,13 +15,15 @@ interface Props {
   disabled?: boolean;
   name: string;
   form: UseFormReturn;
+  withTime?: boolean;
   styles?: ClassNameValue;
 }
 
 export function DatePicker({
-  date, setDate, initDate, required, disabled, name, form, styles,
+  date, setDate, initDate, required, disabled, name, form, withTime, styles,
 }: Props) {
-  const [ open, setOpen, ] = useState(false);
+  const [ calendarOpen, setCalendarOpen, ] = useState(false);
+  const [ timeOpen, setTimeOpen, ] = useState(false);
 
   console.log(initDate);
   console.log('date >> ', date);
@@ -50,18 +52,29 @@ export function DatePicker({
     monthArray,
   });
 
-  const onClickOpen = useCallback(
+  const onClickCalendarOpen = useCallback(
     () => {
       if (disabled) {
         return;
       }
 
-      setOpen((prev) => !prev);
+      setCalendarOpen((prev) => !prev);
     },
     [ disabled, ]
   );
 
-  const onClickClear = useCallback(
+  const onClickTimeOpen = useCallback(
+    () => {
+      if (disabled) {
+        return;
+      }
+
+      setTimeOpen((prev) => !prev);
+    },
+    [ disabled, ]
+  );
+
+  const onClickCalendarClear = useCallback(
     () => {
       if (disabled) {
         return;
@@ -88,12 +101,39 @@ export function DatePicker({
       required && date && `!border-blue-500 text-blue-500`,
       disabled && `!border-black-300 text-black-300 !bg-black-100`,
     ]),
+    calendarToggle: twJoin([
+      `p-1 bg-black-100 rounded-1 hover:bg-black-400 hover:text-white transition-colors duration-200`,
+      calendarOpen && `bg-blue-500 text-white hover:!text-white hover:!bg-blue-500`,
+    ]),
+    timeToggle: twJoin([
+      `p-1 bg-black-100 rounded-1 hover:bg-black-400 hover:text-white transition-colors duration-200`,
+      timeOpen && `bg-blue-500 text-white hover:!text-white hover:!bg-blue-500`,
+    ]),
   };
 
   return (
     <div className={css.default}>
       <div className={css.selected}>
-        <Icon icon='mdi:calendar' fontSize={22} />
+        <div className='flex flex-row items-center gap-1'>
+          <button
+            type='button'
+            className={css.calendarToggle}
+            aria-label='calendar-toggle'
+            onClick={onClickCalendarOpen}
+          >
+            <Icon icon='mdi:calendar' />
+          </button>
+          {withTime && (
+            <button
+              type='button'
+              className={css.timeToggle}
+              aria-label='time-toggle'
+              onClick={onClickTimeOpen}
+            >
+              <Icon icon='mingcute:time-line' />
+            </button>
+          )}
+        </div>
         <div>
           {date ? (
             Nihil.dateToFormat(date)
@@ -103,21 +143,19 @@ export function DatePicker({
         </div>
         <div>
           {date && !disabled && (
-            <button onClick={onClickClear} aria-label='clear'>
-              <Icon icon='pepicons-pop:times' />
+            <button
+              onClick={onClickCalendarClear}
+              type='button'
+              aria-label='clear'
+              className='flex flex-row items-center justify-center hover:text-red-500 transition-colors duration-200'
+            >
+              <Icon icon='pepicons-pop:times' fontSize={30} />
             </button>
           )}
-          <button onClick={onClickOpen} className='rounded-1 p-1 hover:bg-black-200 transition-colors duration-200'>
-            {open ? (
-              <Icon icon='raphael:arrowup' />
-            ) : (
-              <Icon icon='raphael:arrowdown' />
-            )}
-          </button>
         </div>
       </div>
 
-      <CalendarBody open={open}>
+      <CalendarBody open={calendarOpen}>
         <CalendarHeader
           monthData={monthData}
           setMonthData={setMonthData}

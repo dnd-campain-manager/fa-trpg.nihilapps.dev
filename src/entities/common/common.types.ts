@@ -83,3 +83,5 @@ export interface MonthData {
   prev: string;
   next: string;
 }
+
+export type FormItemMode = ('input' | 'select' | 'textarea' | 'date' | 'datetime' | 'radio' | 'checkbox' | 'dropdown');
